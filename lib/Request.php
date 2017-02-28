@@ -11,9 +11,36 @@ class Request {
      */
     public $url;
 
+    /**
+     * Variables du $_GET
+     * @var Array
+     */
     public $get;
 
+    /**
+     * Variables du $_POST
+     * @var Array
+     */
+    public $post;
+
+    /**
+     * Methode de la requete Http
+     * Peut etre POST|GET|PUT|DELETE les autres methodes ne sont pas gere par les routes
+     * @var String
+     */
     public $method;
+
+    /**
+     * Nom du controlleur a appeller
+     * @var String
+     */
+    public $controller;
+
+    /**
+     * Nom de la fonction a appeler par le controlleur
+     * @var String
+     */
+    public $func;
 
     public function __construct() {
         $this->url = $_SERVER['REQUEST_URI'];

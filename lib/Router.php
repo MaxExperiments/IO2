@@ -14,9 +14,7 @@ class Router {
         'get' => [],
         'post' => [],
         'put' => [],
-        'delete' => [],
-        'func' => [],
-        'err' => []
+        'delete' => []
     ];
 
     public function get ($url, $method) { $this->routes['get'][$url] = $method; }
@@ -30,19 +28,15 @@ class Router {
      * Appelle la méthode définie dans les routes.php
      * @param  String $method Chaine de charactères définissant le controlleur et la méthode a appeler
      * Sous la forme de NomDuController@nomDeLaMethode
-     * @throws NotFoundException Dans le cas ou la méthode n'existe pas
+     * @throws NotFoundException Dans le cas ou le controller n'existe pas
      */
     private function call ($method) {
-        $controller = explode('@',$method)[0];
-        $func = explode('@',$method)[1];
-        require_once APP . 'controllers' . DS . $controller . '.php';
-        if (!class_exists($controller)) throw new NotFoundException("Le controller à appeler n'existe pas");
+        App::$request->controller = explode('@',$method)[0];
+        App::$request->func = explode('@',$method)[1];
+        require_once APP . 'controllers' . DS . App::$request->controller . '.php';
+        if (!class_exists(App::$request->controller)) throw new NotFoundException("Le controller à appeler n'existe pas");
         
-        $c = new $controller();
-        if (method_exists($c, $func)) {
-            return call_user_func_array([$c,$func], (App::$request->get===null) ? [] : App::$request->get);
-        }
-        throw new NotFoundException("La méthode à appeler est introuvable");
+        App::$request->controller = new App::$request->controller();
     }
 
     /**

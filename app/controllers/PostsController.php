@@ -6,6 +6,10 @@ class PostsController extends BaseController {
         App::$response->view('posts.index');
     }
 
+    public function home() {
+        App::$response->view('posts.index');
+    }
+
     public function show($id) {
         echo 'show';
     }

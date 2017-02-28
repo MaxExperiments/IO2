@@ -26,12 +26,12 @@ require_once APP . 'config.php';
 /**
  * Affiche les erreurs si l'application est en mode debug, les caches dans un fichier err.log sinon
  */
-if (CONFIG['env']) {
+if (CONFIG['env'] === 'dev') {
     error_reporting(E_ALL);
-    ini_set('display_errors','On');
+    ini_set('display_errors', 'On');
 } else {
-    error_reporting(E_ALL);
-    ini_set('display_errors','Off');
+    error_reporting (E_ALL);
+    ini_set ('display_errors','Off');
     ini_set('log_errors', 'On');
     ini_set('error_log', TMP . 'err.log');
 }

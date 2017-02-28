@@ -6,5 +6,3 @@
  */
 
 App::$route->get ('/','PostsController@home');
-
-App::$route->err ('404','ErrorController@err404');

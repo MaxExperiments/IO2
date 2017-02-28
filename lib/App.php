@@ -18,6 +18,16 @@ class App {
      */
     public static $response;
 
+    /**
+     * Router qui traite request pour appeller le controller
+     * @var Router
+     */
     public static $route;
+
+    /**
+     * Le Controller appeler par le router
+     * @var Controller
+     */
+    public static $controller;
 
 }

@@ -5,6 +5,6 @@
         <title>Un titre</title>
     </head>
     <body>
-
+        <?= App::$response->render ?>
     </body>
 </html>
