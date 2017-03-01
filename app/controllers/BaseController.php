@@ -2,7 +2,7 @@
 
 class BaseController extends Controller {
 
-    protected $layout = 'basics.php';
+    protected $layout = 'basics';
 
     
 }

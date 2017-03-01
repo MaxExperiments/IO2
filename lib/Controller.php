@@ -12,9 +12,8 @@ class Controller {
      * Constructeur qui appelle la fonction definie dans la route
      * @param Array|null $params Les paramètres a passer a la fonction
      */
-    public function __construct(Array $params = null) {
+    public function __construct(Array $params = []) {
         if (!method_exists($this, App::$request->func)) throw new NotFoundException("La méthode à appeler est introuvable");
-        
         call_user_func_array([$this,App::$request->func], $params);
     }
 

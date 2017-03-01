@@ -55,3 +55,4 @@ require_once APP . 'routes.php';
 
 // lance l'application par l'évaluation de l'url
 App::$route->run();
+App::$controller->render();
