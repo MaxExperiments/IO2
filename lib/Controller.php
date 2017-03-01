@@ -9,11 +9,22 @@ class Controller {
     protected $layout;
 
     /**
+     * Liste du nom de tous les modeles nessecaires dans la controller
+     * @var array
+     */
+    protected $models = [];
+
+    /**
      * Constructeur qui appelle la fonction definie dans la route
      * @param Array|null $params Les paramètres a passer a la fonction
      */
     public function __construct(Array $params = []) {
         if (!method_exists($this, App::$request->func)) throw new NotFoundException("La méthode à appeler est introuvable");
+        foreach ($this->models as $model) {
+            require_once APP . 'models' . DS . $model . '.php';
+            $model = strtolower($model);
+            $this->$model = new $model();
+        }
         call_user_func_array([$this,App::$request->func], $params);
     }
 

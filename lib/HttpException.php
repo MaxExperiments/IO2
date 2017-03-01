@@ -11,11 +11,11 @@ class HttpException extends Exception {
     public function __construct($message, $code = 503, Exception $previous = null) {
         parent::__construct($message,$code,$previous);
         
-        require_once APP . 'controllers' . DS . 'ErrorController.php';
+        require_once APP . 'controllers' . DS . 'ErrorsController.php';
 
         if (CONFIG['env']=='dev') App::$request->func = '__dev';
         else App::$request->func = 'err' . $code;
-        App::$controller = new ErrorController($this->__toArray());
+        App::$controller = new ErrorsController($this->__toArray());
         App::$controller->render('err');
     }
 

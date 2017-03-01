@@ -6,3 +6,5 @@
  */
 
 App::$route->get ('/','PostsController@home');
+
+App::$route->get ('/posts', 'PostsController@index');

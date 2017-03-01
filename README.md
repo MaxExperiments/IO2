@@ -17,3 +17,10 @@ N'étant pas autorisé d'utiliser des ressources externes pour ce projet il nous
 
 ## Ce que fait le site
 Encore en recherche
+
+## TODOS
+* Touver ce que doit faire le site
+* Completer le Router pour qu'il parse vraiment les requetes
+* Completer le Model pour pouvoir faire des liens entre les tables (join left, join right...)
+* Ajouter comme possibilte depuis le controlleur de renvoyer du json dans la response pour faire de l'ajax
+* Trouver ce que doit faire le site

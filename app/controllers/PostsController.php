@@ -1,17 +1,15 @@
 <?php
 
 class PostsController extends BaseController {
-    
-    public function index () {
-        App::$response->view('posts.index');
-    }
 
     public function home() {
-        App::$response->view('posts.index');
+        App::$response->view('posts.home');
     }
 
-    public function show($id) {
-        echo 'show';
+    public function index() {
+        $post = $this->post->findAll();
+        dd($post);
+        App::$response->view ('posts.index',['post'=>$post]);
     }
 
 }

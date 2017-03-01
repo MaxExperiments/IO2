@@ -17,10 +17,12 @@ define('CONFIG',[
      * Défini les cléfs de connection à la base de donnée utilisé
      */
     'database' => [
+        'driver'   => 'mysql',
         'host'     => 'localhost',
-        'login'    => 'root',
-        'password' => 'root',
-        'port'     => ''
+        'username' => 'homestead',
+        'password' => 'secret',
+        'port'     => '',
+        'database' => 'homestead'
     ]
 
 ]);
