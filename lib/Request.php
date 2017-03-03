@@ -43,9 +43,11 @@ class Request {
     public $func;
 
     public function __construct() {
-        $this->url = $_SERVER['REQUEST_URI'];
+        $this->url = rtrim($_SERVER['REQUEST_URI'],'/');
         $this->get = $_GET;
+        $this->post = $_POST;
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
+        if ($this->method == 'post' && isset($this->post['__method'])) $this->method = $this->post['__method'];
     }
 
 }

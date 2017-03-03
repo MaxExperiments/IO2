@@ -35,6 +35,8 @@ class Model {
      * @var array
      */
     protected $fields = [];
+
+    public $attributes = [];
     
     /**
      * Connection a la base donne
@@ -114,7 +116,8 @@ class Model {
 
     public function findFirst ($id) {
         $this->find($id);
-        return $this->get()[0];        
+        $var = array_values($this->get());
+        return (empty($var)) ? [] : $var[0];        
     }
 
     public function findAll ($where = []) {

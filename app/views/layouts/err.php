@@ -5,6 +5,6 @@
         <title>Une erreur est survenue</title>
     </head>
     <body>
-        <?= App::$response->render ?>
+        <?= App::$response->render() ?>
     </body>
 </html>

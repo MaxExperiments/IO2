@@ -8,8 +8,20 @@ class PostsController extends BaseController {
 
     public function index() {
         $post = $this->post->findAll();
-        dd($post);
-        App::$response->view ('posts.index',['post'=>$post]);
+        App::$response->view ('posts.index',['posts'=>$post]);
+    }
+
+    public function show ($id) {
+        $post = $this->post->findFirst($id);
+        if (empty($post)) throw new NotFoundException("Aucun post ne correspond à l'ID $id");
+    }
+
+    public function create () {
+        App::$response->view('posts.create', [], ['Form'=>[$this->post]]);
+    }
+
+    public function store () {
+        dd($this);
     }
 
 }
