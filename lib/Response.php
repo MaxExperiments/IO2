@@ -76,8 +76,23 @@ class Response {
         return ob_get_clean();
     }
 
+    /**
+     * Affiche le contenu final de la page
+     * @return String Le body de la page charge dans les views
+     */
     public function render () {
         return $this->render;
+    }
+
+    /**
+     * Redirige vers une autre url
+     * @param  String $url       url de la nouvelle page
+     * @param  array  $variables variables a passer dans la session pour la page suivante
+     */
+    public function redirect ($url) {
+        $this->prepare();
+        header('Location: http://' . $_SERVER['SERVER_NAME'] . $url, true, $this->statusCode);
+        die();
     }
 
     /**
@@ -91,6 +106,8 @@ class Response {
         foreach ($this->headers as $key => $val) {
             header($key.':'.$val,false,$this->statusCode);
         }
+
+        App::$request->session->prepare();
     }
 
     /**

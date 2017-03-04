@@ -24,6 +24,12 @@ class Request {
     public $post;
 
     /**
+     * Variables de la session
+     * @var Session
+     */
+    public $session;
+
+    /**
      * Methode de la requete Http
      * Peut etre POST|GET|PUT|DELETE les autres methodes ne sont pas gere par les routes
      * @var String
@@ -46,6 +52,7 @@ class Request {
         $this->url = rtrim($_SERVER['REQUEST_URI'],'/');
         $this->get = $_GET;
         $this->post = $_POST;
+        $this->session = new Session();
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
         if ($this->method == 'post' && isset($this->post['__method'])) $this->method = $this->post['__method'];
     }

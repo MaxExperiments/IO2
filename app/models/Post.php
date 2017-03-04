@@ -9,4 +9,9 @@ class Post extends Model {
         'content' => 'textarea'
     ];
 
+    protected $validation = [
+        'name' => ['required','max:20'],
+        'content' => ['required']
+    ];
+
 }

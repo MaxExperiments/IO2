@@ -14,6 +14,9 @@
                 </ul>
             </div>
         </div>
+
         <?= App::$response->render() ?>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js"></script>
     </body>
 </html>

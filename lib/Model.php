@@ -5,6 +5,8 @@
  */
 class Model {
 
+    use Filters;
+
     /**
      * La clef primaire de la table dans la base de donnee
      * par defaut le champ ID
@@ -38,6 +40,10 @@ class Model {
 
     public $attributes = [];
     
+    protected $validation = [];
+
+    public $messages = [];
+
     /**
      * Connection a la base donne
      * @var PDO
@@ -49,6 +55,11 @@ class Model {
      * @var boolean
      */
     protected static $isConnected = false;
+
+    protected static $filtersText = [
+        'required' => 'Vous devez remplir ce champ',
+        'max'      => 'Trop long'
+    ];
 
     /**
      * Instancie la connection avec la base de donne lors de la premiere requete SQL
@@ -123,6 +134,29 @@ class Model {
     public function findAll ($where = []) {
         $this->where($where);
         return $this->get();
+    }
+
+    public function insert ($data) {
+
+    }
+
+    public function validate ($data) {
+        $validated = true;
+        foreach ($data as $field => $value) {
+            if (array_key_exists($field, $this->validation)) {
+                foreach ($this->validation[$field] as $filter) {
+                    $f = explode(':', $filter);
+                    array_splice($f, 1, 0, $value);
+                    
+                    if (!call_user_func_array([$this,$f[0]], array_slice($f, 1))) {
+                        $this->messages[$field] = ((array_key_exists($field, $this->messages)) ? $this->messages[$field] : '') . ' ' . self::$filtersText[$f[0]];
+                        $this->messages[$field] = trim($this->messages[$field]);
+                        $validated = false;
+                    }
+                }
+            }
+        }
+        return $validated;
     }
 
     /**

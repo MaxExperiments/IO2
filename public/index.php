@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 /**
  * Défini des constantes utiles pour les importations de fichiers

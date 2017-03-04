@@ -37,9 +37,11 @@ if (CONFIG['env'] === 'dev') {
 }
 
 require_once LIB . 'HttpException.php';
+require_once LIB . 'Session.php';
 require_once LIB . 'Request.php';
 require_once LIB . 'Response.php';
 require_once LIB . 'Helper.php';
+require_once LIB . 'Filters.php';
 require_once LIB . 'Model.php';
 require_once LIB . 'Controller.php';
 require_once APP . 'controllers' . DS . 'BaseController.php';
