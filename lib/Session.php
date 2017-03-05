@@ -13,6 +13,10 @@ class Session  {
         $_SESSION['messages'] = $this->messages;
     }
 
+    public function isMessageWithName ($name) {
+        return array_key_exists($name, $this->messages);
+    }
+
     public function addMessage ($key = null, $message) {
         if ($key==null) $this->messages[] = $message;
         else $this->messages[$key] = $message;

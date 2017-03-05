@@ -22,7 +22,11 @@ class PostsController extends BaseController {
 
     public function store () {
         if(!$this->post->validate(App::$request->post)) {
-            foreach ($this->post->messages as $field => $message) App::$request->session->addMessage($field, $message);
+            foreach (App::$request->post as $field => $value) {
+                $message = [$value];
+                if(array_key_exists($field, $this->post->messages)) $message[] = $this->post->messages[$field];
+                App::$request->session->addMessage($field, $message);
+            }
             App::$response->redirect('/posts/create');
         }
         dd($this);

@@ -1,13 +1,27 @@
 <?php
 
+/**
+ * Trait contenant la collection de tous les filtres utilisables dans les models
+ */
 trait Filters {
 
-    function required ($name) {
-        return !empty($name);
+    /**
+     * Vérifie sir le champ n'est pas vide
+     * @param  String $val Valeure du champ
+     * @return Boolean
+     */
+    function required ($val) {
+        return !empty($val);
     }
 
-    function max($name, $max) {
-        return strlen($name) <= $max;
+    /**
+     * Verifie que la longeure du champ n'excede pas un entier donne
+     * @param  String $val Valeur du champ
+     * @param  int $max    Longueure maximale
+     * @return Boolean
+     */
+    function max($val, $max) {
+        return strlen($val) <= $max;
     }
 
 }

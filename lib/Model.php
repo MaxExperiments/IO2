@@ -38,10 +38,22 @@ class Model {
      */
     protected $fields = [];
 
+    /**
+     * Type de formulaire pour chaque valeure dans la table 
+     * @var array
+     */
     public $attributes = [];
     
+    /**
+     * Filtres a valider dans un formulaire
+     * @var array
+     */
     protected $validation = [];
 
+    /**
+     * Messages issus de la validation des filtres
+     * @var array
+     */
     public $messages = [];
 
     /**
@@ -120,26 +132,50 @@ class Model {
         return $this->getPDO($prepare);
     }
 
+    /**
+     * Trouve tous les champs avec l'id donne
+     * @param  int $id Valeure de l'id
+     * @return Array
+     */
     public function find ($id) {
         $this->where([$this->primary_key=>$id]);
         return $this->get();
     }
 
+    /**
+     * retrouve uniquement le premier element avec l'id
+     * @param  int $id Valeure de l'id
+     * @return Array
+     */
     public function findFirst ($id) {
         $this->find($id);
         $var = array_values($this->get());
         return (empty($var)) ? [] : $var[0];        
     }
 
+    /**
+     * Trouve tous les elements dans la table correspondant au tableau associatif donne
+     * @param  array  $where Tableau associatif reresentant les egalitees de valeure dans la table
+     * @return Array
+     */
     public function findAll ($where = []) {
         $this->where($where);
         return $this->get();
     }
 
+    /**
+     * Ajoute une nouvelle valeure dans la table
+     * @param  Array $data  Tableau associatif nomDuChamp => valeure
+     */
     public function insert ($data) {
 
     }
 
+    /**
+     * Test tous les filtres sur la tableau de donnees
+     * @param  Array $data Tableau de donnes a tester
+     * @return Boolean
+     */
     public function validate ($data) {
         $validated = true;
         foreach ($data as $field => $value) {
