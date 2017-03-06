@@ -48,6 +48,15 @@ class Request {
      */
     public $func;
 
+    /**
+     * Tous les nom de champs passable dans une requete post qu'on veux supprimer dans le model
+     * @var Array
+     */
+    protected static $global = [
+        '__method',
+        'submit'
+    ];
+
     public function __construct() {
         $this->url = rtrim($_SERVER['REQUEST_URI'],'/');
         $this->get = $_GET;
@@ -55,6 +64,11 @@ class Request {
         $this->session = new Session();
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
         if ($this->method == 'post' && isset($this->post['__method'])) $this->method = $this->post['__method'];
+    }
+
+    public function filterPost () {
+        foreach (self::$global as $key)
+            if (isset($this->post[$key])) unset($this->post[$key]);
     }
 
 }

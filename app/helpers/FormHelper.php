@@ -42,8 +42,9 @@ class Form extends Helper {
      * @param  array  $attributes Les attributs HTML de la balise input
      * @return String             Le contenu de la vue charge
      */
-    public function input ($field, $label = '', $attributes = []) {
+    public function input ($field, $label = '', $attributes = [], $last = true) {
         $vars = ['label' => $label, 'attributes' => ['name' => $field, 'id' => [$field]]];
+        if ($last && property_exists($this->model->last[0],$field)) $vars['attributes']['value'] = $this->model->last[0]->$field;
         if (array_key_exists($field, $this->model->attributes)) $vars['attributes']['type'] = $this->model->attributes[$field];
         if (App::$request->session->isMessageWithName($field)) {
             $message = App::$request->session->getMessage($field);

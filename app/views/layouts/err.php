@@ -2,9 +2,21 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Une erreur est survenue</title>
+        <title>Un titre</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css">
     </head>
     <body>
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <ul class="dropdown menu">
+                    <li class="menu-text">Titre</li>
+                    <li><a href="/posts">Posts</a></li>
+                </ul>
+            </div>
+        </div>
+
         <?= App::$response->render() ?>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js"></script>
     </body>
 </html>

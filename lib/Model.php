@@ -5,6 +5,9 @@
  */
 class Model {
 
+    /**
+     * import de toutes les fonctions filtres
+     */
     use Filters;
 
     /**
@@ -55,6 +58,12 @@ class Model {
      * @var array
      */
     public $messages = [];
+
+    /**
+     * Contenu obtenu apres la derniere requete SQL du model
+     * @var array
+     */
+    public $last = [];
 
     /**
      * Connection a la base donne
@@ -168,6 +177,23 @@ class Model {
      * @param  Array $data  Tableau associatif nomDuChamp => valeure
      */
     public function insert ($data) {
+        $this->query = 'INSERT INTO ' . $this->table . ' (';
+        $fields = ''; $values = '';
+        foreach ($data as $field => $value) {
+            $fields .= $field . ',';
+            $values .= ':' . $field . ',';
+            unset($data[$field]);
+            $data[':'.$field] = $value;
+        }
+        $this->query = $this->query . rtrim($fields, ',') . ') VALUES (' . rtrim($values,',') . ')';
+        return $this->getPDO($data);
+    }
+
+    /**
+     * Modifie les valeures du tableau dans la table
+     * @param  Array $data Les nouvelles donees
+     */
+    public function update ($data) {
 
     }
 
@@ -204,7 +230,8 @@ class Model {
         if (!self::$isConnected) $this->connect();
         $statement = self::$db->prepare($this->query);
         $statement->execute($prepare);
-        return $statement->fetchAll(PDO::FETCH_OBJ);
+        $this->last = $statement->fetchAll(PDO::FETCH_OBJ);
+        return $this->last;
     }
 
 }

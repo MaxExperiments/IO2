@@ -14,6 +14,7 @@ class PostsController extends BaseController {
     public function show ($id) {
         $post = $this->post->findFirst($id);
         if (empty($post)) throw new NotFoundException("Aucun post ne correspond à l'ID $id");
+        App::$response->view('posts.show', ['post'=>$post]);
     }
 
     public function create () {
@@ -29,7 +30,16 @@ class PostsController extends BaseController {
             }
             App::$response->redirect('/posts/create');
         }
-        dd($this);
+        App::$request->filterPost();
+        $this->post->insert(App::$request->post);
+    }
+
+    public function edit ($id) {
+        if (empty($this->post->findFirst($id))) throw new NotFoundException("Aucun post ne correspond à l'ID $id");
+        App::$response->view('posts.create', [], ['Form'=>[$this->post]]);
+    }
+
+    public function update ($id) {
     }
 
 }

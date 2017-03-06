@@ -20,8 +20,13 @@ Encore en recherche
 
 ## TODOS
 * Touver ce que doit faire le site
-* Completer le Model pour pouvoir faire des liens entre les tables (join left, join right...), les insertions et les updates
+* Completer le Model pour pouvoir faire des liens entre les tables (join left, join right...) et les updates
+* Ajouter un Helper de liens
 * Completer le helper form pour gerer tous les types du inputs
-* Faire un systeme de connection utlisateut avec la session
+* Faire un systeme de connection utlisateur avec la session
 * Ajouter comme possibilte depuis le controlleur de renvoyer du json dans la response pour faire de l'ajax
+* Trouver ce que doit faire le site
+* Trouver ce que doit faire le site
+* Trouver ce que doit faire le site
+* Trouver ce que doit faire le site
 * Trouver ce que doit faire le site

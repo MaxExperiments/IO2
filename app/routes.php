@@ -13,3 +13,6 @@ App::$route->get ('/posts', 'PostsController@index');
 App::$route->get ('/posts/{id}', 'PostsController@show');
 App::$route->get ('/posts/create', 'PostsController@create');
 App::$route->put ('/posts/create', 'PostsController@store');
+App::$route->get ('/posts/{id}/edit', 'PostsController@edit');
+App::$route->post ('/posts/{id}/update', 'PostsController@update');
+App::$route->delete ('/post/{id}', 'PostsController@destroy');

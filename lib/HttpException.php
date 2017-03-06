@@ -10,6 +10,8 @@ class HttpException extends Exception {
      */
     public function __construct($message, $code = 503, Exception $previous = null) {
         parent::__construct($message,$code,$previous);
+
+        ini_set('display_errors', 'Off');
         
         require_once APP . 'controllers' . DS . 'ErrorsController.php';
 
