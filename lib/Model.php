@@ -77,6 +77,10 @@ class Model {
      */
     protected static $isConnected = false;
 
+    /**
+     * Les textes d'erreurs par defaut des filtres
+     * @var Array
+     */
     protected static $filtersText = [
         'required' => 'Vous devez remplir ce champ',
         'max'      => 'Trop long'
@@ -129,16 +133,9 @@ class Model {
         $this->query = 'SELECT ';
         if ($this->fields === []) $this->query .= '*';
         else foreach ($this->fields as $val) $this->query .= $val . ',';
-        $this->query = rtrim($this->query,',') . ' FROM ' . ((!empty($this->table)) ? $this->table : strtolower(get_class(__CLASS__))) . ((!empty($this->where)) ? ' WHERE ' : '');
-
-        $prepare = [];
-        foreach ($this->where as $key => $value) {
-            $k = ':' . $key;
-            $prepare[$k] = $value;
-            $this->query .= $key . ' = ' . $k . ' ';
-        }
-
-        return $this->getPDO($prepare);
+        $this->query = rtrim($this->query,',') . ' FROM ' . ((!empty($this->table)) ? $this->table : strtolower(get_class(__CLASS__)));
+        $this->insertWhereClosure();
+        return $this->getPDO($this->last);
     }
 
     /**
@@ -158,8 +155,7 @@ class Model {
      */
     public function findFirst ($id) {
         $this->find($id);
-        $var = array_values($this->get());
-        return (empty($var)) ? [] : $var[0];        
+        return (empty($this->last)) ? [] : $this->last[0];        
     }
 
     /**
@@ -194,7 +190,15 @@ class Model {
      * @param  Array $data Les nouvelles donees
      */
     public function update ($data) {
-
+        $this->query = 'UPDATE ' . $this->table .' SET ';
+        $this->last = [];
+        foreach ($data as $field => $value) {
+            $this->query .= $field . '=' . ':' . $field . ',';
+            $this->last[':'.$field] = $value;
+        }
+        $this->query = rtrim($this->query,',');
+        $this->insertWhereClosure();
+        return $this->getPDO();
     }
 
     /**
@@ -222,14 +226,25 @@ class Model {
     }
 
     /**
+     * Ajoute le mot clef WHERE avec les conditions prédéfinies dans le model
+     */
+    private function insertWhereClosure() {
+        $this->query .= (!empty($this->where)) ? ' WHERE ' : '';
+        foreach ($this->where as $key => $value) {
+            $k = ':' . $key;
+            $this->last[$k] = $value;
+            $this->query .= $key . ' = ' . $k . ' ';
+        }
+    }
+
+    /**
      * Seule fonction utilisant l'objet PDO
-     * @param  Array $prepare  Toutes la valeures a injecter dans la requete SQL
      * @return Array           Tableau php representant le resultat de la requete
      */
-    private function getPDO ($prepare= []) {
+    private function getPDO () {
         if (!self::$isConnected) $this->connect();
         $statement = self::$db->prepare($this->query);
-        $statement->execute($prepare);
+        $statement->execute($this->last);
         $this->last = $statement->fetchAll(PDO::FETCH_OBJ);
         return $this->last;
     }

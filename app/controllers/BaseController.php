@@ -11,5 +11,16 @@ class BaseController extends Controller {
         parent::__construct($params);
     }
 
+    protected function validate (Model $model, $values) {
+        if(!$model->validate($values)) {
+            foreach ($values as $field => $value) {
+                $message = [$value];
+                if(array_key_exists($field, $model->messages)) $message[] = $model->messages[$field];
+                App::$request->session->addMessage($field, $message);
+            }
+            App::$response->redirect('/posts/create');
+        }
+    }
+
     
 }

@@ -18,28 +18,30 @@ class PostsController extends BaseController {
     }
 
     public function create () {
-        App::$response->view('posts.create', [], ['Form'=>[$this->post]]);
+        App::$response->view('posts.create', ['method'=>'put'], ['Form'=>[$this->post]]);
     }
 
     public function store () {
-        if(!$this->post->validate(App::$request->post)) {
-            foreach (App::$request->post as $field => $value) {
-                $message = [$value];
-                if(array_key_exists($field, $this->post->messages)) $message[] = $this->post->messages[$field];
-                App::$request->session->addMessage($field, $message);
-            }
-            App::$response->redirect('/posts/create');
-        }
+        $this->validate ($this->post, App::$request->post);
         App::$request->filterPost();
         $this->post->insert(App::$request->post);
+        App::$response->redirect('/posts/');
     }
 
     public function edit ($id) {
         if (empty($this->post->findFirst($id))) throw new NotFoundException("Aucun post ne correspond à l'ID $id");
-        App::$response->view('posts.create', [], ['Form'=>[$this->post]]);
+        App::$response->view('posts.create', ['method'=>'post'], ['Form'=>[$this->post]]);
     }
 
     public function update ($id) {
+        $this->validate ($this->post, App::$request->post);
+        App::$request->filterPost();
+        $this->post->where(['id'=>$id])->update(App::$request->post);
+        App::$response->redirect('/posts/');
+    }
+
+    public function destroy () {
+        
     }
 
 }
