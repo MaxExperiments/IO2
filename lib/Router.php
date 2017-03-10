@@ -40,7 +40,7 @@ class Router {
         require_once APP . 'controllers' . DS . App::$request->controller . '.php';
         if (!class_exists(App::$request->controller)) throw new NotFoundException("Le controller à appeler n'existe pas");
         
-        App::$controller = new App::$request->controller($this->params);
+        new App::$request->controller($this->params);
     }
 
     /**
@@ -69,6 +69,10 @@ class Router {
 
     public function setPattern($key, $patt) {
         $this->pattern[$key] = $patt;
+    }
+
+    public function getRoutes () {
+        return $this->routes;
     }
 
 }

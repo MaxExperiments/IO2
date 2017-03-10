@@ -10,19 +10,11 @@
 <?= $label ?>
 <?php if ($attributes['type']=='textarea'): ?>
 
-    <textarea <?php foreach ($attributes as $k => $v): ?>
-    <?= $k ?>="<?php if (is_array($v)) {
-        foreach ($v as $l) echo $l . ' ';
-    } else echo $v; ?>"
-    <?php endforeach ?>><?= (isset($attributes['value'])) ? $attributes['value'] : ''?></textarea>    
+    <textarea <?= Helper::insertAsAttr($attributes) ?>><?= (isset($attributes['value'])) ? $attributes['value'] : ''?></textarea>    
 
 <?php else: ?>
 
-    <input <?php foreach ($attributes as $k => $v): ?>
-    <?= $k ?>="<?php if (is_array($v)) {
-        foreach ($v as $l) echo $l . ' ';
-    } else echo $v; ?>"
-    <?php endforeach ?>>
+    <input <?= Helper::insertAsAttr($attributes) ?>>
 
 <?php endif ?>
 </label>

@@ -50,6 +50,7 @@ require_once LIB . 'App.php';
 require_once APP . 'exceptions' . DS . 'BaseException.php';
 require_once APP . 'exceptions' . DS . 'NotFoundException.php';
 require_once APP . 'exceptions' . DS . 'DatabaseException.php';
+require_once APP . 'exceptions' . DS . 'InternalServerException.php';
 
 App::$request = new Request();
 App::$route = new Router();

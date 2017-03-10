@@ -15,14 +15,26 @@ class Controller {
     protected $models = [];
 
     /**
+     * Les helpers a charger dans toutes les vues
+     * @var array
+     */
+    protected $autoLoadHelpers = [];
+
+    /**
      * Constructeur qui appelle la fonction definie dans la route
      * @param Array|null $params Les paramètres a passer a la fonction
      */
     public function __construct(Array $params = []) {
         if (!method_exists($this, App::$request->func)) throw new NotFoundException("La méthode à appeler est introuvable");
+        App::$controller = $this;
         foreach ($this->models as $model) {
-            require_once APP . 'models' . DS . $model . '.php';
+            $modelPath = APP . 'models' . DS . $model . '.php';
+            if (!file_exists($modelPath)) throw new InternalServerException("Le fichier $modelPath n'existe pas");
+            
+            require_once $modelPath;
             $model = strtolower($model);
+            if (!class_exists($model)) throw new InternalServerException("La classe $model n'existe pas");
+            
             $this->$model = new $model();
         }
         call_user_func_array([$this,App::$request->func], $params);
@@ -35,7 +47,10 @@ class Controller {
     public function render (String $layout = null) {
         App::$response->prepare();
         $layout = ($layout===null) ? $this->layout : $layout;
-        include APP . 'views' . DS . 'layouts' . DS . $layout . '.php';
+        $layoutPath = APP . 'views' . DS . 'layouts' . DS . $layout . '.php';
+        if (!file_exists($layoutPath)) throw new InternalServerException("Le layout $layout est introuvable");
+        
+        include $layoutPath;
     }
 
     /**
@@ -44,6 +59,10 @@ class Controller {
      */
     public function setLayout(String $layout) {
         $this->layout = $layout;
+    }
+
+    public function getAutoLoadHelpers() {
+        return $this->autoLoadHelpers;
     }
     
 }

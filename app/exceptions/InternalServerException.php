@@ -1,8 +1,9 @@
 <?php
 
-class NotFoundException extends BaseException {
 
-    protected $code = 404;
+class InternalServerException extends BaseException {
+
+    protected $code = 500;
 
     public function __construct($message, Exception $previous = null) {
         App::$response->setStatusCode($this->code);

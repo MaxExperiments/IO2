@@ -101,7 +101,7 @@ class Model {
             );
             self::$isConnected = true;
         } catch (PDOException $e) {
-            throw new DatabaseException('Can not connect to the database ' . CONFIG[database][database], $e->getCode());
+            throw new DatabaseException('Can not connect to the database ' . CONFIG['database']['database'], $e->getCode());
         }
     }
 

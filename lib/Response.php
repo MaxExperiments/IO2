@@ -61,13 +61,20 @@ class Response {
 
     public static function requireView($path, $vars = [], $helpers = []) {
         $path = APP . 'views' . DS . str_replace('.', DS, $path) . '.php';
+        if (!file_exists($path)) throw new InternalServerException("Ne trouve pas la vue $path");
+        
         ob_start();
-        foreach ($helpers as $h => $params) {
+        foreach (array_merge($helpers, App::$controller->getAutoLoadHelpers()) as $h => $params) {
             if (is_int($h)) {
                 $helper = $params;
                 $params = [];
             } else $helper = $h;
-            require APP . 'helpers' . DS . $helper . 'Helper.php';
+            $helperPath = APP . 'helpers' . DS . $helper . 'Helper.php';
+            if(!file_exists($helperPath)) throw new InternalServerException("Le fichier $helperPath n'existe pas");
+            
+            require_once $helperPath;
+            if (!class_exists($helper)) throw new InternalServerException("La classe fille de Helper $helper n'existe pas");
+            
             $r = new ReflectionClass($helper);
             $$helper = $r->newInstanceArgs($params);
         }
@@ -124,6 +131,10 @@ class Response {
      */
     public function setCharset (String $charset) {
         $this->charset = $charset;
+    }
+
+    public function clear () {
+        $this->render = '';
     }
 
 }

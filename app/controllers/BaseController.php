@@ -6,6 +6,8 @@ class BaseController extends Controller {
 
     protected $isModel = true;
 
+    protected $autoLoadHelpers = ['Link'];
+
     public function __construct(Array $params = []) {
         if ($this->isModel) $this->models[] = str_replace('sController', '', get_class($this));
         parent::__construct($params);

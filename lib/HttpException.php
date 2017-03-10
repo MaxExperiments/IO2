@@ -9,16 +9,17 @@ class HttpException extends Exception {
      * @param Exception|null $previous
      */
     public function __construct($message, $code = 503, Exception $previous = null) {
-        parent::__construct($message,$code,$previous);
-
-        ini_set('display_errors', 'Off');
+        ini_set ('display_errors','Off');
         
         require_once APP . 'controllers' . DS . 'ErrorsController.php';
 
         if (CONFIG['env']=='dev') App::$request->func = '__dev';
         else App::$request->func = 'err' . $code;
+        App::$response->clear();
         App::$controller = new ErrorsController($this->__toArray());
         App::$controller->render('err');
+
+        parent::__construct($message,$code,$previous);
     }
 
     /**
