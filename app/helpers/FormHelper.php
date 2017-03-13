@@ -4,7 +4,7 @@
  * Classe permettant de faire des formulaire dans les vues
  */
 class Form extends Helper {
-    
+
     /**
      * Model auquel est attache le formulaire
      * @var Model
@@ -43,7 +43,7 @@ class Form extends Helper {
      * @return String             Le contenu de la vue charge
      */
     public function input ($field, $label = '', $attributes = []) {
-        $vars = ['label' => $label, 'attributes' => ['name' => $field, 'id' => [$field]]];
+        $vars = ['label' => $label, 'attributes' => ['name' => $field, 'id' => [$field],'type'=>'text']];
         if (!empty($this->model->last) && property_exists($this->model->last[0],$field)) $vars['attributes']['value'] = $this->model->last[0]->$field;
         if (array_key_exists($field, $this->model->attributes)) $vars['attributes']['type'] = $this->model->attributes[$field];
         if (App::$request->session->isMessageWithName($field)) {

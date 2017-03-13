@@ -8,7 +8,7 @@ class Model {
     /**
      * import de toutes les fonctions filtres
      */
-    use Filters;
+    use Model\Filters;
 
     /**
      * La clef primaire de la table dans la base de donnee
@@ -42,11 +42,17 @@ class Model {
     protected $fields = [];
 
     /**
-     * Type de formulaire pour chaque valeure dans la table 
+     * Tous les champs a hasher dans la base de donnée
+     * @var Array
+     */
+    protected $hash = ['password'];
+
+    /**
+     * Type de formulaire pour chaque valeure dans la table
      * @var array
      */
     public $attributes = [];
-    
+
     /**
      * Filtres a valider dans un formulaire
      * @var array
@@ -83,7 +89,8 @@ class Model {
      */
     protected static $filtersText = [
         'required' => 'Vous devez remplir ce champ',
-        'max'      => 'Trop long'
+        'max'      => 'Trop long',
+        'min'      => 'Trop court'
     ];
 
     /**
@@ -93,8 +100,8 @@ class Model {
     private function connect () {
         try {
             self::$db = new PDO(
-                CONFIG['database']['driver'] . ':host=' . CONFIG['database']['host'] . 
-                ((!empty(CONFIG['database']['port'])) ? ';port=' . CONFIG['database']['port'] : '') . 
+                CONFIG['database']['driver'] . ':host=' . CONFIG['database']['host'] .
+                ((!empty(CONFIG['database']['port'])) ? ';port=' . CONFIG['database']['port'] : '') .
                 ';dbname=' . CONFIG['database']['database'],
                 CONFIG['database']['username'],
                 CONFIG['database']['password']
@@ -155,7 +162,7 @@ class Model {
      */
     public function findFirst ($id) {
         $this->find($id);
-        return (empty($this->last)) ? [] : $this->last[0];        
+        return (empty($this->last)) ? [] : $this->last[0];
     }
 
     /**
@@ -179,10 +186,10 @@ class Model {
             $fields .= $field . ',';
             $values .= ':' . $field . ',';
             unset($data[$field]);
-            $data[':'.$field] = $value;
+            $this->last[':'.$field] = $value;
         }
         $this->query = $this->query . rtrim($fields, ',') . ') VALUES (' . rtrim($values,',') . ')';
-        return $this->getPDO($data);
+        return $this->getPDO();
     }
 
     /**
@@ -213,7 +220,7 @@ class Model {
                 foreach ($this->validation[$field] as $filter) {
                     $f = explode(':', $filter);
                     array_splice($f, 1, 0, $value);
-                    
+
                     if (!call_user_func_array([$this,$f[0]], array_slice($f, 1))) {
                         $this->messages[$field] = ((array_key_exists($field, $this->messages)) ? $this->messages[$field] : '') . ' ' . self::$filtersText[$f[0]];
                         $this->messages[$field] = trim($this->messages[$field]);
@@ -233,8 +240,9 @@ class Model {
         foreach ($this->where as $key => $value) {
             $k = ':' . $key;
             $this->last[$k] = $value;
-            $this->query .= $key . ' = ' . $k . ' ';
+            $this->query .= $key . ' = ' . $k . ' AND ';
         }
+        $this->query = rtrim($this->query,' AND ');
     }
 
     /**
@@ -242,6 +250,8 @@ class Model {
      * @return Array           Tableau php representant le resultat de la requete
      */
     private function getPDO () {
+        foreach ($this->last as $field => $val)
+            if (in_array(trim($field,':'),$this->hash)) $this->last[$field] = password_hash($val,PASSWORD_BCRYPT);
         if (!self::$isConnected) $this->connect();
         $statement = self::$db->prepare($this->query);
         $statement->execute($this->last);

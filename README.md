@@ -3,10 +3,12 @@ starring by Maxime flin et Louis Gavalda
 
 ## TODOS
 - [ ] Touver ce que doit faire le site
-- [ ] Completer le Model pour pouvoir faire des liens entre les tables (join left, join right...) et les updates
-- [ ] Ajouter un Helper de liens
+- [ ] Completer le Model pour pouvoir faire des liens entre les tables (join left, join right...)
+- [x] les updates et inserts dans les tables
+- [ ] les supressions dans les tables
+- [x] Ajouter un Helper de liens
 - [ ] Completer le helper form pour gerer tous les types du inputs
-- [ ] Faire un systeme de connection utlisateur avec la session
+- [x] Faire un systeme de connection utlisateur avec la session
 - [ ] Ajouter comme possibilte depuis le controlleur de renvoyer du json dans la response pour faire de l'ajax
 - [ ] Trouver ce que doit faire le site
 - [ ] Trouver ce que doit faire le site
@@ -37,7 +39,7 @@ On a souhaité s'organiser selon l'organisation Model-View-Controller (MVC). Cep
 - /tmp Fichier de debug, log...
 
 #### I) La redirection d'url
-On voulais que notre sites puisse recevoir des url simples et intuitives qui ne soient pas des chemins vers de fichers php. C'est à dire que à la place d'avoir l'url `/posts/singlepost.php?id=12` on préfère utiliser l'url `/posts/1`. 
+On voulais que notre sites puisse recevoir des url simples et intuitives qui ne soient pas des chemins vers de fichers php. C'est à dire que à la place d'avoir l'url `/posts/singlepost.php?id=12` on préfère utiliser l'url `/posts/1`.
 Pour ce faire on commence par rediriger les requètes https de la manière suivante:
 * Quel que soit l'url on la redirige dans le dossier /public
 * Dans le dossier public si l'url correspond au chemin juste qu'un ficher on redirige vers ce ficher sinon on redirige vers le ficher index.php

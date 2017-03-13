@@ -62,7 +62,7 @@ class Response {
     public static function requireView($path, $vars = [], $helpers = []) {
         $path = APP . 'views' . DS . str_replace('.', DS, $path) . '.php';
         if (!file_exists($path)) throw new InternalServerException("Ne trouve pas la vue $path");
-        
+
         ob_start();
         foreach (array_merge($helpers, App::$controller->getAutoLoadHelpers()) as $h => $params) {
             if (is_int($h)) {
@@ -71,11 +71,13 @@ class Response {
             } else $helper = $h;
             $helperPath = APP . 'helpers' . DS . $helper . 'Helper.php';
             if(!file_exists($helperPath)) throw new InternalServerException("Le fichier $helperPath n'existe pas");
-            
+
             require_once $helperPath;
             if (!class_exists($helper)) throw new InternalServerException("La classe fille de Helper $helper n'existe pas");
-            
+
             $r = new ReflectionClass($helper);
+            if (!is_array($params)) throw new InternalServerException("Les paramètres passées aux helpers doit être un tableau");
+
             $$helper = $r->newInstanceArgs($params);
         }
         extract($vars);
@@ -99,6 +101,17 @@ class Response {
     public function redirect ($url) {
         $this->prepare();
         header('Location: http://' . $_SERVER['SERVER_NAME'] . $url, true, $this->statusCode);
+        die();
+    }
+
+    /**
+     * Redirige vers la page précédente
+     */
+    public function referer () {
+        $ref = App::$request->getReferer();
+        if ($ref===false) throw new InternalServerException ("Il n'existe pas de requête précédente");
+        $this->prepare();
+        header('Location: ' . $ref, true, $this->statusCode);
         die();
     }
 
@@ -133,6 +146,9 @@ class Response {
         $this->charset = $charset;
     }
 
+    /**
+     * Vide le contenu de la page
+     */
     public function clear () {
         $this->render = '';
     }

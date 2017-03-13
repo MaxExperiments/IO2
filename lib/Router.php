@@ -5,6 +5,8 @@
  */
 class Router {
 
+    use Router\Filters;
+
     protected $pattern = [];
 
     protected $params = [];
@@ -20,6 +22,25 @@ class Router {
         'put' => [],
         'delete' => []
     ];
+
+    /**
+     * Ajoute un filtre autour des routes générées dans la fonction $then
+     * @param  Array   $filters  Liste des filtres a tester
+     * @param  callable $then    Fonction a executer si tous les filtres passent
+     */
+    public function filter ($filters, callable $then) {
+        foreach ($filters as $filter) {
+            $f = explode (':', $filter);
+            if ($f[0][0]=='!') {
+                if (!method_exists($this,trim($f[0],'!'))) throw new InternalServerException("Le filtre $f[0] n'existe pas");
+                if (call_user_func_array([$this,trim($f[0],'!')],array_slice($f,1))) return false;
+            } else {
+                if (!method_exists($this,$f[0])) throw new InternalServerException("Le filtre $f[0] n'existe pas");
+                if (!call_user_func_array([$this,$f[0]],array_slice($f,1))) return false;
+            }
+        }
+        $then();
+    }
 
     public function get ($url, $method) { $this->routes['get'][$url] = $method; }
     public function post ($url, $method) { $this->routes['post'][$url] = $method; }
@@ -39,7 +60,7 @@ class Router {
         App::$request->func = explode('@',$method)[1];
         require_once APP . 'controllers' . DS . App::$request->controller . '.php';
         if (!class_exists(App::$request->controller)) throw new NotFoundException("Le controller à appeler n'existe pas");
-        
+
         new App::$request->controller($this->params);
     }
 

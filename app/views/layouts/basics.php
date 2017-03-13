@@ -13,6 +13,17 @@
                     <li><a href="/posts">Posts</a></li>
                 </ul>
             </div>
+            <div class="top-bar-right">
+                <ul class="dropdow menu">
+                    <?php if (!Session::isAuthenticate()): ?>
+                        <li><a class="primary button" href="/login">Connection</a></li>
+                        <li><a class="primary button" href="/register">Inscription</a></li>
+                    <?php else: ?>
+                        <li>Bonjour <?= Session::Auth()->email;?></li>
+                        <li><a class="primary button" href="/logout">Se déconnecter</a></li>
+                    <?php endif ?>
+                </ul>
+            </div>
         </div>
 
         <?= App::$response->render() ?>

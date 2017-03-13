@@ -20,9 +20,9 @@ class BaseController extends Controller {
                 if(array_key_exists($field, $model->messages)) $message[] = $model->messages[$field];
                 App::$request->session->addMessage($field, $message);
             }
-            App::$response->redirect('/posts/create');
+            App::$response->referer();
         }
     }
 
-    
+
 }

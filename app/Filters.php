@@ -1,5 +1,7 @@
 <?php
 
+namespace Model {
+
 /**
  * Trait contenant la collection de tous les filtres utilisables dans les models
  */
@@ -23,5 +25,33 @@ trait Filters {
     function max($val, $max) {
         return strlen($val) <= $max;
     }
+
+    /**
+     * Vérifie que la longuere du champ n'est pas trop petite
+     * @param  String $val Valeure du champ
+     * @param  int $min Taille minimum
+     * @return Boolean
+     */
+    function min ($val, $min) {
+        return strlen($val) >= $min;
+    }
+
+}
+
+}
+
+namespace Router {
+
+trait Filters {
+
+    /**
+     * Teste la connection d'un utilisateur
+     * @return Boolean True si un utilisateur est connecté dans la session
+     */
+    function authenticate () {
+        return \Session::isAuthenticate();
+    }
+
+}
 
 }

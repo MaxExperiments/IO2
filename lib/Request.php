@@ -49,6 +49,12 @@ class Request {
     public $func;
 
     /**
+     * Url de la requête précédente
+     * @var String
+     */
+    private $referer;
+
+    /**
      * Tous les nom de champs passable dans une requete post qu'on veux supprimer dans le model
      * @var Array
      */
@@ -63,12 +69,24 @@ class Request {
         $this->post = $_POST;
         $this->session = new Session();
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
+        $this->referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
         if ($this->method == 'post' && isset($this->post['__method'])) $this->method = $this->post['__method'];
     }
 
+    /**
+     * Retire des champs de post les clefs globales définies
+     */
     public function filterPost () {
         foreach (self::$global as $key)
             if (isset($this->post[$key])) unset($this->post[$key]);
+    }
+
+    /**
+     * Retourne l'url de la requête précédente
+     * @return String
+     */
+    public function getReferer () {
+        return $this->referer;
     }
 
 }
