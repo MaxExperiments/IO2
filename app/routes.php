@@ -24,7 +24,7 @@ App::$route->filter(['authenticate'], function () {
     App::$route->put ('/posts/create', 'PostsController@store');
     App::$route->get ('/posts/{id}/edit', 'PostsController@edit');
     App::$route->post ('/posts/{id}/edit', 'PostsController@update');
-    App::$route->delete ('/post/{id}', 'PostsController@destroy');
+    App::$route->get ('/posts/{id}/delete', 'PostsController@destroy');
 
     App::$route->get ('/logout', 'UsersController@logout');
 });

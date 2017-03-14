@@ -1,5 +1,5 @@
 # IO2S2
-starring by Maxime flin et Louis Gavalda
+starring by Maxime Flin et Louis Gavalda
 
 ## TODOS
 - [ ] Touver ce que doit faire le site

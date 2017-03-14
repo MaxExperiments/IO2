@@ -7,8 +7,8 @@ class PostsController extends BaseController {
     }
 
     public function index() {
-        $post = $this->post->findAll();
-        App::$response->view ('posts.index',['posts'=>$post]);
+        $posts = $this->post->order('id','DESC')->findAll();
+        App::$response->view ('posts.index',['posts'=>$posts]);
     }
 
     public function show ($id) {
@@ -40,8 +40,9 @@ class PostsController extends BaseController {
         App::$response->redirect('/posts/');
     }
 
-    public function destroy () {
-        
+    public function destroy ($id) {
+        $this->post->where('id',$id)->delete();
+        App::$response->redirect('/posts');
     }
 
 }

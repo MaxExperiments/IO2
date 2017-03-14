@@ -8,6 +8,9 @@
             <h3><?= $post->name ?></h3>
             <p><?= $post->content ?></p>
             <?= $Link->route('Voir la suite', 'PostsController@show',['id'=>$post->id]) ?>
+            <?php if (Session::isAuthenticate()): ?>
+                <?= $Link->route('Détruire', 'PostsController@destroy', ['id'=>$post->id],['class'=>'button alert']); ?>
+            <?php endif ?>
         </article>
     <?php endforeach ?>
 </div>

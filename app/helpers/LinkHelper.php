@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class Link extends Helper {
 
@@ -8,7 +8,7 @@ class Link extends Helper {
                 if ($dest==$route) {
                     foreach ($params as $name => $value) {
                         return Response::requireView('helpers.link',
-                            array_merge_recursive(['content'=>$content,'attributes'=>['href'=>str_replace('{'.$name.'}', $value, $url)]], $attr)
+                            array_merge_recursive(['attributes'=>$attr], ['content'=>$content,'attributes'=>['href'=>str_replace('{'.$name.'}', $value, $url)]])
                         );
                     }
                 }

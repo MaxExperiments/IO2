@@ -19,8 +19,7 @@ class Router {
     private $routes = [
         'get' => [],
         'post' => [],
-        'put' => [],
-        'delete' => []
+        'put' => []
     ];
 
     /**
@@ -45,9 +44,6 @@ class Router {
     public function get ($url, $method) { $this->routes['get'][$url] = $method; }
     public function post ($url, $method) { $this->routes['post'][$url] = $method; }
     public function put ($url, $method) { $this->routes['put'][$url] = $method; }
-    public function delete ($url, $method) { $this->routes['delete'][$url] = $method; }
-    public function err ($url, $method) { $this->routes['err'][$url] = $method; }
-    public function when($url, $func) { $this->routes['func'] = $func; }
 
     /**
      * Appelle la méthode définie dans les routes.php

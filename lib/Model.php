@@ -42,6 +42,12 @@ class Model {
     protected $fields = [];
 
     /**
+     * Les champs à ordonner
+     * @var Array
+     */
+    protected $order = [];
+
+    /**
      * Tous les champs a hasher dans la base de donnée
      * @var Array
      */
@@ -124,11 +130,25 @@ class Model {
 
     /**
      * Ajoute des contraintes a la requete avec le mot clef WHERE
-     * @param  array  $where Tableau associatif des champs et de la valeur qu'il doivent avoir
+     * @param  String $field  La nom du champ sur lequel s'applique la condition
+     * @param  String $a      La valeure du champ ou le comparateur si $b est non nul
+     * @param  String $b      Si $b est non nul il est la valeure du champ
      * @return Model          Retourne $this pour pouvoir composer facilement les fonctions
      */
-    public function where ($where = []) {
-        foreach ($where as $name => $val) $this->where[$name] = $val;
+    public function where ($field, $a, $b = null) {
+        if ($b === null) $this->where[] = $field . '=' . $a;
+        else $this->where[] = $field . $a . $b;
+        return $this;
+    }
+
+    /**
+     * Défini l'ordre des sortie de la requête SQL
+     * @param  String $ord  Valeure de l'ordre ASC|DESC|...
+     * @param  String $fiel Le champ a ordonner
+     * @return Model        Retourne $this pour pouvoir composer facilement les fonctions
+     */
+    public function order ($field, $ord) {
+        $this->order[$field] = $ord;
         return $this;
     }
 
@@ -141,8 +161,23 @@ class Model {
         if ($this->fields === []) $this->query .= '*';
         else foreach ($this->fields as $val) $this->query .= $val . ',';
         $this->query = rtrim($this->query,',') . ' FROM ' . ((!empty($this->table)) ? $this->table : strtolower(get_class(__CLASS__)));
+        $this->clear();
         $this->insertWhereClosure();
+        $this->insertOrderClosure();
         return $this->getPDO($this->last);
+    }
+
+    /**
+     * Compte la nombre de lignes séléctionnées
+     * @return int
+     */
+    public function count () {
+        $this->query = 'SELECT COUNT(*) as count ';
+        $this->query = rtrim($this->query,',') . ' FROM ' . ((!empty($this->table)) ? $this->table : strtolower(get_class(__CLASS__)));
+        $this->clear();
+        $this->insertWhereClosure();
+        $posts = $this->getPDO($this->last);
+        return $posts[0]->count;
     }
 
     /**
@@ -151,7 +186,7 @@ class Model {
      * @return Array
      */
     public function find ($id) {
-        $this->where([$this->primary_key=>$id]);
+        $this->where($this->primary_key,$id);
         return $this->get();
     }
 
@@ -166,12 +201,10 @@ class Model {
     }
 
     /**
-     * Trouve tous les elements dans la table correspondant au tableau associatif donne
-     * @param  array  $where Tableau associatif reresentant les egalitees de valeure dans la table
+     * Trouve tous les elements correspondant au model
      * @return Array
      */
-    public function findAll ($where = []) {
-        $this->where($where);
+    public function findAll () {
         return $this->get();
     }
 
@@ -208,6 +241,12 @@ class Model {
         return $this->getPDO();
     }
 
+    public function delete () {
+        $this->query = 'DELETE FROM ' . $this->table;
+        $this->insertWhereClosure();
+        return $this->getPDO();
+    }
+
     /**
      * Test tous les filtres sur la tableau de donnees
      * @param  Array $data Tableau de donnes a tester
@@ -237,12 +276,20 @@ class Model {
      */
     private function insertWhereClosure() {
         $this->query .= (!empty($this->where)) ? ' WHERE ' : '';
-        foreach ($this->where as $key => $value) {
-            $k = ':' . $key;
-            $this->last[$k] = $value;
-            $this->query .= $key . ' = ' . $k . ' AND ';
-        }
+        foreach ($this->where as $value) $this->query .= $value . ' AND ';
         $this->query = rtrim($this->query,' AND ');
+    }
+
+    private function insertOrderClosure () {
+        $this->query .= (!empty($this->order)) ? ' ORDER BY ' : '';
+        foreach ($this->order as $key => $ord) {
+            $this->query .= $key . ' ' . $ord . ', ';
+        }
+        $this->query = rtrim($this->query,', ');
+    }
+
+    private function clear () {
+        $this->last = [];
     }
 
     /**
