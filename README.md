@@ -5,7 +5,7 @@ starring by Maxime Flin et Louis Gavalda
 - [ ] Touver ce que doit faire le site
 - [ ] Completer le Model pour pouvoir faire des liens entre les tables (join left, join right...)
 - [x] les updates et inserts dans les tables
-- [ ] les supressions dans les tables
+- [x] les supressions dans les tables
 - [x] Ajouter un Helper de liens
 - [ ] Completer le helper form pour gerer tous les types du inputs
 - [x] Faire un systeme de connection utlisateur avec la session
