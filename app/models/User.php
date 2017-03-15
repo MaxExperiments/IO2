@@ -10,7 +10,7 @@ class User extends Model {
     ];
 
     protected $validation = [
-        'email' => ['required','min:3'],
+        'email' => ['required','min:3','unique'],
         'password' => ['required','min:6']
     ];
 

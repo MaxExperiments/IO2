@@ -96,7 +96,8 @@ class Model {
     protected static $filtersText = [
         'required' => 'Vous devez remplir ce champ',
         'max'      => 'Trop long',
-        'min'      => 'Trop court'
+        'min'      => 'Trop court',
+        'unique'   => 'Déja pris'
     ];
 
     /**
@@ -136,8 +137,8 @@ class Model {
      * @return Model          Retourne $this pour pouvoir composer facilement les fonctions
      */
     public function where ($field, $a, $b = null) {
-        if ($b === null) $this->where[] = $field . '=' . $a;
-        else $this->where[] = $field . $a . $b;
+        if ($b === null) $this->where[] = $field . '=\'' . htmlspecialchars($a) . '\'';
+        else $this->where[] = $field . $a . '\'' . htmlspecialchars($b) . '\'';
         return $this;
     }
 
@@ -259,6 +260,7 @@ class Model {
                 foreach ($this->validation[$field] as $filter) {
                     $f = explode(':', $filter);
                     array_splice($f, 1, 0, $value);
+                    array_splice($f, 1, 0, $field);
 
                     if (!call_user_func_array([$this,$f[0]], array_slice($f, 1))) {
                         $this->messages[$field] = ((array_key_exists($field, $this->messages)) ? $this->messages[$field] : '') . ' ' . self::$filtersText[$f[0]];

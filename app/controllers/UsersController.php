@@ -15,7 +15,7 @@ class UsersController extends BaseController {
     public function connect () {
         $this->validate($this->user, App::$request->post);
         App::$request->filterPost();
-        $users = $this->user->findAll(['email'=>App::$request->post['email']]);
+        $users = $this->user->where('email',App::$request->post['email'])->findAll();
         if (!empty($users)) {
             if (password_verify(App::$request->post['password'],$users[0]->password)) {
                 App::$request->session->connect($this->user);

@@ -10,7 +10,7 @@ class Post extends Model {
     ];
 
     protected $validation = [
-        'name' => ['required','max:20'],
+        'name' => ['required','max:20','unique'],
         'content' => ['required']
     ];
 
