@@ -1,8 +1,8 @@
 # IO2S2
-starring by Maxime Flin et Louis Gavalda
+Maxime Flin & Louis Gavalda
 
 ## TODOS
-- [ ] Touver ce que doit faire le site
+- [x] Touver ce que doit faire le site
 - [ ] Completer le Model pour pouvoir faire des liens entre les tables (join left, join right...)
 - [x] les updates et inserts dans les tables
 - [x] les supressions dans les tables
@@ -18,10 +18,12 @@ starring by Maxime Flin et Louis Gavalda
 
 
 ## Ce que fait le site
-Encore en recherche
+Un forum de discussion d'usage simple et de conception légère destiné aux étudiants de l'université **Paris Diderot** : [](http://diderot.club/)
+(Publication anonyme, partage de fichiers, …)
 
 ## Notre expérience personnelle au cours de ce projet
-
+Nous somme grandement surpris par l'enrichissement mutuel — collaboration, entraide, échanges d'idées, … — que suscite un tel travail de groupe. La charge de travail tend à se répartir équitablement, et chacun œuvre dans des domaines pour lesquels il possède une inclination particulière : les spécificités de tous sont exploitées, ce qui est formidable.
+Maxime a été un peu difficile à mettre au travail, mais il commence à se faire à l'idée qu'il s'agit d'un projet réalisé _en commun_, il ne se rebiffe plus lorsqu'on lui demande de mettre pierre à l'édifice.
 
 ### Une architecture de Framework made from scratch
 On a souhaité s'organiser selon l'organisation Model-View-Controller (MVC). Cependant, n'étant pas autorisé d'utiliser des ressources externes pour ce projet il nous a semblé bon de rebatir l'architecture de notre projet sur des bases solides. S'inspirant modérément de Laravel, l'architecture du projet est la suivante:
