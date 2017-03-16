@@ -10,7 +10,7 @@ namespace Model {
 trait Filters {
 
     /**
-     * Vérifie sir le champ n'est pas vide
+     * Vérifie si le champ n'est pas vide
      * @param  String $field  Nom du champ
      * @param  String $val   Valeure du champ
      * @return Boolean
@@ -48,7 +48,9 @@ trait Filters {
      * @return Boolean
      */
     function unique ($field, $val) {
-        return $this->where($field, $val)->count() == 0;
+        $ret = $this->where($field, $val)->count() == 0;
+        $this->last = [];
+        return $ret;
     }
 
 }
@@ -65,6 +67,10 @@ trait Filters {
      */
     function authenticate () {
         return \Session::isAuthenticate();
+    }
+
+    function json () {
+        return \App::$request->getContentType() == 'application/json';
     }
 
 }

@@ -26,16 +26,23 @@ class Router {
      * Ajoute un filtre autour des routes générées dans la fonction $then
      * @param  Array   $filters  Liste des filtres a tester
      * @param  callable $then    Fonction a executer si tous les filtres passent
+     * @param  callable $else    Fonction a executer si un des filtres n'est pas vrai
      */
-    public function filter ($filters, callable $then) {
+    public function filter ($filters, callable $then, callable $else) {
         foreach ($filters as $filter) {
             $f = explode (':', $filter);
             if ($f[0][0]=='!') {
                 if (!method_exists($this,trim($f[0],'!'))) throw new InternalServerException("Le filtre $f[0] n'existe pas");
-                if (call_user_func_array([$this,trim($f[0],'!')],array_slice($f,1))) return false;
+                if (call_user_func_array([$this,trim($f[0],'!')],array_slice($f,1))) {
+                    $else();
+                    return false;
+                }
             } else {
                 if (!method_exists($this,$f[0])) throw new InternalServerException("Le filtre $f[0] n'existe pas");
-                if (!call_user_func_array([$this,$f[0]],array_slice($f,1))) return false;
+                if (!call_user_func_array([$this,$f[0]],array_slice($f,1))) {
+                    $else();
+                    return false;
+                }
             }
         }
         $then();

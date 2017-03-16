@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <title>Un titre</title>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/css/foundation.min.css">
+        <link rel="stylesheet" href="assets/css/style.css">
     </head>
     <body>
         <div class="top-bar">
@@ -28,6 +29,10 @@
 
         <?= App::$response->render() ?>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js"></script>
+        <?php foreach (Html::$scripts as $url): ?>
+            <script src="<?= $url ?>"></script>
+        <?php endforeach; ?>
     </body>
 </html>

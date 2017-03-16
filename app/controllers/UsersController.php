@@ -41,6 +41,7 @@ class UsersController extends BaseController {
      * Ajoute un nouvel utilisateur
      */
     public function store () {
+        $this->user->validation['email'][] = 'unique';
         $this->validate($this->user, App::$request->post);
         App::$request->filterPost();
         $this->user->insert(App::$request->post);

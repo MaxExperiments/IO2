@@ -17,9 +17,7 @@ App::$route->filter(['!authenticate'], function () {
     App::$route->post ('/login', 'UsersController@connect');
     App::$route->get ('/register', 'UsersController@register');
     App::$route->post ('/register','UsersController@store');
-});
-
-App::$route->filter(['authenticate'], function () {
+}, function () {
     App::$route->get ('/posts/create', 'PostsController@create');
     App::$route->put ('/posts/create', 'PostsController@store');
     App::$route->get ('/posts/{id}/edit', 'PostsController@edit');

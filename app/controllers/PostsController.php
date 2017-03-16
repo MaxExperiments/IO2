@@ -13,6 +13,7 @@ class PostsController extends BaseController {
 
     public function show ($id) {
         $post = $this->post->findFirst($id);
+        if (App::$request->isJson()) App::$response->json($post);
         if (empty($post)) throw new NotFoundException("Aucun post ne correspond à l'ID $id");
         App::$response->view('posts.show', ['post'=>$post]);
     }
@@ -42,6 +43,7 @@ class PostsController extends BaseController {
 
     public function destroy ($id) {
         $this->post->where('id',$id)->delete();
+        if (App::$request->isJson()) App::$response->json(['success' => true]);
         App::$response->redirect('/posts');
     }
 

@@ -131,6 +131,16 @@ class Response {
     }
 
     /**
+     * Permet de retourner des données sous forme de json puis quitte l'application
+     * @param  Array $data  Tableau des données a encoder
+     */
+    public function json ($data) {
+        header('Content-Type:application/json');
+        echo json_encode($data);
+        die();
+    }
+
+    /**
      * Setter pour le statucCode
      * @param int $status Code la de response
      */

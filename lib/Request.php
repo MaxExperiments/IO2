@@ -55,6 +55,12 @@ class Request {
     private $referer;
 
     /**
+     * Content type de la requête
+     * @var String
+     */
+    private $content_type;
+
+    /**
      * Tous les nom de champs passable dans une requete post qu'on veux supprimer dans le model
      * @var Array
      */
@@ -70,6 +76,7 @@ class Request {
         $this->session = new Session();
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
         $this->referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
+        $this->content_type = (!empty($_SERVER['CONTENT_TYPE'])) ? $_SERVER['CONTENT_TYPE'] : 'text/html';
         if ($this->method == 'post' && isset($this->post['__method'])) $this->method = $this->post['__method'];
     }
 
@@ -87,6 +94,10 @@ class Request {
      */
     public function getReferer () {
         return $this->referer;
+    }
+
+    public function isJson () {
+        return $this->content_type == 'application/json';
     }
 
 }

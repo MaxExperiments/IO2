@@ -30,11 +30,11 @@ class Controller {
         foreach ($this->models as $model) {
             $modelPath = APP . 'models' . DS . $model . '.php';
             if (!file_exists($modelPath)) throw new InternalServerException("Le fichier $modelPath n'existe pas");
-            
+
             require_once $modelPath;
             $model = strtolower($model);
             if (!class_exists($model)) throw new InternalServerException("La classe $model n'existe pas");
-            
+
             $this->$model = new $model();
         }
         call_user_func_array([$this,App::$request->func], $params);
@@ -49,7 +49,7 @@ class Controller {
         $layout = ($layout===null) ? $this->layout : $layout;
         $layoutPath = APP . 'views' . DS . 'layouts' . DS . $layout . '.php';
         if (!file_exists($layoutPath)) throw new InternalServerException("Le layout $layout est introuvable");
-        
+
         include $layoutPath;
     }
 
@@ -64,5 +64,5 @@ class Controller {
     public function getAutoLoadHelpers() {
         return $this->autoLoadHelpers;
     }
-    
+
 }
