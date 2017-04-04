@@ -18,7 +18,7 @@ class BaseController extends Controller {
             foreach ($values as $field => $value) {
                 $message = [$value];
                 if(array_key_exists($field, $model->messages)) $message[] = $model->messages[$field];
-                App::$request->session->addMessage($field, $message);
+                App::$session->addMessage($field, $message);
             }
             App::$response->referer();
         }

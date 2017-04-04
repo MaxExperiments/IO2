@@ -30,4 +30,10 @@ class App {
      */
     public static $controller;
 
+    /**
+     * La session de l'utilisateur
+     * @var Session
+     */
+    public static $session;
+
 }

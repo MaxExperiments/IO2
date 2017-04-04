@@ -24,12 +24,6 @@ class Request {
     public $post;
 
     /**
-     * Variables de la session
-     * @var Session
-     */
-    public $session;
-
-    /**
      * Methode de la requete Http
      * Peut etre POST|GET|PUT|DELETE les autres methodes ne sont pas gere par les routes
      * @var String
@@ -73,7 +67,7 @@ class Request {
         $this->url = rtrim($_SERVER['REQUEST_URI'],'/');
         $this->get = $_GET;
         $this->post = $_POST;
-        $this->session = new Session();
+        App::$session = new Session();
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
         $this->referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;
         $this->content_type = (!empty($_SERVER['CONTENT_TYPE'])) ? $_SERVER['CONTENT_TYPE'] : 'text/html';

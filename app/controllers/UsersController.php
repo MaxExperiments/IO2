@@ -18,14 +18,14 @@ class UsersController extends BaseController {
         $users = $this->user->where('email',App::$request->post['email'])->findAll();
         if (!empty($users)) {
             if (password_verify(App::$request->post['password'],$users[0]->password)) {
-                App::$request->session->connect($this->user);
+                App::$session->connect($this->user);
                 App::$response->redirect('/');
             } else {
-                App::$request->session->addMessage('formValidation','Mauvais email ou mot de passe');
+                App::$session->addMessage('formValidation','Mauvais email ou mot de passe');
                 App::$response->redirect('/login');
             }
         } else {
-            App::$request->session->addMessage('formValidation','Mauvais email ou mot de passe');
+            App::$session->addMessage('formValidation','Mauvais email ou mot de passe');
             App::$response->redirect('/login');
         }
     }
@@ -52,7 +52,7 @@ class UsersController extends BaseController {
      * Déconnecte l'utilisateur
      */
     public function logout () {
-        App::$request->session->disconnect();
+        App::$session->disconnect();
         App::$response->redirect('/login');
     }
 

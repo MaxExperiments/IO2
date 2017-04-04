@@ -24,6 +24,12 @@ class Model {
     protected $table;
 
     /**
+     * Existence des champs `created_at` et `updated_at` dans la table
+     * @var boolean
+     */
+    protected $timesteamps = true;
+
+    /**
      * Requete SQL
      * @var String
      */

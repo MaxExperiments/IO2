@@ -127,7 +127,7 @@ class Response {
             header($key.':'.$val,false,$this->statusCode);
         }
 
-        App::$request->session->prepare();
+        App::$session->prepare();
     }
 
     /**

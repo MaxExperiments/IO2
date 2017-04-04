@@ -46,8 +46,8 @@ class Form extends Helper {
         $vars = ['label' => $label, 'attributes' => ['name' => $field, 'id' => [$field],'type'=>'text']];
         if (!empty($this->model->last) && property_exists($this->model->last[0],$field)) $vars['attributes']['value'] = $this->model->last[0]->$field;
         if (array_key_exists($field, $this->model->attributes)) $vars['attributes']['type'] = $this->model->attributes[$field];
-        if (App::$request->session->isMessageWithName($field)) {
-            $message = App::$request->session->getMessage($field);
+        if (App::$session->isMessageWithName($field)) {
+            $message = App::$session->getMessage($field);
             $vars['attributes']['value'] = $message[0];
             $vars['messages'] = array_slice($message,1);
         }
