@@ -6,12 +6,14 @@ class User extends Model {
 
     public $attributes = [
         'email' => 'email',
-        'password' => 'password'
+        'password' => 'password',
+        'pseudo' => 'text'
     ];
 
     public $validation = [
         'email' => ['required','min:3'],
-        'password' => ['required','min:6']
+        'password' => ['required','min:6'],
+        'pseudo' => ['required']
     ];
 
 }

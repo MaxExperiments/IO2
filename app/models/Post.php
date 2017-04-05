@@ -5,12 +5,12 @@ class Post extends Model {
     protected $table = 'posts';
 
     public $attributes = [
-        'name'    => 'text',
+        'title'    => 'text',
         'content' => 'textarea'
     ];
 
     public $validation = [
-        'name' => ['required','max:20'],
+        'title' => ['required','max:20'],
         'content' => ['required']
     ];
 

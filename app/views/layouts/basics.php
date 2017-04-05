@@ -20,7 +20,7 @@
                         <li><a class="primary button" href="/login">Connection</a></li>
                         <li><a class="primary button" href="/register">Inscription</a></li>
                     <?php else: ?>
-                        <li>Bonjour <?= Session::Auth()->email;?></li>
+                        <li>Bonjour <?= Session::Auth()->pseudo;?></li>
                         <li><a class="primary button" href="/logout">Se déconnecter</a></li>
                     <?php endif ?>
                 </ul>

@@ -8,7 +8,7 @@
     </div>
     <?php foreach($posts as $post): ?>
         <article class="small-offset-2 small-8" id="post-<?= $post->id ?>">
-            <h3><?= $post->name ?></h3>
+            <h3><?= $post->title ?></h3>
             <p><?= $post->content ?></p>
             <?= $Html->route('Voir la suite', 'PostsController@show',['id'=>$post->id]) ?>
             <?php if (Session::isAuthenticate()): ?>
