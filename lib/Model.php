@@ -30,6 +30,12 @@ class Model {
     protected $timesteamps = true;
 
     /**
+     * Jointure de tables systématiques du type appartient à
+     * @var Array
+     */
+    protected $belongsTo = [];
+
+    /**
      * Requete SQL
      * @var String
      */
@@ -166,9 +172,19 @@ class Model {
     public function get () {
         $this->query = 'SELECT ';
         if ($this->fields === []) $this->query .= '*';
-        else foreach ($this->fields as $val) $this->query .= $val . ',';
+        else foreach ($this->fields as $name => $val) $this->query .= $val . ((is_string($name)) ? ' AS '.$name : '') . ',';
         $this->query = rtrim($this->query,',') . ' FROM ' . ((!empty($this->table)) ? $this->table : strtolower(get_class(__CLASS__)));
         $this->clear();
+
+        if (!empty($this->belongsTo)) {
+            $this->query .= ' INNER JOIN ';
+            foreach ($this->belongsTo as $table => $assoc) {
+                $this->query .= $table . ' ON ';
+                foreach ($assoc as $innerkey => $key)
+                    $this->query .= $this->table.'.'.$innerkey . ' = ' . $table.'.'.$key . ' ';
+            }
+        }
+
         $this->insertWhereClosure();
         $this->insertOrderClosure();
         return $this->getPDO($this->last);
@@ -291,7 +307,7 @@ class Model {
     private function insertOrderClosure () {
         $this->query .= (!empty($this->order)) ? ' ORDER BY ' : '';
         foreach ($this->order as $key => $ord) {
-            $this->query .= $key . ' ' . $ord . ', ';
+            $this->query .= $this->table.'.'.$key . ' ' . $ord . ', ';
         }
         $this->query = rtrim($this->query,', ');
     }

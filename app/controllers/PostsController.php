@@ -14,7 +14,14 @@ class PostsController extends BaseController {
     }
 
     public function show ($id) {
-        $replies = $this->reply->where('post_id',$id)->get();
+        $replies = $this->reply->select([
+            'pseudo' => 'users.pseudo',
+            'content' => 'replies.content',
+            'created_at' => 'replies.created_at',
+            'updated_at' => 'replies.updated_at'])
+                                ->where('post_id',$id)
+                                ->order('id','desc')
+                                ->get();
         $post = $this->post->findFirst($id);
         if (App::$request->isJson()) App::$response->json($post);
         if (empty($post)) throw new NotFoundException("Aucun post ne correspond à l'ID $id");
