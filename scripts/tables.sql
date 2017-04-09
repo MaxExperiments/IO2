@@ -17,6 +17,11 @@ create table posts (
     updated_at timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 );
 
+ALTER TABLE posts
+ADD FOREIGN KEY (user_id)
+REFERENCES users (id)
+ON DELETE CASCADE;
+
 create table replies (
     id int unsigned AUTO_INCREMENT PRIMARY KEY,
     content text NOT NULL,
@@ -27,3 +32,13 @@ create table replies (
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 );
+
+ALTER TABLE replies
+ADD FOREIGN KEY (user_id)
+REFERENCES users (id)
+ON DELETE CASCADE;
+
+ALTER TABLE replies
+ADD FOREIGN KEY (post_id)
+REFERENCES posts (id)
+ON DELETE CASCADE;
