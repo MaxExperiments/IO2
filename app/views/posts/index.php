@@ -13,7 +13,7 @@
             <?= $Html->route('Voir la suite', 'PostsController@show',['id'=>$post->id]) ?>
             <?php if (Session::isAuthenticate()): ?>
                 <?php $Html->addScript('/assets/js/app.js') ?>
-                <?= $Html->route('Détruire', 'PostsController@destroy',
+                <?php if (Session::Auth()->id == $post->user_id) echo $Html->route('Détruire', 'PostsController@destroy',
                                 ['id'=>$post->id],
                                 ['class'=>'button alert','onclick'=>'return destroyPost('.$post->id.')']); ?>
             <?php endif ?>

@@ -54,8 +54,14 @@ class PostsController extends BaseController {
     }
 
     public function destroy ($id) {
-        $this->post->where('id',$id)->delete();
-        if (App::$request->isJson()) App::$response->json(['success' => true]);
+        $post = $this->post->findFirst($id);
+        if (Session::Auth()->id != $post->user_id) {
+            if (App::$request->isJson()) App::$response->json(['success'=>false,'message'=>'Vous ne pouvez pas supprimer ce post']);
+            App::$response->redirect('/posts');
+        }
+        $this->post->last = [];
+        $this->post->delete($id);
+        if (App::$request->isJson()) App::$response->json(['success' => true,'message'=>'Post bien supprimé']);
         App::$response->redirect('/posts');
     }
 

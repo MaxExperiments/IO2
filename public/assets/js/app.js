@@ -20,10 +20,12 @@ var sendAjax = function ($url, $method) {
 
 var destroyPost = function (id) {
     sendAjax('/posts/'+id+'/delete','GET').then(function (data) {
-        if (JSON.parse(data).success) $('#post-'+id).animate({
+        var data = JSON.parse(data);
+        if (data.success) $('#post-'+id).animate({
             height : 0,
             opacity : 0
         },1000);
+        else alert(data.message);
     }, function (status) {
         alert(status);
     });
