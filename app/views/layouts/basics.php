@@ -12,6 +12,16 @@
                 <ul class="dropdown menu">
                     <li class="menu-text">Titre</li>
                     <li><a href="/posts">Posts</a></li>
+                    <li>
+                        <form action="/search" method="get">
+                            <div class="input-group">
+                                <input type="search" name="q" placeholder="Search" class="input-group-field">
+                                <div class="input-group-button">
+                                    <button class="button">Rechercher</button>
+                                </div>
+                            </div>
+                        </form>
+                    </li>
                 </ul>
             </div>
             <div class="top-bar-right">

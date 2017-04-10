@@ -12,6 +12,8 @@ App::$route->get ('/','PostsController@home');
 App::$route->get ('/posts', 'PostsController@index');
 App::$route->get ('/posts/{id}', 'PostsController@show');
 
+App::$route->get('/search','PostsController@search');
+
 App::$route->filter(['!authenticate'], function () {
     App::$route->get ('/login', 'UsersController@login');
     App::$route->post ('/login', 'UsersController@connect');

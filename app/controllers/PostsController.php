@@ -65,4 +65,10 @@ class PostsController extends BaseController {
         App::$response->redirect('/posts');
     }
 
+    public function search() {
+        if (!isset(App::$request->get['q']) || empty(App::$request->get['q'])) $results = [];
+        else $results = $this->post->where('title','like','%'.App::$request->get['q'].'%')->get();
+        App::$response->view('posts.search',['results'=>$results]);
+    }
+
 }

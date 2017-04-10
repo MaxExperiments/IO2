@@ -64,7 +64,7 @@ class Request {
     ];
 
     public function __construct() {
-        $this->url = rtrim($_SERVER['REQUEST_URI'],'/');
+        $this->url = explode('?',rtrim($_SERVER['REQUEST_URI'],'/'))[0];
         $this->get = $_GET;
         $this->post = $_POST;
         App::$session = new Session();

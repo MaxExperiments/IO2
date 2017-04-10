@@ -150,7 +150,7 @@ class Model {
      */
     public function where ($field, $a, $b = null) {
         if ($b === null) $this->where[] = $field . '=\'' . htmlspecialchars($a) . '\'';
-        else $this->where[] = $field . $a . '\'' . htmlspecialchars($b) . '\'';
+        else $this->where[] = $this->table.'.'.$field . ' ' . $a . ' \'' . htmlspecialchars($b) . '\'';
         return $this;
     }
 
