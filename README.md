@@ -3,13 +3,13 @@ Maxime Flin & Louis Gavalda
 
 ## TODOS
 - [x] Touver ce que doit faire le site
-- [ ] Completer le Model pour pouvoir faire des liens entre les tables (join left, join right...)
+- [x] Completer le Model pour pouvoir faire des liens entre les tables (join left, join right...)
 - [x] les updates et inserts dans les tables
 - [x] les supressions dans les tables
 - [x] Ajouter un Helper de liens
 - [ ] Completer le helper form pour gerer tous les types du inputs
 - [x] Faire un systeme de connection utlisateur avec la session
-- [ ] Ajouter comme possibilte depuis le controlleur de renvoyer du json dans la response pour faire de l'ajax
+- [x] Ajouter comme possibilte depuis le controlleur de renvoyer du json dans la response pour faire de l'ajax
 - [x] Trouver ce que doit faire le site
 - [x] Trouver ce que doit faire le site
 - [x] Trouver ce que doit faire le site
