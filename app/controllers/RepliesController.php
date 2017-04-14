@@ -14,4 +14,15 @@ class RepliesController extends BaseController {
         App::$response->referer();
     }
 
+    public function destroy ($id) {
+        $r = $this->reply->select(['user_id'=>'user_id'])->findFirst($id);
+        if (empty($r) || Session::Auth()->id != $r->user_id) {
+            throw new ForbbidenException("Vous ne pouvez pas supprimer ce commantaire");
+        }
+        $this->reply->last = [];
+        $this->reply->delete($id);
+        if (App::$request->isJson()) App::$response->json(['success'=>true,'message'=>'Commentaire bien supprimé']);
+        App::$response->referer();
+    }
+
 }

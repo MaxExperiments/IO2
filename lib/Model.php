@@ -149,7 +149,7 @@ class Model {
      * @return Model          Retourne $this pour pouvoir composer facilement les fonctions
      */
     public function where ($field, $a, $b = null) {
-        if ($b === null) $this->where[] = $field . '=\'' . addslashes($a) . '\'';
+        if ($b === null) $this->where[] = $this->table.'.'.$field . '=\'' . addslashes($a) . '\'';
         else $this->where[] = $this->table.'.'.$field . ' ' . $a . ' \'' . addslashes($b) . '\'';
         return $this;
     }

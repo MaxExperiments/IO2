@@ -39,8 +39,6 @@
 
         <?= App::$response->render() ?>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.3.1/js/foundation.min.js"></script>
         <?php foreach (Html::$scripts as $url): ?>
             <script src="<?= $url ?>"></script>
         <?php endforeach; ?>

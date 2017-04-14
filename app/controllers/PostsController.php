@@ -15,8 +15,10 @@ class PostsController extends BaseController {
 
     public function show ($id) {
         $replies = $this->reply->select([
-            'pseudo' => 'users.pseudo',
-            'content' => 'replies.content',
+            'id'         => 'replies.id',
+            'pseudo'     => 'users.pseudo',
+            'content'    => 'replies.content',
+            'user_id'    => 'users.id',
             'created_at' => 'replies.created_at',
             'updated_at' => 'replies.updated_at'])
                                 ->where('post_id',$id)
@@ -56,8 +58,8 @@ class PostsController extends BaseController {
     public function destroy ($id) {
         $post = $this->post->findFirst($id);
         if (Session::Auth()->id != $post->user_id) {
-            if (App::$request->isJson()) App::$response->json(['success'=>false,'message'=>'Vous ne pouvez pas supprimer ce post']);
-            App::$response->redirect('/posts');
+            throw new ForbbidenException("Vous ne pouvez pas supprimer ce post");
+
         }
         $this->post->last = [];
         $this->post->delete($id);

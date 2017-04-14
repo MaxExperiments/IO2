@@ -21,13 +21,21 @@ var sendAjax = function ($url, $method) {
 var destroyPost = function (id) {
     sendAjax('/posts/'+id+'/delete','GET').then(function (data) {
         var data = JSON.parse(data);
-        if (data.success) $('#post-'+id).animate({
-            height : 0,
-            opacity : 0
-        },1000);
+        if (data.success) document.getElementById('post-'+id).style.display = 'none';
         else alert(data.message);
     }, function (status) {
         alert(status);
+    });
+    return false;
+}
+
+var destroyReply = function (id) {
+    sendAjax('/replies/'+id+'/delete','GET').then(function (data) {
+        var data = JSON.parse(data);
+        if (data.success) document.getElementById('reply-'+id).style.display = 'none';
+        else alert(data.message)
+    }, function (status) {
+        console.log(status);
     });
     return false;
 }

@@ -7,7 +7,7 @@
         <hr>
     </div>
     <?php foreach($posts as $post): ?>
-        <article class="small-offset-2 small-8" id="post-<?= $post->id ?>">
+        <article class="small-offset-2 small-8 js-transition" id="post-<?= $post->id ?>">
             <h3><?= $post->title ?></h3>
             <p><?= $post->content ?></p>
             <?= $Html->route('Voir la suite', 'PostsController@show',['id'=>$post->id]) ?>
