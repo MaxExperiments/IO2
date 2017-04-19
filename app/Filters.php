@@ -20,7 +20,7 @@ trait Filters {
     }
 
     /**
-     * Verifie que la longeure du champ n'excede pas un entier donne
+     * Verifie que la longueur du champ n'excede pas un entier donne
      * @param  String $field  Nom du champ
      * @param  String $val Valeur du champ
      * @param  int $max    Longueure maximale
@@ -31,7 +31,7 @@ trait Filters {
     }
 
     /**
-     * Vérifie que la longuere du champ n'est pas trop petite
+     * Vérifie que la longueur du champ n'est pas trop petite
      * @param  String $field Nom du champ
      * @param  String $val   Valeure du champ
      * @param  int $min      Taille minimum

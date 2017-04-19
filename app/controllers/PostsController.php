@@ -59,7 +59,6 @@ class PostsController extends BaseController {
         $post = $this->post->findFirst($id);
         if (Session::Auth()->id != $post->user_id) {
             throw new ForbbidenException("Vous ne pouvez pas supprimer ce post");
-
         }
         $this->post->last = [];
         $this->post->delete($id);
