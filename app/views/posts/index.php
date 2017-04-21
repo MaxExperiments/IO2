@@ -7,7 +7,7 @@
         <hr>
     </div>
     <?php foreach($posts as $post): ?>
-        <article class="small-offset-2 small-8 js-transition" id="post-<?= $post->id ?>">
+        <article class="small-offset-2 small-8" data-id="<?= $post->id ?>" data-ressource-type="posts">
             <h3><?= $post->title ?></h3>
             <p><?= $post->content ?></p>
             <?= $Html->route('Voir la suite', 'PostsController@show',['id'=>$post->id]) ?>
@@ -15,7 +15,7 @@
                 <?php $Html->addScript('/assets/js/app.js') ?>
                 <?php if (Session::Auth()->id == $post->user_id) echo $Html->route('Détruire', 'PostsController@destroy',
                                 ['id'=>$post->id],
-                                ['class'=>'button alert','onclick'=>'return destroyPost('.$post->id.')']); ?>
+                                ['class'=>'button alert del-button']); ?>
             <?php endif ?>
         </article>
     <?php endforeach ?>

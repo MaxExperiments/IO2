@@ -1,41 +1,42 @@
-/**
- * Fichier contenant les scripts ajax de la page
- */
+(function ($) {
 
-var sendAjax = function ($url, $method) {
-    return new Promise(function(resolve, reject) {
-        var xhr = new XMLHttpRequest();
-        xhr.open($method,$url,true);
-        xhr.setRequestHeader('Content-type','application/json')
-        xhr.onload = function () {
-            if (xhr.status == 200) {
-                resolve(xhr.response);
-            } else {
-                reject(xhr.status);
+    var del = function (e) {
+        e.preventDefault();
+        var target = $(this).closest('article');
+
+        $.ajax({
+            url : '/'+(target.attr('data-ressource-type'))+'/'+(target.attr('data-id'))+'/delete',
+            contentType : 'application/json',
+            success :  function (data) {
+                target.animate({
+                    height : 0
+                }, 500, function () {
+                    target.remove();
+                });
             }
-        }
-        xhr.send();
-    });
-}
+        });
+    };
 
-var destroyPost = function (id) {
-    sendAjax('/posts/'+id+'/delete','GET').then(function (data) {
-        var data = JSON.parse(data);
-        if (data.success) document.getElementById('post-'+id).style.display = 'none';
-        else alert(data.message);
-    }, function (status) {
-        alert(status);
-    });
-    return false;
-}
+    $('.del-button').click(del);
 
-var destroyReply = function (id) {
-    sendAjax('/replies/'+id+'/delete','GET').then(function (data) {
-        var data = JSON.parse(data);
-        if (data.success) document.getElementById('reply-'+id).style.display = 'none';
-        else alert(data.message)
-    }, function (status) {
-        console.log(status);
+    $('#reply-form').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+            type : 'post',
+            url : '/replies',
+            data : $(this).serialize(),
+            contentType : 'application/x-www-form-urlencoded',
+            dataType : 'json',
+            success :  function (data) {
+                $('#reply-form textarea').val('');
+                var text = $('.reply-template').html();
+                Object.keys(data.reply).forEach(function (key) {
+                    text = text.replace('{{ '+key+' }}',data.reply[key]);
+                });
+                $('.replies-content').prepend(text);
+                $('.replies-content article:first').click(del).css('opacity',0).animate({opacity:1},500);
+            }
+        });
     });
-    return false;
-}
+
+})(jQuery);

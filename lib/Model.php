@@ -60,6 +60,20 @@ class Model {
     protected $order = [];
 
     /**
+     * Première valeure selectionnée
+     * Faux si n'est pas précisé
+     * @var int|boolean
+     */
+    protected $from = false;
+
+    /**
+     * Nombre de valeures maximum a selectionner
+     * Faux si n'est pas précisé
+     * @var int|boolean
+     */
+    protected $number = false;
+
+    /**
      * Tous les champs a hasher dans la base de donnée
      * @var Array
      */
@@ -166,6 +180,17 @@ class Model {
     }
 
     /**
+     * Modifie les valeures de limites de la selection
+     * @param  int|boolean $f premiere indice a selectionner
+     * @param  int|boolean $n nombre d'indices a selectionner
+     */
+    public function limit($f,$n) {
+        $this->from = $f;
+        $this->number = $n;
+        return $this;
+    }
+
+    /**
      * Fait une selection dans la table du model avec les contraintes definies au prealables
      * @return Array
      */
@@ -187,6 +212,7 @@ class Model {
 
         $this->insertWhereClosure();
         $this->insertOrderClosure();
+        $this->insertLimitClosure();
         return $this->getPDO($this->last);
     }
 
@@ -304,12 +330,23 @@ class Model {
         $this->query = rtrim($this->query,' AND ');
     }
 
+    /**
+     * Ajoute les contraintes d'ordres sur les colonnes
+     */
     private function insertOrderClosure () {
         $this->query .= (!empty($this->order)) ? ' ORDER BY ' : '';
         foreach ($this->order as $key => $ord) {
             $this->query .= $this->table.'.'.$key . ' ' . $ord . ', ';
         }
         $this->query = rtrim($this->query,', ');
+    }
+
+    /**
+     * Ajoute les contraintes de limites sur les données selectionnées
+     */
+    private function insertLimitClosure () {
+        if ($this->from && $this->number) $this->query .= ' LIMIT ' . $this->from . ',' . $this->number;
+        else if ($this->number) $this->query .= ' LIMIT ' . $this->number; 
     }
 
     private function clear () {

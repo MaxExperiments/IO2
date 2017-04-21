@@ -11,6 +11,15 @@ class RepliesController extends BaseController {
         App::$request->filterPost();
         App::$request->post['user_id'] = Session::Auth()->id;
         $this->reply->insert(App::$request->post);
+        if (App::$request->isJson()) {
+            $reply = $this->reply->selectFillable()
+                                ->where('user_id',Session::Auth()->id)
+                                ->where('post_id',App::$request->post['post_id'])
+                                ->order('id','desc')
+                                ->limit(false,1)
+                                ->get();
+            App::$response->json(['success'=>true,'message'=>'Commentaire bien ajouté','reply'=>$reply[0]]);
+        }
         App::$response->referer();
     }
 

@@ -39,6 +39,7 @@
 
         <?= App::$response->render() ?>
 
+        <script type="text/javascript" src="/assets/js/jquery.min.js"></script>
         <?php foreach (Html::$scripts as $url): ?>
             <script src="<?= $url ?>"></script>
         <?php endforeach; ?>

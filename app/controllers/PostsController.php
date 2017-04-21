@@ -14,13 +14,7 @@ class PostsController extends BaseController {
     }
 
     public function show ($id) {
-        $replies = $this->reply->select([
-            'id'         => 'replies.id',
-            'pseudo'     => 'users.pseudo',
-            'content'    => 'replies.content',
-            'user_id'    => 'users.id',
-            'created_at' => 'replies.created_at',
-            'updated_at' => 'replies.updated_at'])
+        $replies = $this->reply->selectFillable()
                                 ->where('post_id',$id)
                                 ->order('id','desc')
                                 ->get();
@@ -57,7 +51,7 @@ class PostsController extends BaseController {
 
     public function destroy ($id) {
         $post = $this->post->findFirst($id);
-        if (Session::Auth()->id != $post->user_id) {
+        if (empty($post) || Session::Auth()->id != $post->user_id) {
             throw new ForbbidenException("Vous ne pouvez pas supprimer ce post");
         }
         $this->post->last = [];
