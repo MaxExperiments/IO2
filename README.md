@@ -52,7 +52,7 @@ Dans cette partie nous allons détailler ces étapes du développement.
 #### A) Les routes
 Le fichier routes.php se trouvant à la base du dossier `app` contient toutes les urls auquelles l'application est capable d'associer un controller et une action, c'est à dire une méthode de ce controller. On décrit les urls de la manière suivante:
 
-```
+```php
     App::$route->get(url, action) // pour une requete de type GET uniquement
     App::$route->post(url, action) // pour une requete de type POST uniquement
     App::$route->put(url, action) // pour une requete de type PUT uniquement
@@ -63,14 +63,14 @@ Dans les lignes précédentes `url` est l'url appellé dans la requette. On peux
 Il faut cependant spécifier le type du paramètre avec une regex. Pour ce faire on utilise la fonction `App::$route->setPattern(nom,regex)`. Alors la router cherchera le paramètre d'url de manière à ce qu'il corresponde à l'expression régulière donnée. Dans le cas des posts décrit au dessus on ajouterait le code suivant au ficher `app/routes.php`:
 
 
-```
+```php
     App::$route->setPattern('id','[0-9]+');
     App::$route->get('/posts/{id}', 'Controller@methode');
 ```
 
 Le Router donne aussi la possibilité de mettre des filtres sur les urls. Par exemple les pages de création de posts étant réservés aux utilisateurs connectés, on ajoute un filtre "authenticate" à cette url:
 
-```
+```php
     App::$route->filter(['authenticate'], function () {
         App::$route->get('/posts/new', 'Controller@method');
     });
@@ -78,7 +78,7 @@ Le Router donne aussi la possibilité de mettre des filtres sur les urls. Par ex
 
 Ainsi la fonction donnée en paramètre n'est executé que si **tous** les filtres du tableau renvoient true. On peut aussi prendre la négation d'un filtre et ajouter un ensemble d'urls dans le cas ou **au moins un** des filtres n'est pas validé. 
 
-```
+```php
     App::$route->filter(['filtre1','!negation', function () {
         // si tous les filtres sont validés   
     }, function () {
@@ -91,17 +91,82 @@ On a vu dans la section précédente comment l'application web redirigais dynami
 
 Un controller est une classe qui hérite de `BaseController` et qui se trouve dans le dossier `app/controllers/BaseController.php`. Le fichier dans lequel se trouve le controller doit être `app/controller/NomController.php`où nom est le nom du controller. PostsController ou UsersController par exemple. Le code minimum d'un controller est donc:
 
-```
+```php
     class PostsController extends BaseController {
 
     }
 ```
 
 Le controller a plusieurs attributs qui peuvent être modifiés selon les besoins:
-    * Le layout: `$this->layout` est le nom de la vue globale dans laquelle on ajoute le contenu des vues chargées dans les controller
-    * Les models: `$this->model` est le tableau de tous les models a charger dans les controller quand il est appellé par l'application
-    * Les helpers: `$this->autoLoadHelpers` est un tableau de tous les helpers chargées dans les vues
+* Le layout: `$this->layout` est le nom de la vue globale dans laquelle on ajoute le contenu des vues chargées dans les controller
+* Les models: `$this->model` est le tableau de tous les models a charger dans les controller quand il est appellé par l'application
+* Les helpers: `$this->autoLoadHelpers` est un tableau de tous les helpers chargées dans les vues
 
 Ces attributs sont spécifiques pour chaque controller et valent respectivement par défaut "basics", \["NomDuControllerAuSingulier"\] et \["Html"\]. Ils peuvent être changés à tout moments dans le controller. 
+
+Admettons maintenant que la route appelle l'action `PostsController@index`. Alors la méthode `index` de la classe `PostsController` sera appellée. La syntaxe pour cette méthode est la suivante:
+
+```php
+    class PostsController extends BaseController {
+        
+        public function index ($param_url1, $param_url2) {
+            // je fais mes actions: requêtes sql, traitement des données
+        }
+
+    }
+```
+
+On remarque que les paramètres d'url définis dans les routes apparaisent dans les paramètres de la méthode alors appellée.
+
+On doit alors renvoyer une vue. Pour ce faire on appelle l'object `Response` dont l'instance est dans la class `App`. Les détails de cet objet serons donnés plus tard. Pour renvoyer une vue on utilise la fonction `requireView`. Cette fonction va stocker le contenu de ce qu'affiche la vue dans une variable et la retourner. Elle prend plusieurs paramètres: 
+* le chemin depuis `app/view` avec comme séparateurs pour les dossiers un point 
+* un tableau associatif des variables à injecter dans la vue
+* les helpers dont la vue peut avoir besoin
+
+Si cette vue est l'affichage définitif de la page on peut utiliser la fonction `view` de l'objet Response toujours qui va injecter cette vue dans le layout défini.
+
+Le code deviens donc
+```php
+    class PostsController extends BaseController {
+        
+        public function index () {
+            // selection via un model des post dans la variable $posts
+            App::$response->view('posts.index',['posts'=>$posts]);
+        }
+
+    }
+```
+
+### C) Les Models
+On veux maintenant pouvoir selectionner les éléments dans la base de données. Pour ce faire on utilise des models. Les models se trouvent dans le dossier `app/models`. Ces classes héritent toutes de la classe `Model` qui gère la plupart des cas que l'application doit gerer. Les models définient au cours du développement du site sont donc réduits à un ensemble de variables qui définissent la structure de la base de données. 
+Les variables à définir sont donc 
+* `$table` le nom de la table associée au model
+* `$belongsTo` un tableau de toutes la relations du type "appartient à". Par exemple un post appartient à un utilisateur. Ce champs activera la selection automatique de l'utilisateur associé à un post.
+* `$hash` les variables a crypter dans la base de données 
+* `$attributes` le type de champs de la base de données. On entend par type le type de formulaire associé au champ
+* `$validation` un tableau des filtres a valider par les données pour être misent dans la base de données
+
+Ainsi le model `app/models/Post.php` s'écrit par exemple:
+
+```php
+    class Post extends Model {
+        
+        protected $table = 'posts';
+
+        public $attributes = [
+            'title' => 'text',
+            'content' => 'textarea'
+        ];
+
+        public $validation = [
+            'title' => ['required','max:50'],
+            'content' => ['required, 'min:10']
+        ]
+    }
+```
+
+Une fois le model définit il faut l'utiliser dans les controller. 
+
+
 
 ![](https://i.imgur.com/5dq1Uvu.jpg)
