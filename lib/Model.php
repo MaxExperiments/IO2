@@ -123,7 +123,8 @@ class Model {
         'required' => 'Vous devez remplir ce champ',
         'max'      => 'Trop long',
         'min'      => 'Trop court',
-        'unique'   => 'Déja pris'
+        'unique'   => 'Déja pris',
+        'match'    => 'Caractères interdits'
     ];
 
     /**
@@ -346,7 +347,7 @@ class Model {
      */
     private function insertLimitClosure () {
         if ($this->from && $this->number) $this->query .= ' LIMIT ' . $this->from . ',' . $this->number;
-        else if ($this->number) $this->query .= ' LIMIT ' . $this->number; 
+        else if ($this->number) $this->query .= ' LIMIT ' . $this->number;
     }
 
     private function clear () {

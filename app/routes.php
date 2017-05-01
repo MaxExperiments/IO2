@@ -29,5 +29,9 @@ App::$route->filter(['!authenticate'], function () {
     App::$route->put ('/replies', 'RepliesController@store');
     App::$route->get('/replies/{id}/delete', 'RepliesController@destroy');
 
+    App::$route->get('/users/', 'UsersController@index');
+    App::$route->post('/users/', 'UsersController@update');
+    App::$route->get('/users/{id}', 'UsersController@show');
+
     App::$route->get ('/logout', 'UsersController@logout');
 });

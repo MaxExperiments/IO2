@@ -165,8 +165,124 @@ Ainsi le model `app/models/Post.php` s'écrit par exemple:
     }
 ```
 
-Une fois le model définit il faut l'utiliser dans les controller. 
+Une fois le model définit il faut l'utiliser dans les controller. Pour ce faire on appelle l'instance du model charge dans le controller et on utilise les méthodes suivantes.
 
+#### Pour selectionner des données
+On utilise la méthode get. Par exemple 
 
+```php
+    $posts = $this->post->get();
+```
+
+On peut ajouter à cet appel des conditions comme un ordre, les champs à selectionner ou encore des conditions sur ces champs. Ces fonctions sont faites pour êtres composées avant l'appel de le méthode get. Ainsi on utilise la syntaxe suivante
+
+```
+    $posts = $this->post
+                    ->select(['alias1'=>col1','alias2'=>'col2'])
+                    ->order('id','desc')
+                    ->where('col3','>','2')
+                    ->get();
+```
+La seule contrainte est d'appeller le `get` en dernier. 
+
+#### Pour inserer des données
+```php
+    $this->post->insert([
+        'col1' => 'val1',
+        'col2' => 'val2',
+        // ...
+    ]);
+```
+
+#### Pour modifier des données
+```php
+    $this->post->update ([
+        'col1' => 'newval1',
+        'col2' => 'newval2',
+        // ...
+    ]);
+```
+
+Pour la méthode update on peut aussi composer la fonction `where`
+
+#### Pour supprimer des données 
+On utilise la méthode `delete` qui a une syntaxe et une utilisation identique à la méthode get.
+
+### D) Les Filtres
+On a parlé précédement pour les models et pour les routes de filtres. Nous allons ici en parler plus précisément et expliquer comment créer de nouveaux filtres. Tous les filtres se trouvent dans le fichier `app/Filters.php`. On trouve dans ce fichier 2 namespaces: `Router` et `Model`. Ces deux namespaces ont chacun un trait du nom de `Filters` qui contient tous les filtres du Router (resp. du Model). Pour ajouter un filtre il suffit d'ajouter une fonction dans le trait qui correspond. Ces fonctions doivent retourner `true` si les filtre est validé `false` sinon. 
+
+Un exemple de filtre pour le model:
+
+```php
+    /**
+     * Verifie que la longueur du champ n'excede pas un entier donne
+     * @param  String $field  Nom du champ
+     * @param  String $val Valeur du champ
+     * @param  int $max    Longueure maximale
+     * @return Boolean
+     */
+    function max($field, $val, $max) {
+        return strlen($val) <= $max;
+    }
+```
+
+et pour les routes:
+
+```php
+    /**
+     * Teste la connection d'un utilisateur
+     * @return Boolean True si un utilisateur est connecté dans la session
+     */
+    function authenticate () {
+        return \Session::isAuthenticate();
+    }
+```
+
+On remarquera que les filtres peuvent prendre des paramètres qui apparaissent apres `$field` et `$val`. Dans les tableaux associatif des models les paramètres sont séparées par `:`.
+
+### E) Les Helpers
+Les Helpers sont des classes aux fonction utilitaires dans les vues. Pour generer des liens ou des formulaires de facons générique à tout le site par exemple. Ils se trouvent dans le dossier `app/helpers`. Les helpers sont appellées au moment de charger une vue dans le controller. Par exemple:
+
+```php
+    App::$response->view('posts.show', ['post'=>$post,'replies'=>$replies],['Form'=>[$this->reply]]);
+```
+
+Ici on charge le helper `Form` crée préalablement. Le tableau auquel il est associé est l'ensemble des paramètres à passer au constructeur. Dans le cas de ce helper il prend pour unique paramètre le Model lié au formulaire que l'on souhaite créer. 
+
+Ce helper regroupe un ensemble de fonctions qui peuvent être appellées dans la vue de la manière suivante par exemple:
+
+```php
+    <?= $Form->createForm($method, ['class'=>'form']) ?>
+        <?= $Form->input('title', 'Titre',['id'=>['unID']]) ?>
+        <?= $Form->input('content', 'Contenu') ?>
+        <?= $Form->submit('Valider') ?>
+    <?= $Form->endForm() ?>
+```
+
+On notera que l'utilisation d'un helper dépend entièrement de la façon dont il est fait.
+
+### F) Les exceptions
+A cause, ou grâce, à la redirection d'url le server ne peux prendre en compte quasiement aucune erreur hors mis les erreurs internes comises par les développeurs incompétents. Il faut donc créer un système qui permette à l'application de renvoyer des erreurs. Ce système se retrouve dans les exceptions. Quand on veux par exemple renvoyer une erreur du type `404 - Not Found` dans le php on tape le code suivant: 
+
+```php
+    throw new NotFoundException("Page introuvable");
+```
+
+Cet appel de fonction va appeller la classe `NotFoundException` qui hérite de `HttpException` et qui se trouve dans `app/exceptions`. Le constructeur de cette classe va appeller le contructeur parent qui va interrompre le bon déroulement de l'application pour afficer une page d'erreur. Dans le constructeur de `NotFoundException` on peut effectuer des opérations qui dépendent de ce que l'on veux faire, comme mettre un layout précis ou encore rediriger l'utilisateur. Dans notre cas nous avons opté pour un code simple:
+
+```php
+    class NotFoundException extends BaseException {
+
+        protected $code = 404;
+
+        public function __construct($message, Exception $previous = null) {
+            App::$response->setStatusCode($this->code);
+            parent::__construct($message, $this->code, $previous);
+        }
+
+    }
+```
+
+L'exception parente (`HttpException`) se charge d'appeller la fonction `err{code\_de\_l\_erreur}` dans le controller `ErrorsController` si l'application est configurée en mode `prod` et appelle le fonction `__dev` sinon. On a pu gérer de manière simple et rapide la gestions des erreurs dans notre code.
 
 ![](https://i.imgur.com/5dq1Uvu.jpg)

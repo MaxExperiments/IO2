@@ -53,6 +53,10 @@ trait Filters {
         return $ret;
     }
 
+    function match ($fiels, $val, $regex) {
+        return preg_match($regex,$val);
+    }
+
 }
 
 }

@@ -2,6 +2,26 @@
 
 class UsersController extends BaseController {
 
+    public function index () {
+        $this->user->findFirst(Session::Auth()->id);
+        App::$response->view('users.index',['user'=>Session::Auth()],['Form'=>[$this->user]]);
+    }
+
+    public function update () {
+        if(empty(App::$request->post['password'])) unset(App::$request->post['password']);
+        $this->validate ($this->user, App::$request->post);
+        App::$request->filterPost();
+        $this->user->where('id',Session::Auth()->id)->update(App::$request->post);
+        Session::authUpdate(App::$request->post);
+        App::$response->redirect('/users/');
+    }
+
+    public function show ($id) {
+        $user = $this->user->findFirst($id);
+        if (empty($user)) throw new NotFoundException ("Aucun utilisateur ne correspond à cet identifiant");
+        App::$response->view('users.show', ['user'=>$user]);
+    }
+
     /**
      * Formulaire de connection
      */

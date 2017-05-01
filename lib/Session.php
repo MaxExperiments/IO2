@@ -107,4 +107,9 @@ class Session  {
         return self::$user;
     }
 
+    public static function authUpdate($vals) {
+        foreach ($vals as $key => $value)
+            if (isset($_SESSION['user']->$key)) $_SESSION['user']->$key = $value;
+    }
+
 }

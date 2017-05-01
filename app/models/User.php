@@ -13,7 +13,7 @@ class User extends Model {
     public $validation = [
         'email' => ['required','min:3'],
         'password' => ['required','min:6'],
-        'pseudo' => ['required']
+        'pseudo' => ['required','match:/^[a-zA-Z0-9]+$/']
     ];
 
 }
