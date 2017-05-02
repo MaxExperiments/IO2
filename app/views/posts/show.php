@@ -1,6 +1,7 @@
 <div class="row">
     <div class="small-offset-2 small-8">
         <h3><?= $post->title ?></h3>
+        <div class="lead">Un post de <a href="/users/<?= $post->user_id ?>"><?= $post->pseudo ?></a> <img src="<?= ($post->photo!=null) ? $post->photo : '/assets/imgs/default-user-img.png' ?>" alt=""></div>
         <hr>
         <?= $post->content ?>
     </div>

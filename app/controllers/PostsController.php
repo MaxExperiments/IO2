@@ -9,7 +9,7 @@ class PostsController extends BaseController {
     }
 
     public function index() {
-        $posts = $this->post->order('id','DESC')->findAll();
+        $posts = $this->post->selectFillable()->order('id','DESC')->findAll();
         App::$response->view ('posts.index',['posts'=>$posts]);
     }
 
@@ -18,7 +18,7 @@ class PostsController extends BaseController {
                                 ->where('post_id',$id)
                                 ->order('id','desc')
                                 ->get();
-        $post = $this->post->findFirst($id);
+        $post = $this->post->selectFillable()->findFirst($id);
         if (App::$request->isJson()) App::$response->json($post);
         if (empty($post)) throw new NotFoundException("Aucun post ne correspond à l'ID $id");
         $this->reply->last = [];
@@ -62,7 +62,11 @@ class PostsController extends BaseController {
 
     public function search() {
         if (!isset(App::$request->get['q']) || empty(App::$request->get['q'])) $results = [];
-        else $results = $this->post->where('title','like','%'.App::$request->get['q'].'%')->get();
+        else $results = $this->post
+            ->selectFillable()
+            ->where('title','like','%'.App::$request->get['q'].'%')
+            ->or('content','like','%'.App::$request->get['q'].'%')
+            ->get();
         App::$response->view('posts.search',['results'=>$results]);
     }
 

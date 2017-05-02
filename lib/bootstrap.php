@@ -17,7 +17,7 @@
 
 // quelques constantes utiles en plus
 define('LIB', ROOT . DS . 'lib' . DS);
-define('PUBLIC', ROOT . DS . 'public' . DS);
+define('PUBLIC_DIR', ROOT . DS . 'public' . DS);
 define('TMP', ROOT . DS . 'tmp' . DS);
 define('APP', ROOT . DS . 'app' . DS);
 

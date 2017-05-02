@@ -66,7 +66,8 @@ class Request {
     public function __construct() {
         $this->url = explode('?',rtrim($_SERVER['REQUEST_URI'],'/'))[0];
         $this->get = $_GET;
-        $this->post = $_POST;
+        $this->post = array_merge($_POST,$_FILES);
+
         App::$session = new Session();
         $this->method = strtolower($_SERVER['REQUEST_METHOD']);
         $this->referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : false;

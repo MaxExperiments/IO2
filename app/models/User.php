@@ -7,13 +7,21 @@ class User extends Model {
     public $attributes = [
         'email' => 'email',
         'password' => 'password',
-        'pseudo' => 'text'
+        'pseudo' => 'text',
+        'photo' => 'file'
     ];
 
     public $validation = [
         'email' => ['required','min:3'],
         'password' => ['required','min:6'],
-        'pseudo' => ['required','match:/^[a-zA-Z0-9]+$/']
+        'pseudo' => ['required','match:/^[a-zA-Z0-9]+$/'],
+        'photo' => ['isImage','maxImageSize:500000','fileType:jpg,png,jpeg,gif']
     ];
+
+    public function moveFile ($field) {
+        $path = 'imgs' . DS . time() . rand(0,100) . '.' . pathinfo(App::$request->post[$field]['name'], PATHINFO_EXTENSION);
+        move_uploaded_file(App::$request->post[$field]['tmp_name'], PUBLIC_DIR . $path);
+        App::$request->post[$field] = '/' . $path;
+    }
 
 }

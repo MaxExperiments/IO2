@@ -48,6 +48,12 @@ class Model {
     protected $where = [];
 
     /**
+     * Toutes les conditions en OR
+     * @var array
+     */
+    protected $or  = [];
+
+    /**
      * Tous les champs a selectionner
      * @var array
      */
@@ -124,7 +130,10 @@ class Model {
         'max'      => 'Trop long',
         'min'      => 'Trop court',
         'unique'   => 'Déja pris',
-        'match'    => 'Caractères interdits'
+        'match'    => 'Caractères interdits',
+        'isImage'  => 'Ce fichier doit être une image',
+        'maxImageSize' => 'Image trop grande',
+        'fileType' => 'Type de fichier non supporté'
     ];
 
     /**
@@ -166,6 +175,19 @@ class Model {
     public function where ($field, $a, $b = null) {
         if ($b === null) $this->where[] = $this->table.'.'.$field . '=\'' . addslashes($a) . '\'';
         else $this->where[] = $this->table.'.'.$field . ' ' . $a . ' \'' . addslashes($b) . '\'';
+        return $this;
+    }
+
+    /**
+     * Ajoute des contraintes a la requete avec le mot clef WHERE et le séparateur OR
+     * @param  String $field  La nom du champ sur lequel s'applique la condition
+     * @param  String $a      La valeure du champ ou le comparateur si $b est non nul
+     * @param  String $b      Si $b est non nul il est la valeure du champ
+     * @return Model          Retourne $this pour pouvoir composer facilement les fonctions
+     */
+    public function or ($field, $a, $b) {
+        if ($b === null) $this->or[] = $this->table.'.'.$field . '=\'' . addslashes($a) . '\'';
+        else $this->or[] = $this->table.'.'.$field . ' ' . $a . ' \'' . addslashes($b) . '\'';
         return $this;
     }
 
@@ -308,7 +330,7 @@ class Model {
             if (array_key_exists($field, $this->validation)) {
                 foreach ($this->validation[$field] as $filter) {
                     $f = explode(':', $filter);
-                    array_splice($f, 1, 0, $value);
+                    array_splice($f, 1, 0, [$value]);
                     array_splice($f, 1, 0, $field);
 
                     if (!call_user_func_array([$this,$f[0]], array_slice($f, 1))) {
@@ -329,6 +351,10 @@ class Model {
         $this->query .= (!empty($this->where)) ? ' WHERE ' : '';
         foreach ($this->where as $value) $this->query .= $value . ' AND ';
         $this->query = rtrim($this->query,' AND ');
+
+        $this->query .= (!empty($this->or)) ? ' OR ' : '';
+        foreach ($this->or as $value) $this->query .= $value . ' OR ';
+        $this->query = rtrim($this->query,' OR ');
     }
 
     /**

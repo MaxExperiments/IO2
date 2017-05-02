@@ -176,7 +176,7 @@ On utilise la méthode get. Par exemple
 
 On peut ajouter à cet appel des conditions comme un ordre, les champs à selectionner ou encore des conditions sur ces champs. Ces fonctions sont faites pour êtres composées avant l'appel de le méthode get. Ainsi on utilise la syntaxe suivante
 
-```
+```php
     $posts = $this->post
                     ->select(['alias1'=>col1','alias2'=>'col2'])
                     ->order('id','desc')

@@ -2,6 +2,8 @@
 
 class UsersController extends BaseController {
 
+    protected $models = ['User','Post'];
+
     public function index () {
         $this->user->findFirst(Session::Auth()->id);
         App::$response->view('users.index',['user'=>Session::Auth()],['Form'=>[$this->user]]);
@@ -9,8 +11,10 @@ class UsersController extends BaseController {
 
     public function update () {
         if(empty(App::$request->post['password'])) unset(App::$request->post['password']);
+        if(empty(App::$request->post['photo'])) unset(App::$request->post['photo']);
         $this->validate ($this->user, App::$request->post);
         App::$request->filterPost();
+        $this->user->moveFile('photo');
         $this->user->where('id',Session::Auth()->id)->update(App::$request->post);
         Session::authUpdate(App::$request->post);
         App::$response->redirect('/users/');
@@ -18,8 +22,12 @@ class UsersController extends BaseController {
 
     public function show ($id) {
         $user = $this->user->findFirst($id);
+        $posts = $this->post
+                        ->select(['id'=>'posts.id','title'=>'posts.title','created_at'=>'posts.created_at','content'=>'posts.content','user_id'=>'user_id'])
+                        ->where('user_id',Session::Auth()->id)
+                        ->get();
         if (empty($user)) throw new NotFoundException ("Aucun utilisateur ne correspond à cet identifiant");
-        App::$response->view('users.show', ['user'=>$user]);
+        App::$response->view('users.show', ['user'=>$user,'posts'=>$posts]);
     }
 
     /**
@@ -62,8 +70,12 @@ class UsersController extends BaseController {
      */
     public function store () {
         $this->user->validation['email'][] = 'unique';
+        if (empty(App::$request->post['photo']['name'])) unset(App::$request->post['photo']);
         $this->validate($this->user, App::$request->post);
         App::$request->filterPost();
+
+        if (isset(App::$request->post['photo'])) $this->user->moveFile('photo');
+
         $this->user->insert(App::$request->post);
         App::$response->redirect('/login');
     }

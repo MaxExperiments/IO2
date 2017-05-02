@@ -53,9 +53,23 @@ trait Filters {
         return $ret;
     }
 
-    function match ($fiels, $val, $regex) {
+    function match ($fields, $val, $regex) {
         return preg_match($regex,$val);
     }
+
+    function isImage ($field, $val) {
+        return getimagesize($val['tmp_name']) !== false;
+    }
+
+    function maxImageSize ($field, $val, $max) {
+        return $val["size"] < $max;
+    }
+
+    function fileType ($field, $val, $extentions) {
+        $allowed = explode(',',$extentions);
+        $ext = pathinfo($val['name'], PATHINFO_EXTENSION);
+        return in_array($ext, $allowed);
+    } 
 
 }
 
