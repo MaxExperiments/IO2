@@ -1,5 +1,7 @@
 <div class="row">
     <div class="small-offset-2 small-8">
+    <h2>Créer un post</h2>
+    <hr>
     <?= $Form->createForm($method, ['class'=>'form']) ?>
         <?= $Form->input('title', 'Titre',['id'=>['unID']]) ?>
         <?= $Form->input('content', 'Contenu') ?>

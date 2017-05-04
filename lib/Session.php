@@ -107,6 +107,18 @@ class Session  {
         return self::$user;
     }
 
+    /**
+     * Getter du token de la session
+     * @return String token
+     */
+    public static function token () {
+        return $_SESSION['user']->token;
+    }
+
+    /**
+     * Modifie les attributs de l'utilisateur dans la session
+     * @param  Array $vals Tableau associatif des nouvelles valeures
+     */
     public static function authUpdate($vals) {
         foreach ($vals as $key => $value)
             if (isset($_SESSION['user']->$key)) $_SESSION['user']->$key = $value;

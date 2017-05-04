@@ -1,5 +1,7 @@
 <div class="row">
     <div class="small-offset-2 small-8">
+        <h2>S'inscrire</h2>
+        <hr>
         <?= $Form->createForm('post',['class'=>'form','enctype'=>'multipart/form-data']) ?>
             <?= $Form->input('pseudo','Pseudo',['placeholder'=>'Ex: lOuisDu77']) ?>
             <?= $Form->input('email','Email',['placeholder'=>'Ex: prenom@nom.fr']) ?>

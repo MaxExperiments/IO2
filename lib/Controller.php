@@ -20,6 +20,8 @@ class Controller {
      */
     protected $autoLoadHelpers = [];
 
+    protected $csrf = ['destroy'];
+
     /**
      * Constructeur qui appelle la fonction definie dans la route
      * @param Array|null $params Les paramètres a passer a la fonction
@@ -36,6 +38,9 @@ class Controller {
             if (!class_exists($model)) throw new InternalServerException("La classe $model n'existe pas");
 
             $this->$model = new $model();
+        }
+        if (in_array(App::$request->func, $this->csrf)) {
+            if(!isset(\App::$request->post['__token']) || \Session::token() == \App::$request->post['__token']) throw new ForbbidenException("Requête de supression invalide");
         }
         call_user_func_array([$this,App::$request->func], $params);
     }

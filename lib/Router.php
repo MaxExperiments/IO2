@@ -28,19 +28,19 @@ class Router {
      * @param  callable $then    Fonction a executer si tous les filtres passent
      * @param  callable $else    Fonction a executer si un des filtres n'est pas vrai
      */
-    public function filter ($filters, callable $then, callable $else) {
+    public function filter ($filters, callable $then, callable $else = null) {
         foreach ($filters as $filter) {
             $f = explode (':', $filter);
             if ($f[0][0]=='!') {
                 if (!method_exists($this,trim($f[0],'!'))) throw new InternalServerException("Le filtre $f[0] n'existe pas");
                 if (call_user_func_array([$this,trim($f[0],'!')],array_slice($f,1))) {
-                    $else();
+                    if ($else != null ) $else();
                     return false;
                 }
             } else {
                 if (!method_exists($this,$f[0])) throw new InternalServerException("Le filtre $f[0] n'existe pas");
                 if (!call_user_func_array([$this,$f[0]],array_slice($f,1))) {
-                    $else();
+                    if ($else != null ) $else();
                     return false;
                 }
             }

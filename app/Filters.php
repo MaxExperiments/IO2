@@ -90,7 +90,6 @@ trait Filters {
     function json () {
         return \App::$request->getContentType() == 'application/json';
     }
-
 }
 
 }

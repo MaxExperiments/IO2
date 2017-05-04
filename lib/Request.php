@@ -60,6 +60,7 @@ class Request {
      */
     protected static $global = [
         '__method',
+        '__token',
         'submit'
     ];
 

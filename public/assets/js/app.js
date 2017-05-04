@@ -34,7 +34,8 @@
                     text = text.replace('{{ '+key+' }}',data.reply[key]);
                 });
                 $('.replies-content').prepend(text);
-                $('.replies-content article:first').click(del).css('opacity',0).animate({opacity:1},500);
+                $('.replies-content article:first').css('opacity',0).animate({opacity:1},500);
+                $('.del-button').click(del);
             }
         });
     });

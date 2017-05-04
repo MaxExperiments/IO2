@@ -9,3 +9,6 @@
         </div>
     <?php endif; ?>
     <input type="hidden" name="__method" value="<?= $method ?>">
+    <?php if (Session::isAuthenticate()): ?>
+        <input type="hidden" name="__token" value="<?= Session::token() ?>">
+    <?php endif ?>
