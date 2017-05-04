@@ -178,7 +178,7 @@ On peut ajouter à cet appel des conditions comme un ordre, les champs à select
 
 ```php
     $posts = $this->post
-                    ->select(['alias1'=>col1','alias2'=>'col2'])
+                    ->select(['alias1'=>'col1','alias2'=>'col2'])
                     ->order('id','desc')
                     ->where('col3','>','2')
                     ->get();
