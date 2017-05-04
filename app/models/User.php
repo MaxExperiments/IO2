@@ -15,7 +15,7 @@ class User extends Model {
         'email' => ['required','min:3'],
         'password' => ['required','min:6'],
         'pseudo' => ['required','match:/^[a-zA-Z0-9]+$/'],
-        'photo' => ['isImage','maxImageSize:500000','fileType:jpg,png,jpeg,gif']
+        'photo' => ['isImage','maxImageSize:50000000000','fileType:jpg,png,jpeg,gif']
     ];
 
     public function moveFile ($field) {

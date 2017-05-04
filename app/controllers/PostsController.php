@@ -34,6 +34,7 @@ class PostsController extends BaseController {
         App::$request->filterPost();
         App::$request->post['user_id'] = Session::Auth()->id;
         $this->post->insert(App::$request->post);
+        App::$session->addMessage('success', 'Post bien ajouté !');
         App::$response->redirect('/posts/');
     }
 
@@ -46,6 +47,7 @@ class PostsController extends BaseController {
         $this->validate ($this->post, App::$request->post);
         App::$request->filterPost();
         $this->post->where('id',$id)->update(App::$request->post);
+        App::$session->addMessage('success', 'Post bien modifié !');
         App::$response->redirect('/posts/');
     }
 
@@ -57,6 +59,7 @@ class PostsController extends BaseController {
         $this->post->last = [];
         $this->post->delete($id);
         if (App::$request->isJson()) App::$response->json(['success' => true,'message'=>'Post bien supprimé']);
+        App::$session->addMessage('success', 'Post bien supprimé !');
         App::$response->redirect('/posts');
     }
 

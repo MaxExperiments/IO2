@@ -40,7 +40,20 @@
                 </ul>
             </div>
         </div>
-
+        
+        <div class="row">
+            <div class="small-offset-2 small-8">
+                <?php if (App::$session->isMessageWithName('success')): ?>
+                    <div class="callout success">
+                        <?= App::$session->getMessage('success') ?>
+                        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                <?php endif ?>
+            </div>
+        </div>
+    
         <?= App::$response->render() ?>
 
         <script type="text/javascript" src="/assets/js/jquery.min.js"></script>

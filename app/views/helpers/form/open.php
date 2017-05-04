@@ -9,4 +9,3 @@
         </div>
     <?php endif; ?>
     <input type="hidden" name="__method" value="<?= $method ?>">
-   

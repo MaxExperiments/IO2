@@ -17,6 +17,7 @@ class UsersController extends BaseController {
         $this->user->moveFile('photo');
         $this->user->where('id',Session::Auth()->id)->update(App::$request->post);
         Session::authUpdate(App::$request->post);
+        App::$session->addMessage('success', 'Compte bien modifié !');
         App::$response->redirect('/users/');
     }
 
@@ -47,6 +48,7 @@ class UsersController extends BaseController {
         if (!empty($users)) {
             if (password_verify(App::$request->post['password'],$users[0]->password)) {
                 App::$session->connect($this->user);
+                App::$session->addMessage('success', 'Bonjour '.$users[0]->pseudo.' !');
                 App::$response->redirect('/');
             } else {
                 App::$session->addMessage('formValidation','Mauvais email ou mot de passe');
@@ -77,6 +79,8 @@ class UsersController extends BaseController {
         if (isset(App::$request->post['photo'])) $this->user->moveFile('photo');
 
         $this->user->insert(App::$request->post);
+        App::$session->addMessage('success', 'Vous avez été inscrit !');
+
         App::$response->redirect('/login');
     }
 
@@ -85,6 +89,7 @@ class UsersController extends BaseController {
      */
     public function logout () {
         App::$session->disconnect();
+        App::$session->addMessage('success', 'Au revoir '.Session::Auth()->pseudo.' !');
         App::$response->redirect('/login');
     }
 
