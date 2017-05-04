@@ -26,7 +26,7 @@ class RepliesController extends BaseController {
     public function destroy ($id) {
         $r = $this->reply->select(['user_id'=>'user_id'])->findFirst($id);
         if (empty($r) || Session::Auth()->id != $r->user_id) {
-            throw new ForbbidenException("Vous ne pouvez pas supprimer ce commantaire");
+            throw new ForbbidenException("Vous ne pouvez pas supprimer ce commentaire");
         }
         $this->reply->last = [];
         $this->reply->delete($id);

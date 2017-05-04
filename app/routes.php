@@ -24,10 +24,10 @@ App::$route->filter(['!authenticate'], function () {
     App::$route->put ('/posts/create', 'PostsController@store');
     App::$route->get ('/posts/{id}/edit', 'PostsController@edit');
     App::$route->post ('/posts/{id}/edit', 'PostsController@update');
-    App::$route->get ('/posts/{id}/delete', 'PostsController@destroy');
+    App::$route->delete ('/posts/{id}/delete', 'PostsController@destroy');
 
     App::$route->put ('/replies', 'RepliesController@store');
-    App::$route->get('/replies/{id}/delete', 'RepliesController@destroy');
+    App::$route->delete('/replies/{id}/delete', 'RepliesController@destroy');
 
     App::$route->get('/users/', 'UsersController@index');
     App::$route->post('/users/', 'UsersController@update');

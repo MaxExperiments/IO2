@@ -5,8 +5,8 @@
         var target = $(this).closest('article');
 
         $.ajax({
-            url : '/'+(target.attr('data-ressource-type'))+'/'+(target.attr('data-id'))+'/delete',
-            contentType : 'application/json',
+            url : '/'+(target.attr('data-ressource-type'))+'/'+(target.attr('data-id'))+'/delete?__token='+$('#__token').val(),
+            type: 'delete',
             success :  function (data) {
                 target.animate({
                     height : 0

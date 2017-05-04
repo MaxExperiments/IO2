@@ -40,7 +40,8 @@ class Controller {
             $this->$model = new $model();
         }
         if (in_array(App::$request->func, $this->csrf)) {
-            if(!isset(\App::$request->post['__token']) || \Session::token() == \App::$request->post['__token']) throw new ForbbidenException("Requête de supression invalide");
+            if((!isset(\App::$request->post['__token']) || \Session::token() != \App::$request->post['__token']) && 
+                (!isset(\App::$request->get['__token']) || \Session::token() != \App::$request->get['__token'])) throw new ForbbidenException("Requête de supression invalide");
         }
         call_user_func_array([$this,App::$request->func], $params);
     }

@@ -18,6 +18,8 @@ class Post extends Model {
         'content' => ['required']
     ];
 
+    protected $protected = ['title','content'];
+
     public function selectFillable () {
         return parent::select ([
             'id' => 'posts.id',

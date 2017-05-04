@@ -16,6 +16,8 @@ class Reply extends Model {
         'content' => ['required']
     ];
 
+    protected $protected = ['content'];
+
     public function selectFillable() {
         return parent::select(['id'=> 'replies.id',
                       'pseudo'     => 'users.pseudo',

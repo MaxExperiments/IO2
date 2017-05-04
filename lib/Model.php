@@ -92,6 +92,12 @@ class Model {
     public $attributes = [];
 
     /**
+     * Les champs a proteger des injections 
+     * @var array
+     */
+    protected $protected = [];
+
+    /**
      * Filtres a valider dans un formulaire
      * @var array
      */
@@ -385,8 +391,10 @@ class Model {
      * @return Array           Tableau php representant le resultat de la requete
      */
     private function getPDO () {
-        foreach ($this->last as $field => $val)
+        foreach ($this->last as $field => $val) {
             if (in_array(trim($field,':'),$this->hash)) $this->last[$field] = password_hash($val,PASSWORD_BCRYPT);
+            if (in_array(trim($field,':'), $this->protected)) $this->last[$field] = htmlspecialchars($val);
+        }
         if (!self::$isConnected) $this->connect();
         $statement = self::$db->prepare($this->query);
         $statement->execute($this->last);
