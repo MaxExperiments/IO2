@@ -311,8 +311,12 @@ class Model {
         $this->query = 'UPDATE ' . $this->table .' SET ';
         $this->last = [];
         foreach ($data as $field => $value) {
-            $this->query .= $field . '=' . ':' . $field . ',';
-            $this->last[':'.$field] = $value;
+            if ($field[0]=='!') {
+                $this->query .= substr($field,1,strlen($field)) . '=' . $value . ',';
+            } else {
+                $this->query .= $field . '=' . ':' . $field . ',';
+                $this->last[':'.$field] = $value;
+            }
         }
         $this->query = rtrim($this->query,',');
         $this->insertWhereClosure();

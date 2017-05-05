@@ -16,6 +16,7 @@ class PostsController extends BaseController {
     public function show ($id) {
         $replies = $this->reply->selectFillable()
                                 ->where('post_id',$id)
+                                ->order('stars','desc')
                                 ->order('id','desc')
                                 ->get();
         $post = $this->post->selectFillable()->findFirst($id);

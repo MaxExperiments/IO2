@@ -34,4 +34,9 @@ class RepliesController extends BaseController {
         App::$response->referer();
     }
 
+    public function star ($id) {
+        $r = $this->reply->where('id',$id)->update(['!stars'=>'stars+1']);
+        App::$response->referer();
+    }
+
 }

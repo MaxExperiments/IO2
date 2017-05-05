@@ -49,6 +49,8 @@ S'ajoute à ca la potentielle création de models pour interagir avec la base de
 
 Dans cette partie nous allons détailler ces étapes du développement.
 
+![Structure de l'application](tmp/appDiagram.png)
+
 #### A) Les routes
 Le fichier routes.php se trouvant à la base du dossier `app` contient toutes les urls auquelles l'application est capable d'associer un controller et une action, c'est à dire une méthode de ce controller. On décrit les urls de la manière suivante:
 
@@ -284,5 +286,49 @@ Cet appel de fonction va appeller la classe `NotFoundException` qui hérite de `
 ```
 
 L'exception parente (`HttpException`) se charge d'appeller la fonction `err{code\_de\_l\_erreur}` dans le controller `ErrorsController` si l'application est configurée en mode `prod` et appelle le fonction `__dev` sinon. On a pu gérer de manière simple et rapide la gestions des erreurs dans notre code.
+
+## Dans notre cas particulier
+Pour notre application web spécifiquement nous avons 3 types de données à stoquer:
+* les utilisateurs
+* les posts de ces utilisateurs 
+* les réponses à ces posts de ces utilisateurs
+
+Nous avons donc construit notre application autour de ca. 
+
+### Les Routes
+Les routes ont été faites de manière la plus générique et intuitive possible.
+
+Pour les utilisateurs:
+* `/login` pour se connecter
+* `/register` pour s'inscrire
+* `/users` pour modifier son profil
+* `/users/{id}` pour voir le profil de l'utilisateur avec l'id correspondant
+
+Pour les posts:
+* `/posts` pour voir tous les posts
+* `/posts/{id}` pour voir le post avec l'id correspondant
+* `/posts/create` pour ajouter un nouveau post
+* `/posts/{id}/edit` pour modifier un post
+* `/posts/{id}/delete` pour supprimer un post
+
+### Les Controllers
+On a eu donc besoins d'un controller associé pour chaque ressources. Par convention on a donné pour nom aux controller le pluriel du nom de la ressource. On a donc 3 controllers:
+* `UsersController`
+* `PostsController`
+* `RepliesController`
+
+### Les Models
+De la même manière que pour les controllers nous avons donc 3 models. Par convetion nous avons donné comme nom aux models le singulier du nom de la ressource. 
+* `User`
+* `Post`
+* `Reply`
+
+Quand à la base de donnée, est est exportable dans la fichier `/scripts/tables.sql` et a la structure suivante:
+
+![Structure de la base de données](tmp/projectIODatabaseSchema.png)
+
+## Choses à ameliorer
+
+Il y a bien sur des tonnes de choses à ameliorer sur ce projet. À titre d'exemple, on aurait du ajouter une système de pagination pour les posts et même de pagination dynamique en ajax pour les 
 
 ![](https://i.imgur.com/5dq1Uvu.jpg)

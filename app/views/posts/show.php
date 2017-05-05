@@ -22,10 +22,13 @@
         <div class="reply-template hide" style="height:0;">
             <article data-id="{{ id }}" data-ressource-type="replies">
                 <div class="lead">
-                    Un message de {{ pseudo }} le {{ created_at }}
-                    <?= $Html->route('Supprimer', 'RepliesController@destroy',
-                    ['id'=>'{{ id }}'],
-                    ['class'=>'button alert del-button']) ?>
+                    0 étoiles pour un message de {{ pseudo }} le {{ created_at }}
+                    <?= $Html->route('Star', 'RepliesController@star',
+                                ['id'=>'{{ id }}'],
+                                ['class'=>'button primary star-button']) ?>
+                    <?= $Html->route('Supprimer', 'RepliesController@star',
+                                ['id'=>'{{ id }}'],
+                                ['class'=>'button alert del-button']) ?>
                 </div>
                 {{ content }}
                 <hr>
@@ -34,11 +37,16 @@
         <?php foreach ($replies as $reply): ?>
             <article data-id="<?= $reply->id ?>" data-ressource-type="replies">
                 <div class="lead">
-                    Un message de <?= $reply->pseudo ?> le <?= $reply->created_at ?>
-                    <?php if (Session::isAuthenticate() && Session::Auth()->id == $reply->user_id): ?>
-                        <?= $Html->route('Supprimer', 'RepliesController@destroy',
+                    <?= $reply->stars ?> étoiles pour un message de <?= $reply->pseudo ?> le <?= $reply->created_at ?>
+                    <?php if (Session::isAuthenticate()): ?>
+                        <?= $Html->route('Star', 'RepliesController@star',
                                 ['id'=>$reply->id],
-                                ['class'=>'button alert del-button']) ?>
+                                ['class'=>'button primary star-button']) ?>
+                        <?php if(Session::Auth()->id == $reply->user_id): ?>
+                            <?= $Html->route('Supprimer', 'RepliesController@destroy',
+                                    ['id'=>$reply->id],
+                                    ['class'=>'button alert del-button']) ?>
+                        <?php endif; ?>
                     <?php endif; ?>
                 </div>
                 <?= $reply->content ?>
