@@ -11,10 +11,10 @@ class UsersController extends BaseController {
 
     public function update () {
         if(empty(App::$request->post['password'])) unset(App::$request->post['password']);
-        if(empty(App::$request->post['photo'])) unset(App::$request->post['photo']);
+        if(empty(App::$request->post['photo']) || App::$request->post['photo']['error'] == 4) unset(App::$request->post['photo']);
         $this->validate ($this->user, App::$request->post);
         App::$request->filterPost();
-        $this->user->moveFile('photo');
+        if (isset(App::$request->post['photo'])) $this->user->moveFile('photo');
         $this->user->where('id',Session::Auth()->id)->update(App::$request->post);
         Session::authUpdate(App::$request->post);
         App::$session->addMessage('success', 'Compte bien modifié !');
@@ -24,8 +24,8 @@ class UsersController extends BaseController {
     public function show ($id) {
         $user = $this->user->findFirst($id);
         $posts = $this->post
-                        ->select(['id'=>'posts.id','title'=>'posts.title','created_at'=>'posts.created_at','content'=>'posts.content','user_id'=>'user_id'])
-                        ->where('user_id',Session::Auth()->id)
+                        ->selectFillable()
+                        ->where('user_id',$id)
                         ->get();
         if (empty($user)) throw new NotFoundException ("Aucun utilisateur ne correspond à cet identifiant");
         App::$response->view('users.show', ['user'=>$user,'posts'=>$posts]);

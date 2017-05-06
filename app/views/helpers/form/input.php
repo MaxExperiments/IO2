@@ -1,9 +1,9 @@
 <?php if (isset($messages)): ?>
     <?php foreach ($messages as $message): ?>
-        <div class="callout alert" data-closable>
+        <div class="callout alert">
             <p><?= $message ?></p>
-            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-                <span aria-hidden="true">&times;</span>
+            <button class="close-button" type="button">
+                &times;
             </button>
         </div>
     <?php endforeach ?>

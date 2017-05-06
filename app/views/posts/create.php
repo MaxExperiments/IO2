@@ -1,5 +1,5 @@
-<div class="row">
-    <div class="small-offset-2 small-8">
+<div>
+    <div>
     <h2>Créer un post</h2>
     <hr>
     <?= $Form->createForm($method, ['class'=>'form']) ?>

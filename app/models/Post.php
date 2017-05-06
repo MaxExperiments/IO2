@@ -14,7 +14,7 @@ class Post extends Model {
     ];
 
     public $validation = [
-        'title' => ['required','max:20'],
+        'title' => ['required','max:50'],
         'content' => ['required']
     ];
 

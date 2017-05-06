@@ -329,6 +329,6 @@ Quand à la base de donnée, est est exportable dans la fichier `/scripts/tables
 
 ## Choses à ameliorer
 
-Il y a bien sur des tonnes de choses à ameliorer sur ce projet. À titre d'exemple, on aurait du ajouter une système de pagination pour les posts et même de pagination dynamique en ajax pour les 
+Il y a bien sur des tonnes de choses à ameliorer sur ce projet. À titre d'exemple, on aurait du ajouter une système de pagination pour les posts et même de pagination dynamique en ajax pour les replies.
 
 ![](https://i.imgur.com/5dq1Uvu.jpg)

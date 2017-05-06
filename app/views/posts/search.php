@@ -13,18 +13,9 @@
         </form>
         <hr>
         <p><?= count($results) ?> résultats</p>
-        <?php foreach ($results as $post): ?>
-            <article id="post-<?= $post->id ?>">
-                <h3><?= $post->title ?></h3>
-                <p><?= $post->content ?></p>
-                <?= $Html->route('Voir la suite', 'PostsController@show',['id'=>$post->id]) ?>
-                <?php if (Session::isAuthenticate()): ?>
-                    <?php $Html->addScript('/assets/js/app.js') ?>
-                    <?php if (Session::Auth()->id == $post->user_id) echo $Html->route('Détruire', 'PostsController@destroy',
-                                    ['id'=>$post->id],
-                                    ['class'=>'button alert','onclick'=>'return destroyPost('.$post->id.')']); ?>
-                <?php endif ?>
-            </article>
-        <?php endforeach; ?>
+        <?= App::$response->requireView('posts.index', [
+            'posts'=>$results,
+            'headline'=> 'Résultats'
+        ]) ?>
     </div>
 </div>

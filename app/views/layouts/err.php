@@ -6,10 +6,10 @@
         <link rel="stylesheet" href="/assets/css/foundation.min.css">
     </head>
     <body>
-        <div class="top-bar">
-            <div class="top-bar-left">
-                <ul class="dropdown menu">
-                    <li class="menu-text">Titre</li>
+        <div>
+            <div>
+                <ul>
+                    <li>Titre</li>
                     <li><a href="/posts">Posts</a></li>
                 </ul>
             </div>

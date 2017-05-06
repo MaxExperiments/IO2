@@ -5,19 +5,26 @@ class PostsController extends BaseController {
     protected $models = ['Post','Reply'];
 
     public function home() {
-        App::$response->view('posts.home');
+        $posts = $this->post->selectFillable()
+                        ->order('!coalesce(posts.updated_at, posts.created_at)','DESC')
+                        ->order('id', 'DESC')
+                        ->findAll();
+        App::$response->view ('posts.index',['posts'=>$posts,'headline'=>'Bienvenu sur Diderot.club !']);
     }
 
     public function index() {
-        $posts = $this->post->selectFillable()->order('id','DESC')->findAll();
-        App::$response->view ('posts.index',['posts'=>$posts]);
+        $posts = $this->post->selectFillable()
+                            ->order('!coalesce(posts.updated_at, posts.created_at)','DESC')
+                            ->order('id','DESC')->findAll();
+        App::$response->view ('posts.index',['posts'=>$posts,'headline'=>'Tous les posts']);
     }
 
     public function show ($id) {
         $replies = $this->reply->selectFillable()
                                 ->where('post_id',$id)
                                 ->order('stars','desc')
-                                ->order('id','desc')
+                                ->order('!coalesce(replies.updated_at, replies.created_at)','DESC')
+                                ->order('id', 'DESC')
                                 ->get();
         $post = $this->post->selectFillable()->findFirst($id);
         if (App::$request->isJson()) App::$response->json($post);

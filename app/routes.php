@@ -13,6 +13,7 @@ App::$route->get ('/posts', 'PostsController@index');
 App::$route->get ('/posts/{id}', 'PostsController@show');
 
 App::$route->get('/search','PostsController@search');
+App::$route->get('/users/{id}', 'UsersController@show');
 
 App::$route->filter(['!authenticate'], function () {
     App::$route->get ('/login', 'UsersController@login');
@@ -32,7 +33,6 @@ App::$route->filter(['!authenticate'], function () {
 
     App::$route->get('/users/', 'UsersController@index');
     App::$route->post('/users/', 'UsersController@update');
-    App::$route->get('/users/{id}', 'UsersController@show');
 
     App::$route->get ('/logout', 'UsersController@logout');
 });

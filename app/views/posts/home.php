@@ -1,1 +1,1 @@
-<h1>Willkomen mein freund !</h1>
+<h1>Bonjour, Bonjour, bienvenu sur notre chouette site !</h1>

@@ -344,7 +344,7 @@ class Model {
                     array_splice($f, 1, 0, $field);
 
                     if (!call_user_func_array([$this,$f[0]], array_slice($f, 1))) {
-                        $this->messages[$field] = ((array_key_exists($field, $this->messages)) ? $this->messages[$field] : '') . ' ' . self::$filtersText[$f[0]];
+                        $this->messages[$field] = ((array_key_exists($field, $this->messages)) ? $this->messages[$field] : '') . ' ' . self::$filtersText[$f[0]] . '. ';
                         $this->messages[$field] = trim($this->messages[$field]);
                         $validated = false;
                     }
@@ -372,8 +372,9 @@ class Model {
      */
     private function insertOrderClosure () {
         $this->query .= (!empty($this->order)) ? ' ORDER BY ' : '';
-        foreach ($this->order as $key => $ord) {
-            $this->query .= $this->table.'.'.$key . ' ' . $ord . ', ';
+        foreach ($this->order as $key => $ord) { 
+            if ($key[0]!='!') $this->query .= $this->table.'.'.$key . ' ' . $ord . ', ';
+            else $this->query .= str_replace('!','',$key) . ' ' . $ord . ', ';
         }
         $this->query = rtrim($this->query,', ');
     }

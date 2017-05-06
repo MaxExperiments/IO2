@@ -39,4 +39,9 @@ class Html extends Helper {
         if (!in_array($url,self::$scripts)) self::$scripts[] = $url;
     }
 
+    public function shortCut($string, $chars = 250) {
+        preg_match('/^.{0,' . $chars. '}(?:.*?)\b/iu', $string, $matches);
+        return $matches[0];
+    }
+
 }
