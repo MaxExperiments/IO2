@@ -44,4 +44,13 @@ class Html extends Helper {
         return $matches[0];
     }
 
+    public function bind ($text) {
+        $lines = explode(PHP_EOL, $text);
+        for ($i = 0; $i < count($lines); $i++) {
+            if (!empty($lines[$i]) && $lines[$i][0] == "#") $lines[$i] = '<h3>' . substr($lines[$i],1) . '</h3>';
+            else $lines[$i] = '<p>' . $lines[$i] . '&nbsp;</p>';
+        }
+        return implode('', $lines);
+    }
+
 }

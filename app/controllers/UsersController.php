@@ -25,6 +25,8 @@ class UsersController extends BaseController {
         $user = $this->user->findFirst($id);
         $posts = $this->post
                         ->selectFillable()
+                        ->order('!coalesce(posts.updated_at, posts.created_at)','DESC')
+                        ->order('id','DESC')
                         ->where('user_id',$id)
                         ->get();
         if (empty($user)) throw new NotFoundException ("Aucun utilisateur ne correspond à cet identifiant");

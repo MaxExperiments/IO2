@@ -1,8 +1,11 @@
-<section>
+<section class="post">
     <h2><?= $post->title ?></h2>
     <div class="lead">Un post de <strong><a href="/users/<?= $post->user_id ?>"><?= $post->pseudo ?></a></strong> <img src="<?= ($post->photo!=null) ? $post->photo : '/assets/imgs/default-user-img.gif' ?>" alt="" class="user-img"></div>
+    <?php if (Session::isAuthenticate() && Session::Auth()->id == $post->user_id): ?>
+        <p><?= $Html->route('Modifier le post', 'PostsController@edit',['id'=>$post->id]) ?></p>
+    <?php endif ?>
     <hr>
-    <?= $post->content ?>
+    <?= $Html->bind($post->content) ?>
     <?php if (Session::isAuthenticate()): ?>
         <hr>
         <div class="small-offset-2 small-8">
@@ -46,7 +49,7 @@
                         <?php endif; ?>
                     <?php endif; ?>
                 </div>
-                <?= $reply->content ?>
+                <?= $Html->bind($reply->content) ?>
                 <hr>
             </article>
         <?php endforeach; ?>

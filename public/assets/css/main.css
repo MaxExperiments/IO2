@@ -31,7 +31,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-
 /* [2] Général ===============================================================*/
 
 :root {
@@ -40,6 +39,7 @@ h1, h2, h3, h4, h5, h6 {
   --color-border: #eee2de;
   --color-link: inherit;
   --color-link-hover: salmon;
+  --color-primary: rgba(85,162,190,.85);
   --color-alert: rgba(217,96,82,0.85);
   --color-success: rgba(181,188,59,.75);
 }
@@ -112,7 +112,19 @@ input, textarea, button {
   -o-transition: 1s;
 }
 
-input[type="button"],input[type="submit"], button { cursor: pointer; }
+input[type="button"],input[type="submit"], button {
+  cursor: pointer;
+  background: var(--color-primary);
+  color: #fff;
+  font-weight: lighter;
+}
+
+input[type="button"]:hover,
+input[type="submit"]:hover,
+button:hover {
+  border: 1px solid #2E5F71;
+  background: rgba(85,162,190,1);
+}
 
 textarea {
   /*border-radius: 2px;*/
@@ -289,6 +301,10 @@ input:focus, textarea:focus {
 
 .post:last-child {
   border-bottom: 0;
+}
+
+.post h1, .post h2, .post h3, .post h4, .post h5, .post h6 {
+  line-height: 2.5em;
 }
 
 .post .lead {
