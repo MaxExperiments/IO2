@@ -1,0 +1,24 @@
+<?php
+
+$handle = fopen("php://stdin","r");
+$user = exec('whoami');
+
+if (isset($argv[1])) {
+    switch($argv[1]) {
+        case "init":
+            print ("Création du projet !\n");
+            print ("\033[95mExecuter le script suivant dans votre base de données (./scripts/tables.sql)\033[0m\n");
+            print ("-------------------------------------------------\n");
+            print file_get_contents("./scripts/tables.sql");
+            print ("-------------------------------------------------\n");
+            print ("\033[1mPensez à configurer le fichier app/config.php\033[0m\n");
+            print ("Craaac... Boumm... Wroooum....\n");
+            print ("\033[92mBravo $user ! Le projet est prêt\033[0m\n");
+        break;
+    }
+} else {
+    print ("\033[95mCréation d'un serveur local à l'adresse localhost:8000\033[0m");
+    print (exec ("php -S localhost:8000 -t public server.php"));
+    print ("\033[91mServeur Down\033[0m");
+}
+
