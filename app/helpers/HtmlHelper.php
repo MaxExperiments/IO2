@@ -47,7 +47,8 @@ class Html extends Helper {
     }
 
     public function bind ($text) {
-        return Markdown::defaultTransform($text);
+        //return Markdown::defaultTransform($text);
+	return $text;
     }
 
     public function nextPage($total, $text = 'Page suivante') {
@@ -58,7 +59,7 @@ class Html extends Helper {
         foreach ($get as $name => $val) $get_str = $name . '=' . $val . '&';
         $get_str = trim($get_str,'&');
         return Response::requireView('helpers.paginate',[
-            'url'  => App::$request->url . '?' . $get_str,
+            'url'  => '/posts?' . $get_str,
             'text' => $text
         ]);
     }
@@ -72,7 +73,7 @@ class Html extends Helper {
         foreach ($get as $name => $val) $get_str = $name . '=' . $val . '&';
         $get_str = trim($get_str,'&');
         return Response::requireView('helpers.paginate',[
-            'url'  => App::$request->url . '?' . $get_str,
+            'url'  => '/posts?' . $get_str,
             'text' => $text
         ]);
     }

@@ -22,7 +22,7 @@ define('TMP', ROOT . DS . 'tmp' . DS);
 define('APP', ROOT . DS . 'app' . DS);
 define('VENDOR', ROOT . DS . 'vendor' . DS);
 
-require_once VENDOR . 'autoload.php';
+// require_once VENDOR . 'autoload.php';
 require_once APP . 'config.php';
 
 /**
@@ -38,7 +38,6 @@ if (CONFIG['env'] === 'dev') {
 
 ini_set('log_errors', 'On');
 ini_set('error_log', TMP . 'err.log');
-error_log(date(time()));
 
 require_once LIB . 'HttpException.php';
 require_once LIB . 'Session.php';

@@ -11,6 +11,6 @@
 $channels = array();
 
 // Sample channel list:
-$channels[0] = 'Public';
-$channels[1] = 'Private';
+$channels[0] = 'Bazar';
+//$channels[1] = 'Privé';
 ?>
