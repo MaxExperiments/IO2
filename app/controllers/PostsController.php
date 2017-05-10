@@ -38,10 +38,15 @@ class PostsController extends BaseController {
     }
 
     public function store () {
+        if(empty(App::$request->post['photo']) || App::$request->post['photo']['error'] == 4) unset(App::$request->post['photo']);
+
         $this->validate ($this->post, App::$request->post);
         App::$request->filterPost();
         App::$request->post['user_id'] = Session::Auth()->id;
+        
+        if (isset(App::$request->post['photo'])) $this->post->moveFile('photo');
         $this->post->insert(App::$request->post);
+
         App::$session->addMessage('success', 'Post bien ajouté !');
         App::$response->redirect('/posts/');
     }
@@ -56,7 +61,7 @@ class PostsController extends BaseController {
         App::$request->filterPost();
         $this->post->where('id',$id)->update(App::$request->post);
         App::$session->addMessage('success', 'Post bien modifié !');
-        App::$response->redirect('/posts/');
+        App::$response->redirect('/posts/'.$id);
     }
 
     public function destroy ($id) {

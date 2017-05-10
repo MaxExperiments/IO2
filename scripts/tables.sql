@@ -12,7 +12,7 @@ create table posts (
     id int unsigned AUTO_INCREMENT PRIMARY KEY,
     title varchar(255) NOT NULL,
     content text NOT NULL,
-    stars int unsigned DEFAULT 0,
+    photo varchar(255),
     user_id int unsigned NOT NULL,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
@@ -26,6 +26,7 @@ ON DELETE CASCADE;
 create table replies (
     id int unsigned AUTO_INCREMENT PRIMARY KEY,
     content text NOT NULL,
+    stars int unsigned DEFAULT 0,
     user_id int unsigned NOT NULL,
     post_id int unsigned NOT NULL,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
