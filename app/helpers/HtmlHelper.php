@@ -53,4 +53,30 @@ class Html extends Helper {
         return implode('', $lines);
     }
 
+    public function nextPage($total, $text = 'Page suivante') {
+        $get = App::$request->get;
+        $get['page'] = (isset($get['page'])) ? $get['page']+1 : 2;
+        if ($get['page']*Post::$posts_per_page - $total > Post::$posts_per_page) return false;
+        $get_str = '';
+        foreach ($get as $name => $val) $get_str = $name . '=' . $val . '&';
+        $get_str = trim($get_str,'&');
+        return Response::requireView('helpers.paginate',[
+            'url'  => App::$request->url . '?' . $get_str,
+            'text' => $text
+        ]);
+    }
+    
+    public function previousPage($text = 'Page précédente') {
+        $get = App::$request->get;
+        if (isset($get['page']) && $get['page'] > 1) $get['page']-=1;
+        else return false;
+
+        $get_str = '';
+        foreach ($get as $name => $val) $get_str = $name . '=' . $val . '&';
+        $get_str = trim($get_str,'&');
+        return Response::requireView('helpers.paginate',[
+            'url'  => App::$request->url . '?' . $get_str,
+            'text' => $text
+        ]);
+    }
 }

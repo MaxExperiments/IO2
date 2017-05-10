@@ -5,18 +5,23 @@ class PostsController extends BaseController {
     protected $models = ['Post','Reply'];
 
     public function home() {
+        $total = $this->post->count();
         $posts = $this->post->selectFillable()
                         ->order('!coalesce(posts.updated_at, posts.created_at)','DESC')
                         ->order('id', 'DESC')
+                        ->paginate()
                         ->findAll();
-        App::$response->view ('posts.index',['posts'=>$posts,'headline'=>'Bienvenu sur Diderot.club !']);
+        App::$response->view ('posts.index',['total'=>$total,'posts'=>$posts,'headline'=>'Bienvenu sur Diderot.club !']);
     }
 
     public function index() {
+        $total = $this->post->count();
         $posts = $this->post->selectFillable()
                             ->order('!coalesce(posts.updated_at, posts.created_at)','DESC')
-                            ->order('id','DESC')->findAll();
-        App::$response->view ('posts.index',['posts'=>$posts,'headline'=>'Tous les posts']);
+                            ->order('id','DESC')
+                            ->paginate()
+                            ->findAll();
+        App::$response->view ('posts.index',['total'=>$total,'posts'=>$posts,'headline'=>'Tous les posts']);
     }
 
     public function show ($id) {
@@ -25,6 +30,7 @@ class PostsController extends BaseController {
                                 ->order('stars','desc')
                                 ->order('!coalesce(replies.updated_at, replies.created_at)','DESC')
                                 ->order('id', 'DESC')
+                                ->limit(null, 30)
                                 ->get();
         $post = $this->post->selectFillable()->findFirst($id);
         if (App::$request->isJson()) App::$response->json($post);
@@ -82,6 +88,7 @@ class PostsController extends BaseController {
             ->selectFillable()
             ->where('title','like','%'.App::$request->get['q'].'%')
             ->or('content','like','%'.App::$request->get['q'].'%')
+            ->paginate()
             ->get();
         App::$response->view('posts.search',['results'=>$results]);
     }

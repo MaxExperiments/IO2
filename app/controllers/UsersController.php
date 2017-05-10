@@ -22,15 +22,17 @@ class UsersController extends BaseController {
     }
 
     public function show ($id) {
+        $total = $this->post->count();
         $user = $this->user->findFirst($id);
         $posts = $this->post
                         ->selectFillable()
                         ->order('!coalesce(posts.updated_at, posts.created_at)','DESC')
                         ->order('id','DESC')
                         ->where('user_id',$id)
+                        ->paginate()
                         ->get();
         if (empty($user)) throw new NotFoundException ("Aucun utilisateur ne correspond à cet identifiant");
-        App::$response->view('users.show', ['user'=>$user,'posts'=>$posts]);
+        App::$response->view('users.show', ['total'=>$total,'user'=>$user,'posts'=>$posts]);
     }
 
     /**

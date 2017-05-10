@@ -4,6 +4,7 @@
         <?php if (Session::isAuthenticate()): ?>
             <?= $Html->route('Ajouter un post','PostsController@create',['id'],['class'=>'button primary']) ?>
         <?php endif; ?>
+        <p><?= $total ?> posts</p>
         <hr>
     </div>
     <?php foreach($posts as $post): ?>
@@ -24,4 +25,5 @@
             </div>
         </article>
     <?php endforeach ?>
+    <p><?= $Html->previousPage() ?> <?= $Html->nextPage($total) ?></p>
 </main>

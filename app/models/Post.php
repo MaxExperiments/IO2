@@ -2,6 +2,8 @@
 
 class Post extends Model {
 
+    public static $posts_per_page = 5;
+
     protected $table = 'posts';
 
     protected $belongsTo = [
@@ -34,6 +36,11 @@ class Post extends Model {
             'photo' => 'posts.photo',
             'user_photo' => 'users.photo'
         ]);
+    }
+
+    public function paginate () {
+        $page = (!isset(App::$request->get['page'])) ? 1 : App::$request->get['page'];
+        return parent::limit(($page-1)*self::$posts_per_page, self::$posts_per_page);
     }
 
     public function moveFile ($field) {

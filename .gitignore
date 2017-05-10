@@ -2,3 +2,5 @@
 public/imgs/
 
 tmp/err\.log
+
+/vendor/
