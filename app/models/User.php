@@ -19,7 +19,7 @@ class User extends Model {
     ];
 
     public function moveFile ($field) {
-        $path = 'imgs' . DS . time() . rand(0,100) . '.' . pathinfo(App::$request->post[$field]['name'], PATHINFO_EXTENSION);
+        $path = 'imgs' . DS . 'users' . DS . time() . rand(0,100) . '.' . pathinfo(App::$request->post[$field]['name'], PATHINFO_EXTENSION);
         move_uploaded_file(App::$request->post[$field]['tmp_name'], PUBLIC_DIR . $path);
         App::$request->post[$field] = '/' . $path;
     }

@@ -10,7 +10,7 @@ Nous sommes grandement surpris par l'enrichissement mutuel — collaboration, en
 
 Maxime a été un peu difficile à mettre au travail, mais il commence à se faire à l'idée qu'il s'agit d'un projet réalisé _en commun_, il ne se rebiffe plus lorsqu'on lui demande de mettre pierre à l'édifice (il accepte par exemple de tester le système de connexion, et va jusqu'à imaginer de _fausses_ adresses mails pour simuler l'ajout de plusieurs utilisateurs à la base de données).
 
-### Une architecture de Framework made from scratch
+## Une architecture de Framework made from scratch
 On a souhaité s'organiser selon l'organisation Model-View-Controller (MVC). Cependant, n'étant pas autorisé d'utiliser des ressources externes pour ce projet il nous a semblé bon de rebatir l'architecture de notre projet sur des bases solides. S'inspirant modérément de Laravel, l'architecture du projet est la suivante:
 
 - /app tous les fichiers de l'application
@@ -26,19 +26,30 @@ On a souhaité s'organiser selon l'organisation Model-View-Controller (MVC). Cep
 - /public Les ressources client de l'application
 - /tmp Fichier de debug, log...
 
-#### I) La redirection d'url
+### Setup l'application
+Pour préparer l'application à son déployement il faut preparer les base de donées. Pour ce faire dans le terminal, depuis le repertoire de base de l'application executer la commande:
+```
+    php serve init
+```
+
+Elle affichera le fichier sql à executer. Il faut aussi changer la configuration de la base données dans le fichier `app/config.php`.
+
+### I) La redirection d'url
 On voulais que notre site puisse recevoir des URL simples et intuitives qui ne soient pas des chemins vers des fichers PHP dégueulasses. C'est à dire que à la place d'avoir l'url `/posts/singlepost.php?id=12` on préfèrera employer `/posts/1`.
 Pour ce faire on commence par rediriger les requètes https de la manière suivante:
 * Quel que soit l'url on la redirige dans le dossier /public
 * Ça fait bim-bim-crrrr-clouic dans la machine informachose, et hop on passe à l'étape d'après.
 * Dans le dossier public si l'url correspond au chemin juste qu'un ficher on redirige vers ce ficher sinon on redirige vers le ficher index.php
+Pour faire ces redirections d'url nous avons plusieurs options. Sur notre server nous l'avons fait directement avec nginx. En local nous avons tous les deux utilisé des fichiers `.htaccess` pour rediriger sur apache. Et pour finir nous avons aussi crée un petit script serve qui lance l'application sur un server php local (de manière un peu analogue à nginx mais en php pur cette fois).
 Ainsi on peut charges les ressources en utilisant une url intuitive et si gérer toutes les autres requête dans nos propres scripts. Ceci présente deux avantages majeurs:
 * On sépare clairement le font et la back end. En effet le front se situe exclusivement dans le répertoire public.
 * On peut choisir de gérer les exceptions, comme les posts introuvés, dans notre code ce qui donne beaucoup plus de liberté et de modularite au code de ce projet.
 Cepedant toutes les urls de notre site vont maintenant sur le même ficher: index.php. Il faut donc une manière de parser les urls afin de charger le bon controller en fonction de l'url appelé. Pour ce faire, le fichier index charge le fichier `/lib/bootstrap.php` qui va include progressivement les différentes pièces indispensables de notre application. Dans ce fichier sont inclues 3 classes majeures dans notre structure MVC: Request, Router et Response.
 Les instances de ces classes décrivent respectivement ce que recoit le server, comment il traite l'information et ce que va renvoyer le server au client.
 
-#### II) Le développement de l'application web 
+![Structure de l'application](tmp/appDiagram.png)
+
+### II) Le développement de l'application web 
 Le site est contruit de manière à ce que les fichiers à modifier pour le réaliser se trouvent uniquement dans le dossier app. Les autres dossiers étant là pour servir de base modulable pour le plus de projets prossibles. L'ajout d'une nouvelle page se décompose ici en plusieurs étapes:
 * Ajouter la nouvelle url au fichier routes.php
 * Créer le controller et la fonction associée 
@@ -48,8 +59,6 @@ Le site est contruit de manière à ce que les fichiers à modifier pour le réa
 S'ajoute à ca la potentielle création de models pour interagir avec la base de donnée, la création ou gestion des erreurs en ajoutant des exceptions qui pourraient ne pas encore exister.
 
 Dans cette partie nous allons détailler ces étapes du développement.
-
-![Structure de l'application](tmp/appDiagram.png)
 
 #### A) Les routes
 Le fichier routes.php se trouvant à la base du dossier `app` contient toutes les urls auquelles l'application est capable d'associer un controller et une action, c'est à dire une méthode de ce controller. On décrit les urls de la manière suivante:

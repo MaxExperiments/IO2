@@ -1,5 +1,5 @@
-set FOREIGN_KEY_CHECKS = 0;
-drop table users;
-drop table posts;
-drop table replies;
-set FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE users;
+DROP TABLE posts;
+DROP TABLE replies;
+SET FOREIGN_KEY_CHECKS = 1;

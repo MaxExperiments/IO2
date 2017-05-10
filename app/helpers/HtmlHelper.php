@@ -1,5 +1,7 @@
 <?php
 
+use Michelf\Markdown;
+
 class Html extends Helper {
 
     /**
@@ -45,12 +47,33 @@ class Html extends Helper {
     }
 
     public function bind ($text) {
-        $lines = explode(PHP_EOL, $text);
-        for ($i = 0; $i < count($lines); $i++) {
-            if (!empty($lines[$i]) && $lines[$i][0] == "#") $lines[$i] = '<h3>' . substr($lines[$i],1) . '</h3>';
-            else $lines[$i] = '<p>' . $lines[$i] . '&nbsp;</p>';
-        }
-        return implode('', $lines);
+        return Markdown::defaultTransform($text);
     }
 
+    public function nextPage($total, $text = 'Page suivante') {
+        $get = App::$request->get;
+        $get['page'] = (isset($get['page'])) ? $get['page']+1 : 2;
+        if ($get['page']*Post::$posts_per_page - $total > Post::$posts_per_page) return false;
+        $get_str = '';
+        foreach ($get as $name => $val) $get_str = $name . '=' . $val . '&';
+        $get_str = trim($get_str,'&');
+        return Response::requireView('helpers.paginate',[
+            'url'  => App::$request->url . '?' . $get_str,
+            'text' => $text
+        ]);
+    }
+    
+    public function previousPage($text = 'Page précédente') {
+        $get = App::$request->get;
+        if (isset($get['page']) && $get['page'] > 1) $get['page']-=1;
+        else return false;
+
+        $get_str = '';
+        foreach ($get as $name => $val) $get_str = $name . '=' . $val . '&';
+        $get_str = trim($get_str,'&');
+        return Response::requireView('helpers.paginate',[
+            'url'  => App::$request->url . '?' . $get_str,
+            'text' => $text
+        ]);
+    }
 }

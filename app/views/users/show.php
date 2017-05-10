@@ -17,6 +17,7 @@
 </div>
 
 <?= App::$response->requireView('posts.index', [
-    'posts'=>$posts,
+    'total' => $total,
+    'posts'=> $posts,
     'headline'=> (Session::isAuthenticate() && Session::Auth()->id == $user->id) ? 'Tous mes posts' : 'Tous les posts de ' . $user->pseudo
 ]) ?>

@@ -3,3 +3,5 @@ public/imgs/*
 app/config.php
 
 tmp/err\.log
+
+/vendor/
