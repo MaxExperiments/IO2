@@ -22,7 +22,7 @@ class UsersController extends BaseController {
     }
 
     public function show ($id) {
-        $total = $this->post->count();
+        $total = $this->post->where('user_id',$id)->count();
         $user = $this->user->findFirst($id);
         $posts = $this->post
                         ->selectFillable()

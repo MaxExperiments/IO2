@@ -5,13 +5,12 @@ class PostsController extends BaseController {
     protected $models = ['Post','Reply'];
 
     public function home() {
-        $total = $this->post->count();
         $posts = $this->post->selectFillable()
                         ->order('!coalesce(posts.updated_at, posts.created_at)','DESC')
                         ->order('id', 'DESC')
-                        ->paginate()
+                        ->limit(1,5)
                         ->findAll();
-        App::$response->view ('posts.index',['total'=>$total,'posts'=>$posts,'headline'=>'Bienvenu sur Diderot.club !']);
+        App::$response->view ('posts.index',['posts'=>$posts,'headline'=>'Bienvenu sur Diderot.club !']);
     }
 
     public function index() {
@@ -63,8 +62,14 @@ class PostsController extends BaseController {
     }
 
     public function update ($id) {
+        if(empty(App::$request->post['photo']) || App::$request->post['photo']['error'] == 4) unset(App::$request->post['photo']);
+
         $this->validate ($this->post, App::$request->post);
         App::$request->filterPost();
+        
+        if (isset(App::$request->post['photo'])) $this->post->moveFile('photo');
+        $this->post->insert(App::$request->post);
+
         $this->post->where('id',$id)->update(App::$request->post);
         App::$session->addMessage('success', 'Post bien modifié !');
         App::$response->redirect('/posts/'.$id);

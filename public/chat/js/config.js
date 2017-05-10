@@ -8,7 +8,7 @@ var ajaxChatConfig = {
 	// The channelID of the channel to enter on login (the loginChannelName is used if set to null):
 	loginChannelID: null,
 	// The channelName of the channel to enter on login (the default channel is used if set to null):
-	loginChannelName: null,
+	loginChannelName: Bazar,
 
 	// The time in ms between update calls to retrieve new chat messages:
 	timerRate: 2000,
@@ -217,7 +217,7 @@ var ajaxChatConfig = {
 	// You should set these to be the same as the ones in config.php to avoid confusion.
 
 	// Session identification, used for style and setting cookies:
-	sessionName: 'ajax_chat',
+	sessionName: 'diderot.club_chat',
 	// The time in days until the style and setting cookies expire:
 	cookieExpiration: 365,
 	// The path of the cookies, '/' allows to read the cookies from all directories:
@@ -252,5 +252,5 @@ var ajaxChatConfig = {
 	socketServerChatID: 0,
 
 	// Debug allows console logging or alerts on caught errors - false/0 = no debug, true/1/2 = console log, 2 = alerts
-	debug: false
+	debug: true
 };

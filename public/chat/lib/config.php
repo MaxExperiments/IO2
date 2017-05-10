@@ -71,7 +71,7 @@ $config['contentType'] = null;
 // Session name used to identify the session cookie:
 $config['sessionName'] = 'diderot.club_chat';
 // Prefix added to every session key:
-$config['sessionKeyPrefix'] = 'ajaxChat';
+$config['sessionKeyPrefix'] = 'diderot.club_chat';
 // The lifetime of the language, style and setting cookies in days:
 $config['sessionCookieLifeTime'] = 365;
 // The path of the cookies, '/' allows to read the cookies from all directories:
@@ -82,7 +82,7 @@ $config['sessionCookieDomain'] = null;
 $config['sessionCookieSecure'] = null;
 
 // Default channelName used together with the defaultChannelID if no channel with this ID exists:
-$config['defaultChannelName'] = 'Public';
+$config['defaultChannelName'] = 'Bazar';
 // ChannelID used when no channel is given:
 $config['defaultChannelID'] = 0;
 // Defines an array of channelIDs (e.g. array(0, 1)) to limit the number of available channels, will be ignored if set to null:

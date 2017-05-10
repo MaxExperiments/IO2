@@ -22,7 +22,7 @@ define('TMP', ROOT . DS . 'tmp' . DS);
 define('APP', ROOT . DS . 'app' . DS);
 define('VENDOR', ROOT . DS . 'vendor' . DS);
 
-// require_once VENDOR . 'autoload.php';
+require_once VENDOR . 'autoload.php';
 require_once APP . 'config.php';
 
 /**
