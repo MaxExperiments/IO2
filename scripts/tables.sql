@@ -26,6 +26,7 @@ ON DELETE CASCADE;
 create table replies (
     id int unsigned AUTO_INCREMENT PRIMARY KEY,
     content text NOT NULL,
+    stars int unsigned DEFAULT 0,
     user_id int unsigned NOT NULL,
     post_id int unsigned NOT NULL,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,

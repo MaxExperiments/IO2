@@ -11,7 +11,7 @@ define('CONFIG',[
      *  - dev en développement, afficheras les erreurs php pour débugger
      *  - prod en production, cacheras les erreurs php dans des logs
      */
-    'env' => 'dev',
+    'env' => 'prod',
 
     /**
      * Défini les cléfs de connection à la base de donnée utilisé
@@ -19,10 +19,12 @@ define('CONFIG',[
     'database' => [
         'driver'   => 'mysql',
         'host'     => 'localhost',
-        'username' => 'homestead',
-        'password' => 'secret',
+        'username' => 'root',
+        'password' => 'DIDEROT.CLUB',
         'port'     => '',
-        'database' => 'homestead'
+        'database' => 'club'
     ]
 
 ]);
+
+

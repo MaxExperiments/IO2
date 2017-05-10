@@ -32,9 +32,11 @@ if (CONFIG['env'] === 'dev') {
 } else {
     error_reporting (E_ALL);
     ini_set ('display_errors','Off');
-    ini_set('log_errors', 'On');
-    ini_set('error_log', TMP . 'err.log');
 }
+
+ini_set('log_errors', 'On');
+ini_set('error_log', TMP . 'err.log');
+error_log(date(time()));
 
 require_once LIB . 'HttpException.php';
 require_once LIB . 'Session.php';
@@ -42,7 +44,6 @@ require_once LIB . 'Request.php';
 require_once LIB . 'Response.php';
 require_once LIB . 'Helper.php';
 require_once APP . 'Filters.php';
-require_once LIB . 'Model.php';
 require_once LIB . 'Controller.php';
 require_once APP . 'controllers' . DS . 'BaseController.php';
 require_once LIB . 'Router.php';
@@ -52,6 +53,7 @@ require_once APP . 'exceptions' . DS . 'NotFoundException.php';
 require_once APP . 'exceptions' . DS . 'DatabaseException.php';
 require_once APP . 'exceptions' . DS . 'InternalServerException.php';
 require_once APP . 'exceptions' . DS . 'ForbbidenException.php';
+require_once LIB . 'Model.php';
 
 App::$request = new Request();
 App::$route = new Router();
