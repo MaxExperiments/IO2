@@ -1,6 +1,6 @@
 <section class="post">
     <h2><?= $post->title ?></h2>
-    <div class="lead">Un post de <strong><a href="/users/<?= $post->user_id ?>"><?= $post->pseudo ?></a></strong> <img src="<?= ($post->photo!=null) ? $post->photo : '/assets/imgs/default-user-img.gif' ?>" alt="" class="user-img"></div>
+    <div class="lead">Un post de <strong><a href="/users/<?= $post->user_id ?>"><?= $post->pseudo ?></a></strong> <img src="<?= ($post->photo!=null) ? $post->photo : '/assets/imgs/default-post-img.gif' ?>" alt="" class="user-img"></div>
     <?php if (Session::isAuthenticate() && Session::Auth()->id == $post->user_id): ?>
         <p><?= $Html->route('Modifier le post', 'PostsController@edit',['id'=>$post->id]) ?></p>
     <?php endif ?>
