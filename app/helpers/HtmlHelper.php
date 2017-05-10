@@ -1,5 +1,7 @@
 <?php
 
+use Michelf\Markdown;
+
 class Html extends Helper {
 
     /**
@@ -45,12 +47,7 @@ class Html extends Helper {
     }
 
     public function bind ($text) {
-        $lines = explode(PHP_EOL, $text);
-        for ($i = 0; $i < count($lines); $i++) {
-            if (!empty($lines[$i]) && $lines[$i][0] == "#") $lines[$i] = '<h3>' . substr($lines[$i],1) . '</h3>';
-            else $lines[$i] = '<p>' . $lines[$i] . '&nbsp;</p>';
-        }
-        return implode('', $lines);
+        return Markdown::defaultTransform($text);
     }
 
     public function nextPage($total, $text = 'Page suivante') {
