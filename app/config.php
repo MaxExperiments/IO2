@@ -19,10 +19,10 @@ define('CONFIG',[
     'database' => [
         'driver'   => 'mysql',
         'host'     => 'localhost',
-        'username' => 'root',
-        'password' => 'DIDEROT.CLUB',
-        'port'     => '',
-        'database' => 'club'
+        'username' => '****',
+        'password' => '****',
+        'port'     => '****',
+        'database' => '****'
     ]
 
 ]);
