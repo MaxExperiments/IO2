@@ -4,11 +4,17 @@ class UsersController extends BaseController {
 
     protected $models = ['User','Post'];
 
+    /**
+     * Affiche la page de modification de l'utilisateur
+     */
     public function index () {
         $this->user->findFirst(Session::Auth()->id);
         App::$response->view('users.index',['user'=>Session::Auth()],['Form'=>[$this->user]]);
     }
 
+    /**
+     * Modifie les données de l'utilisateur
+     */
     public function update () {
         if(empty(App::$request->post['password'])) unset(App::$request->post['password']);
         if(empty(App::$request->post['photo']) || App::$request->post['photo']['error'] == 4) unset(App::$request->post['photo']);
@@ -21,6 +27,10 @@ class UsersController extends BaseController {
         App::$response->redirect('/users/');
     }
 
+    /**
+     * Affiche la page d'un utilisateur
+     * @param  int $id ID de l'utilisateur à afficher
+     */
     public function show ($id) {
         $total = $this->post->count();
         $user = $this->user->findFirst($id);
@@ -84,6 +94,8 @@ class UsersController extends BaseController {
 
         $this->user->insert(App::$request->post);
         App::$session->addMessage('success', 'Vous avez été inscrit !');
+
+        mail('maxime.flin@gmail.com','COUCOU','Vous vous êtes inscrits !');
 
         App::$response->redirect('/login');
     }

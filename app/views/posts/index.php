@@ -4,15 +4,19 @@
         <?php if (Session::isAuthenticate()): ?>
             <?= $Html->route('Ajouter un post','PostsController@create',['id'],['class'=>'button primary']) ?>
         <?php endif; ?>
-        <p><?= $total ?> posts</p>
+        <?php if (isset($total)): ?>
+            <p><?= $total ?> posts</p>
+        <?php endif ?>
         <hr>
     </div>
     <?php foreach($posts as $post): ?>
         <article class="post" data-id="<?= $post->id ?>" data-ressource-type="posts">
-            <div class="post-photo">
-                <img src="<?= ($post->photo!==null) ? $post->photo : '/assets/imgs/default-post-img.gif' ?>" alt="">
-            </div>
-            <div class="post-content">
+            <?php if ($post->photo!=null): ?>
+                <div class="post-photo">
+                    <img src="<?= ($post->photo!==null) ? $post->photo : '/assets/imgs/default-post-img.gif' ?>" alt="">
+                </div>
+            <?php endif ?>
+            <div class="post-content <?= ($post->photo!=null) ? $post->photo : ''?>">
                 <div class="lead">
                     <?= $Html->route('<h2>'. $post->title .'</h2>', 'PostsController@show',['id'=>$post->id]) ?>
                     <p>Un post de <strong><a href="/users/<?= $post->user_id ?>"><?= $post->pseudo ?></a></strong> le <?= date('j/m/Y', strtotime(($post->updated_at) ? $post->updated_at : $post->created_at)) ?></p>
@@ -30,5 +34,9 @@
             </div>
         </article>
     <?php endforeach ?>
-    <p><?= $Html->previousPage() ?> <?= $Html->nextPage($total) ?></p>
+    <?php if (isset($total)): ?>
+        <p><?= $Html->previousPage() ?> <?= $Html->nextPage($total) ?></p>
+    <?php else: ?>
+        <p><a href="/posts">Tous les posts ici</a></p>
+    <?php endif ?>
 </main>

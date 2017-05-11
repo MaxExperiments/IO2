@@ -64,6 +64,9 @@ class Request {
         'submit'
     ];
 
+    /**
+     * Constructeur.
+     */
     public function __construct() {
         $this->url = explode('?',rtrim($_SERVER['REQUEST_URI'],'/'))[0];
         $this->get = $_GET;
@@ -92,6 +95,10 @@ class Request {
         return $this->referer;
     }
 
+    /**
+     * Test si la requete est Ajax
+     * @return boolean True si c'est la cas
+     */
     public function isJson () {
         return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest';
     }

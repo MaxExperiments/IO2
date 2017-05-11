@@ -2,6 +2,12 @@
 
 class BaseException extends HttpException {
 
+    /**
+     * Gère le cas où la requete est ajax
+     * @param String         $message  Message d'erreur
+     * @param int         $code        Code de l'erreur
+     * @param Exception|null $previous Erreur parente
+     */
     public function __construct($message, $code, Exception $previous = null) {
         $this->message = $message;
         $this->code = $code;

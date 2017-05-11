@@ -22,6 +22,7 @@ define('TMP', ROOT . DS . 'tmp' . DS);
 define('APP', ROOT . DS . 'app' . DS);
 define('VENDOR', ROOT . DS . 'vendor' . DS);
 
+// charge composer pour PHP-Markdown
 require_once VENDOR . 'autoload.php';
 require_once APP . 'config.php';
 

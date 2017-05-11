@@ -41,15 +41,32 @@ class Html extends Helper {
         if (!in_array($url,self::$scripts)) self::$scripts[] = $url;
     }
 
+    /**
+     * Coupe le text apres un nombre donné de charactères
+     * @param  String  $string Le text à couper
+     * @param  integer $chars  Le nombre de charactères à garder
+     * @return String          Le text coupé
+     */
     public function shortCut($string, $chars = 250) {
         preg_match('/^.{0,' . $chars. '}(?:.*?)\b/iu', $string, $matches);
         return $matches[0];
     }
 
+    /**
+     * Tranforme le markdown en html en utlisant PHP-Markdown
+     * @param  String $text Text markdown
+     * @return String       Equivalent Html
+     */
     public function bind ($text) {
         return Markdown::defaultTransform($text);
     }
 
+    /**
+     * Affiche le bouton vers la page suivante de la pagination
+     * @param  int $total Nombre total de posts
+     * @param  string $text  Text à afficher dans le bouton
+     * @return string        Code Html du bouton
+     */
     public function nextPage($total, $text = 'Page suivante') {
         $get = App::$request->get;
         $get['page'] = (isset($get['page'])) ? $get['page']+1 : 2;
@@ -63,6 +80,11 @@ class Html extends Helper {
         ]);
     }
     
+    /**
+     * Affiche le bouton vers la page précédente
+     * @param  string $text Text a afficher
+     * @return String       Code Html du bouton
+     */
     public function previousPage($text = 'Page précédente') {
         $get = App::$request->get;
         if (isset($get['page']) && $get['page'] > 1) $get['page']-=1;

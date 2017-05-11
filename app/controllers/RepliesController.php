@@ -6,6 +6,9 @@ class RepliesController extends BaseController {
 
     protected $models = ['Reply'];
 
+    /**
+     * Insert un reply
+     */
     public function store () {
         $this->validate($this->reply,App::$request->post);
         App::$request->filterPost();
@@ -23,6 +26,11 @@ class RepliesController extends BaseController {
         App::$response->referer();
     }
 
+    /**
+     * Supprime un reply
+     * @param  int $id Id du post à supprimer
+     * @throws ForbbidenException Si le post n'existe pas ou si l'utilisateur n'a aps les droits
+     */
     public function destroy ($id) {
         $r = $this->reply->select(['user_id'=>'user_id'])->findFirst($id);
         if (empty($r) || Session::Auth()->id != $r->user_id) {
@@ -34,6 +42,10 @@ class RepliesController extends BaseController {
         App::$response->referer();
     }
 
+    /**
+     * Ajoute une étoile à un reply
+     * @param  int $id Id du reply
+     */
     public function star ($id) {
         $r = $this->reply->where('id',$id)->update(['!stars'=>'stars+1']);
         App::$response->referer();

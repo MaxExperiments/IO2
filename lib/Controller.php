@@ -20,6 +20,10 @@ class Controller {
      */
     protected $autoLoadHelpers = [];
 
+    /**
+     * Méthodes sur lesquelles faire le test des failles csrf
+     * @var array
+     */
     protected $csrf = ['destroy'];
 
     /**
@@ -67,6 +71,10 @@ class Controller {
         $this->layout = $layout;
     }
 
+    /**
+     * Getter pour les Helpers
+     * @return Array liste de tous les helpers chargés automatiquement
+     */
     public function getAutoLoadHelpers() {
         return $this->autoLoadHelpers;
     }
