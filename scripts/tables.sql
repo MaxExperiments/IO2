@@ -13,6 +13,7 @@ create table posts (
     title varchar(255) NOT NULL,
     content text NOT NULL,
     photo varchar(255),
+    slug varchar(255),
     user_id int unsigned NOT NULL,
     created_at timestamp DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP

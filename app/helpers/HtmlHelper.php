@@ -22,11 +22,11 @@ class Html extends Helper {
         foreach (App::$route->getRoutes() as $method => $routes) {
             foreach ($routes as $url => $route) {
                 if ($dest==$route) {
-                    foreach ($params as $name => $value) {
-                        return Response::requireView('helpers.link',
-                            array_merge_recursive(['content'=>$content,'attributes'=>['href'=>str_replace('{'.$name.'}', $value, $url)]],['attributes'=>$attr])
+                    $attrs = ['href'=>$url];
+                    foreach ($params as $name => $value) $attrs['href'] = str_replace('{'.$name.'}', $value, $attrs['href']);
+                    return Response::requireView('helpers.link',
+                            array_merge_recursive(['content'=>$content,'attributes'=>$attrs],['attributes'=>$attr])
                         );
-                    }
                 }
             }
         }

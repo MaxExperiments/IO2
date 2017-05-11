@@ -56,6 +56,7 @@ class Post extends Model {
         return parent::select ([
             'id' => 'posts.id',
             'title' => 'posts.title',
+            'slug' => 'posts.slug',
             'content' => 'posts.content',
             'created_at' => 'posts.created_at',
             'updated_at' => 'posts.updated_at',
@@ -83,6 +84,21 @@ class Post extends Model {
         $path = 'imgs' . DS .  'posts' . DS . time() . rand(0,100) . '.' . pathinfo(App::$request->post[$field]['name'], PATHINFO_EXTENSION);
         move_uploaded_file(App::$request->post[$field]['tmp_name'], PUBLIC_DIR . $path);
         App::$request->post[$field] = '/' . $path;
+    }
+
+    public function slug ($text) {
+        $text = preg_replace('~[^\pL\d]+~u', '-', $text);
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        $text = preg_replace('~[^-\w]+~', '', $text);
+        $text = trim($text, '-');
+        $text = preg_replace('~-+~', '-', $text);
+        $text = strtolower($text);
+
+        if (empty($text)) {
+            return false;
+        }
+
+        return $text;
     }
 
 }

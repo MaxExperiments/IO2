@@ -34,7 +34,10 @@ class PostsController extends BaseController {
      * @param  int $id ID du post
      * @throws NotFoundException Si le post n'existe pas
      */
-    public function show ($id) {
+    public function show ($slug, $id) {
+        $post = $this->post->selectFillable()->findFirst($id);
+        if (empty($post)) throw new NotFoundException("Aucun post ne correspond à l'ID $id");
+        if ($post->slug != $slug) App::$response->redirect('/posts/'.$post->slug.'-'.$id);
         $replies = $this->reply->selectFillable()
                                 ->where('post_id',$id)
                                 ->order('stars','desc')
@@ -42,10 +45,8 @@ class PostsController extends BaseController {
                                 ->order('id', 'DESC')
                                 ->limit(null, 30)
                                 ->get();
-        $post = $this->post->selectFillable()->findFirst($id);
-        if (App::$request->isJson()) App::$response->json($post);
-        if (empty($post)) throw new NotFoundException("Aucun post ne correspond à l'ID $id");
         $this->reply->last = [];
+        if (App::$request->isJson()) App::$response->json($post);
         App::$response->view('posts.show', ['post'=>$post,'replies'=>$replies],['Form'=>[$this->reply]]);
     }
 
@@ -64,6 +65,7 @@ class PostsController extends BaseController {
 
         $this->validate ($this->post, App::$request->post);
         App::$request->filterPost();
+        App::$request->post['slug'] = $this->post->slug(App::$request->post['title']);
         App::$request->post['user_id'] = Session::Auth()->id;
         
         if (isset(App::$request->post['photo'])) $this->post->moveFile('photo');
@@ -96,6 +98,7 @@ class PostsController extends BaseController {
 
         $this->validate ($this->post, App::$request->post);
         App::$request->filterPost();
+        App::$request->post['slug'] = $this->post->slug(App::$request->post['title']);
         if (isset(App::$request->post['photo'])) $this->post->moveFile('photo');
         
         $this->post->where('id',$id)->update(App::$request->post);
