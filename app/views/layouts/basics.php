@@ -26,7 +26,7 @@
             <?php else: ?>
                 <li><a class="dropdown" href="/posts"><?= Session::Auth()->pseudo;?></a>
                   <ul>
-                    <li><a href="/users/<?= Session::Auth()->id ?>">Ma Page</a></li>
+                    <li><a href="/users/<?= Session::Auth()->pseudo ?>">Ma Page</a></li>
                     <li><a href="/logout">× Se déconnecter ×</a></li>
                   </ul>
                 </li>

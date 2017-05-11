@@ -18,12 +18,12 @@
 	<?php endif ?>
             <div class="post-content <?= ($post->photo===null) ? 'large' : '' ?>">
                 <div class="lead">
-                    <?= $Html->route('<h2>'. $post->title .'</h2>', 'PostsController@show',['id'=>$post->id]) ?>
-                    <p>Un post de <strong><a href="/users/<?= $post->user_id ?>"><?= $post->pseudo ?></a></strong> le <?= date('j/m/Y', strtotime(($post->updated_at) ? $post->updated_at : $post->created_at)) ?></p>
+                    <?= $Html->route('<h2>'. $post->title .'</h2>', 'PostsController@show',['slug'=>$post->slug,'id'=>$post->id]) ?>
+                    <p>Un post de <strong><a href="/users/<?= $post->pseudo ?>"><?= $post->pseudo ?></a></strong> le <?= date('j/m/Y', strtotime(($post->updated_at) ? $post->updated_at : $post->created_at)) ?></p>
                 </div>
                 <p><?= $Html->shortCut($post->content) ?>...</p>
                 <div class="link">
-                    <?= $Html->route('Voir la suite', 'PostsController@show',['id'=>$post->id]) ?>
+                    <?= $Html->route('Voir la suite', 'PostsController@show',['slug'=>$post->slug,'id'=>$post->id]) ?>
                     <?php if (Session::isAuthenticate()): ?>
                         <?php $Html->addScript('/assets/js/app.js') ?>
                         <?php if (Session::Auth()->id == $post->user_id) echo $Html->route('Détruire', 'PostsController@destroy',
@@ -37,6 +37,6 @@
     <?php if (isset($total)): ?>
         <p><?= $Html->previousPage() ?> <?= $Html->nextPage($total) ?></p>
     <?php else: ?>
-	<p><a href="/posts">Tous les posts ici</a></p>
+        <p><a href="/posts">Tous les posts ici</a></p>
     <?php endif ?>
 </main>

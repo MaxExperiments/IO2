@@ -310,7 +310,7 @@ input:focus, textarea:focus {
 }
 
 .post .post-content { padding-left: 3%;width: 70%; }
-.post .post-content.large { padding-left :0;width:100%; }
+.post .post-content.large {padding-left: 0;width: 100%;}
 
 .post:last-child {
   border-bottom: 0;

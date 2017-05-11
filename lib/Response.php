@@ -59,6 +59,13 @@ class Response {
         $this->render .= self::requireView($path, $vars, $helpers);
     }
 
+    /**
+     * Charge une view en injectant des valeures
+     * @param  String $path    Chemin de la vue
+     * @param  array  $vars    Toutes les valeures à injecter dans la vue
+     * @param  array  $helpers Les Helpers à charger
+     * @return String          Code Html généré par la view
+     */
     public static function requireView($path, $vars = [], $helpers = []) {
         $path = APP . 'views' . DS . str_replace('.', DS, $path) . '.php';
         if (!file_exists($path)) throw new InternalServerException("Ne trouve pas la vue $path");
