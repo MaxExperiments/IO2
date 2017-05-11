@@ -11,10 +11,12 @@
     </div>
     <?php foreach($posts as $post): ?>
         <article class="post" data-id="<?= $post->id ?>" data-ressource-type="posts">
+	<?php if ($post->photo != null): ?>
             <div class="post-photo">
-                <img src="<?= ($post->photo!==null) ? $post->photo : '/assets/imgs/default-post-img.gif' ?>" alt="">
+                <img src="<?= $post->photo ?>" alt="">
             </div>
-            <div class="post-content">
+	<?php endif ?>
+            <div class="post-content <?= ($post->photo===null) ? 'large' : '' ?>">
                 <div class="lead">
                     <?= $Html->route('<h2>'. $post->title .'</h2>', 'PostsController@show',['id'=>$post->id]) ?>
                     <p>Un post de <strong><a href="/users/<?= $post->user_id ?>"><?= $post->pseudo ?></a></strong> le <?= date('j/m/Y', strtotime(($post->updated_at) ? $post->updated_at : $post->created_at)) ?></p>
