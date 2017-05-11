@@ -104,7 +104,7 @@ class PostsController extends BaseController {
         
         $this->post->where('id',$id)->update(App::$request->post);
         App::$session->addMessage('success', 'Post bien modifié !');
-        App::$response->redirect('/posts/'.$id);
+        App::$response->redirect('/posts/'.App::$request->post['slug'].'-'.$id);
     }
 
     /**

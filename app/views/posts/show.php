@@ -1,6 +1,6 @@
 <section class="post">
     <h2><?= $post->title ?></h2>
-    <div class="lead">Un post de <strong><a href="/users/<?= $post->user_id ?>"><?= $post->pseudo ?></a></strong> 
+    <div class="lead">Un post de <strong><a href="/users/<?= $post->pseudo ?>"><?= $post->pseudo ?></a></strong> 
     <?php if ($post->photo): ?>
         <img src="<?= $post->photo ?>" alt="" class="user-img"></div>
     <?php elseif ($post->user_photo): ?>
