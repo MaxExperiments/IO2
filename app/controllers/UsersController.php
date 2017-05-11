@@ -8,7 +8,6 @@ class UsersController extends BaseController {
      * Affiche la page de modification de l'utilisateur
      */
     public function index () {
-        // $this->user->sendNotification('Max','Max');
         $this->user->findFirst(Session::Auth()->id);
         App::$response->view('users.index',['user'=>Session::Auth()],['Form'=>[$this->user]]);
     }
@@ -34,11 +33,11 @@ class UsersController extends BaseController {
      * @param  int $id ID de l'utilisateur à afficher
      */
     public function show ($pseudo) {
-        $total = $this->post->count();
         $user = $this->user->where('pseudo',$pseudo)->get();
         if (empty($user)) throw new NotFoundException("Utilisateur inconnu");
         $user = $user[0];
 
+        $total = $this->post->where('user_id',$user->id)->count();
         $posts = $this->post
                         ->selectFillable()
                         ->order('!coalesce(posts.updated_at, posts.created_at)','DESC')

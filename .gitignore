@@ -5,3 +5,4 @@ app/config.php
 tmp/err\.log
 
 /vendor/
+composer.lock

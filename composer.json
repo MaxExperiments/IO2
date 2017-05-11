@@ -3,8 +3,7 @@
     "description": "Projet d'informatique (internet et outils)",
     "type": "project",
     "require": {
-        "michelf/php-markdown": "^1.7",
-        "phpmailer/phpmailer": "^5.2"
+        "michelf/php-markdown": "^1.7"
     },
     "authors": [
         {
