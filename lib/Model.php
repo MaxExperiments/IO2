@@ -66,14 +66,14 @@ class Model {
     protected $order = [];
 
     /**
-     * Première valeure selectionnée
+     * Première valeur selectionnée
      * Faux si n'est pas précisé
      * @var int|boolean
      */
     protected $from = false;
 
     /**
-     * Nombre de valeures maximum a selectionner
+     * Nombre de valeurs maximum a selectionner
      * Faux si n'est pas précisé
      * @var int|boolean
      */
@@ -86,7 +86,7 @@ class Model {
     protected $hash = ['password'];
 
     /**
-     * Type de formulaire pour chaque valeure dans la table
+     * Type de formulaire pour chaque valeur dans la table
      * @var array
      */
     public $attributes = [];
@@ -174,8 +174,8 @@ class Model {
     /**
      * Ajoute des contraintes a la requete avec le mot clef WHERE
      * @param  String $field  La nom du champ sur lequel s'applique la condition
-     * @param  String $a      La valeure du champ ou le comparateur si $b est non nul
-     * @param  String $b      Si $b est non nul il est la valeure du champ
+     * @param  String $a      La valeur du champ ou le comparateur si $b est non nul
+     * @param  String $b      Si $b est non nul il est la valeur du champ
      * @return Model          Retourne $this pour pouvoir composer facilement les fonctions
      */
     public function where ($field, $a, $b = null) {
@@ -187,8 +187,8 @@ class Model {
     /**
      * Ajoute des contraintes a la requete avec le mot clef WHERE et le séparateur OR
      * @param  String $field  La nom du champ sur lequel s'applique la condition
-     * @param  String $a      La valeure du champ ou le comparateur si $b est non nul
-     * @param  String $b      Si $b est non nul il est la valeure du champ
+     * @param  String $a      La valeur du champ ou le comparateur si $b est non nul
+     * @param  String $b      Si $b est non nul il est la valeur du champ
      * @return Model          Retourne $this pour pouvoir composer facilement les fonctions
      */
     public function or ($field, $a, $b) {
@@ -199,7 +199,7 @@ class Model {
 
     /**
      * Défini l'ordre des sortie de la requête SQL
-     * @param  String $ord  Valeure de l'ordre ASC|DESC|...
+     * @param  String $ord  Valeur de l'ordre ASC|DESC|...
      * @param  String $fiel Le champ a ordonner
      * @return Model        Retourne $this pour pouvoir composer facilement les fonctions
      */
@@ -209,7 +209,7 @@ class Model {
     }
 
     /**
-     * Modifie les valeures de limites de la selection
+     * Modifie les valeurs de limites de la selection
      * @param  int|boolean $f premiere indice a selectionner
      * @param  int|boolean $n nombre d'indices a selectionner
      */
@@ -260,7 +260,7 @@ class Model {
 
     /**
      * Trouve tous les champs avec l'id donne
-     * @param  int $id Valeure de l'id
+     * @param  int $id Valeur de l'id
      * @return Array
      */
     public function find ($id) {
@@ -270,7 +270,7 @@ class Model {
 
     /**
      * retrouve uniquement le premier element avec l'id
-     * @param  int $id Valeure de l'id
+     * @param  int $id Valeur de l'id
      * @return Array
      */
     public function findFirst ($id) {
@@ -287,8 +287,8 @@ class Model {
     }
 
     /**
-     * Ajoute une nouvelle valeure dans la table
-     * @param  Array $data  Tableau associatif nomDuChamp => valeure
+     * Ajoute une nouvelle valeur dans la table
+     * @param  Array $data  Tableau associatif nomDuChamp => valeur
      */
     public function insert ($data) {
         $this->query = 'INSERT INTO ' . $this->table . ' (';
@@ -304,7 +304,7 @@ class Model {
     }
 
     /**
-     * Modifie les valeures du tableau dans la table
+     * Modifie les valeurs du tableau dans la table
      * @param  Array $data Les nouvelles donees
      */
     public function update ($data) {

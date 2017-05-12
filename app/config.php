@@ -19,10 +19,10 @@ define('CONFIG',[
     'database' => [
         'driver'   => 'mysql',
         'host'     => 'localhost',
-        'username' => '****',
-        'password' => '****',
-        'port'     => '****',
-        'database' => '****'
+        'username' => 'homestead',
+        'password' => 'secret',
+        'port'     => '',
+        'database' => 'homestead'
     ]
 
 ]);

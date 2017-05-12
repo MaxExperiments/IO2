@@ -10,6 +10,10 @@ Nous sommes grandement surpris par l'enrichissement mutuel — collaboration, en
 
 Maxime a été un peu difficile à mettre au travail, mais il commence à se faire à l'idée qu'il s'agit d'un projet réalisé _en commun_, il ne se rebiffe plus lorsqu'on lui demande de mettre pierre à l'édifice (il accepte par exemple de tester le système de connexion, et va jusqu'à imaginer de _fausses_ adresses mails pour simuler l'ajout de plusieurs utilisateurs à la base de données).
 
+Nous avons aussi réalisé que le mise en production n'est pas toujours aussi simple que ce à quoi on pourrait s'attendre. En effet nous avons eu un certain nombre de problèmes pour mettre en place les configuration [Nginx](https://www.nginx.com/resources/wiki/) et la version de PHP quelque peu ancienne pour notre code **révolutionaire**. 
+
+Cela dit ce projet à été une très bonne expérience, pas tellement nouvelle mais plutot révélateur sur le travail en informatique. J'entends par la qu'en informatique il est difficile de "composer" nos travaux même si des outils comme [Github](https://github.com/) nous aides.
+
 ## Une architecture de Framework made from scratch
 On a souhaité s'organiser selon l'organisation Model-View-Controller (MVC). Cependant, n'étant pas autorisé d'utiliser des ressources externes pour ce projet il nous a semblé bon de rebatir l'architecture de notre projet sur des bases solides. S'inspirant modérément de Laravel, l'architecture du projet est la suivante:
 
@@ -34,6 +38,11 @@ Pour préparer l'application à son déployement il faut preparer les base de do
 
 Elle affichera le fichier sql à executer. Il faut aussi changer la configuration de la base données dans le fichier `app/config.php`.
 
+Pour lancer un serveur local qui fasse tourner l'application il faut taper la commande suivanre depuis le dossier racine
+```
+    php serve
+```
+
 ### I) La redirection d'url
 On voulais que notre site puisse recevoir des URL simples et intuitives qui ne soient pas des chemins vers des fichers PHP dégueulasses. C'est à dire que à la place d'avoir l'url `/posts/singlepost.php?id=12` on préfèrera employer `/posts/1`.
 Pour ce faire on commence par rediriger les requètes https de la manière suivante:
@@ -48,6 +57,8 @@ Cepedant toutes les urls de notre site vont maintenant sur le même ficher: inde
 Les instances de ces classes décrivent respectivement ce que recoit le server, comment il traite l'information et ce que va renvoyer le server au client.
 
 ![Structure de l'application](tmp/appDiagram.png)
+
+Ce diagramme décrit le model, la structure, d'action globale de notre application.
 
 ### II) Le développement de l'application web 
 Le site est contruit de manière à ce que les fichiers à modifier pour le réaliser se trouvent uniquement dans le dossier app. Les autres dossiers étant là pour servir de base modulable pour le plus de projets prossibles. L'ajout d'une nouvelle page se décompose ici en plusieurs étapes:
@@ -338,6 +349,13 @@ Quand à la base de donnée, est est exportable dans la fichier `/scripts/tables
 
 ## Choses à ameliorer
 
-Il y a bien sur des tonnes de choses à ameliorer sur ce projet. À titre d'exemple, on aurait du ajouter une système de pagination pour les posts et même de pagination dynamique en ajax pour les replies.
+Il reste encore plein de choses à ameliorer, plein de fonctionnalitées à ajouter. Comme par exemple:
+* Un système de mail, pour les notifications ou encore la validation d'inscription
+* Un chat pour parler entre les utilisateurs
+* Une pagination dynamique pour les commentaires
+
+Et encore plein de nouvelles fonctionnalitées à ajouter !
+
+Du point de vue du code, de la structure de l'application on peux l'améliorer en utilisant composer pour tout notre projet. Ce serait beaucoup élégant du point de vue du bootstrap et de la structure de l'application. 
 
 ![](https://i.imgur.com/5dq1Uvu.jpg)
