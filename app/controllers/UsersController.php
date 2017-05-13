@@ -101,7 +101,7 @@ class UsersController extends BaseController {
         $this->user->insert(App::$request->post);
         App::$session->addMessage('success', 'Vous avez été inscrit !');
 
-        mail('maxime.flin@gmail.com','COUCOU','Vous vous êtes inscrits !');
+        // mail('maxime.flin@gmail.com','COUCOU','Vous vous êtes inscrits !');
 
         App::$response->redirect('/login');
     }
