@@ -68,7 +68,7 @@ Toutes les URL emmènent maintenant sur le même ficher : `index.php`. Il faut d
 
 Le diagramme suivant illustre la structure globale de notre application :
 
-![Structure de l'application](tmp/appDiagram.png)
+![Structure de l'application](https://github.com/MaxExperiments/IO2/blob/master/tmp/appDiagram.png?raw=true)
 
 
 ### II.) L'application web
@@ -367,7 +367,7 @@ Nous avons donc également trois modèles. Par convention, nous avons donné com
 
 Enfin, la structure de la base de donnée peut être recréée grâce au fichier `/scripts/tables.sql`.
 
-![Structure de la base de données](tmp/projectIODatabaseSchema.png)
+![Structure de la base de données](https://raw.githubusercontent.com/MaxExperiments/IO2/master/tmp/projectIODatabaseSchema.png)
 
 
 ## Améliorations possibles
