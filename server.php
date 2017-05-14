@@ -6,3 +6,4 @@ if ($url !== '/' && file_exists(__DIR__ . '/public' . $url)) return false;
 
 $_SERVER['SCRIPT_NAME'] = 'index.php';
 require_once __DIR__ . '/public/index.php';
+

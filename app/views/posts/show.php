@@ -42,7 +42,7 @@
         <?php foreach ($replies as $reply): ?>
             <article data-id="<?= $reply->id ?>" data-ressource-type="replies">
                 <div class="lead">
-                    <strong><a href="/users/<?= $reply->user_id ?>"><?= $reply->pseudo ?></a></strong> <span class="star"><?= $reply->stars ?></span>&#9734; le <?= date('j/m/Y', strtotime($reply->created_at)) ?>
+                    <strong><a href="/users/<?= $reply->pseudo ?>"><?= $reply->pseudo ?></a></strong> <span class="star"><?= $reply->stars ?></span>&#9734; le <?= date('j/m/Y', strtotime($reply->created_at)) ?>
                     <?php if (Session::isAuthenticate()): ?>
                         <?= $Html->route('Star', 'RepliesController@star',
                                 ['id'=>$reply->id],
