@@ -1,5 +1,5 @@
 # Projet d'IO2
-Maxime Flin & Louis Gavalda
+Maxime Flin
 
 ## Que fait notre site ?
 Nous avons souhaité créer un forum de discussion destiné aux étudiants de l'université Paris Diderot. C'est la première idée qui nous est venue, puisqu'une telle application comporte quasi-systématiquement les fonctionnalités qui étaient imposées (création de compte, page de profil, recherche dans le contenu, etc.). Le site a été conçu pour être simple/efficace à utiliser.
